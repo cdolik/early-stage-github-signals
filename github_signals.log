@@ -1,0 +1,209 @@
+2025-06-02 09:33:13,644 - src.main - INFO - Starting Early Stage GitHub Signals Platform
+2025-06-02 09:33:13,644 - src.main - INFO - Loaded configuration from config.yaml
+2025-06-02 09:33:13,644 - src.main - ERROR - Error during execution: Cache.__init__() got an unexpected keyword argument 'enabled'
+Traceback (most recent call last):
+  File "/Users/coreydolik/early-stage-github-signals-1/src/main.py", line 114, in main
+    cache = Cache(
+        config.get('cache.directory'),
+        ttl=config.get('cache.ttl'),
+        enabled=config.get('cache.enabled') and not args.force_refresh
+    )
+TypeError: Cache.__init__() got an unexpected keyword argument 'enabled'
+2025-06-02 09:41:20,712 - src.main - INFO - Starting Early Stage GitHub Signals Platform
+2025-06-02 09:41:20,712 - src.main - INFO - Loaded configuration from config.yaml
+2025-06-02 09:41:20,712 - src.main - ERROR - Error during execution: Cache.__init__() got an unexpected keyword argument 'enabled'
+Traceback (most recent call last):
+  File "/Users/coreydolik/early-stage-github-signals-1/src/main.py", line 118, in main
+    cache = Cache(
+        config.get('cache.directory'),
+        ttl=config.get('cache.ttl'),
+        enabled=config.get('cache.enabled') and not args.force_refresh
+    )
+TypeError: Cache.__init__() got an unexpected keyword argument 'enabled'
+2025-06-02 09:53:04,981 - src.main - INFO - Starting Early Stage GitHub Signals Platform
+2025-06-02 09:53:04,981 - src.main - INFO - Loaded configuration from config.yaml
+2025-06-02 09:53:04,981 - src.main - ERROR - Error during execution: GitHubCollector.__init__() takes 1 positional argument but 3 were given
+Traceback (most recent call last):
+  File "/Users/coreydolik/early-stage-github-signals-1/src/main.py", line 129, in main
+    github_collector = GitHubCollector(config, cache)
+TypeError: GitHubCollector.__init__() takes 1 positional argument but 3 were given
+2025-06-02 10:13:58,121 - src.main - INFO - Starting Early Stage GitHub Signals Platform
+2025-06-02 10:13:58,121 - src.main - INFO - Loaded configuration from config.yaml
+2025-06-02 10:13:58,121 - src.main - ERROR - Error during execution: BaseCollector.__init__() takes 1 positional argument but 3 were given
+Traceback (most recent call last):
+  File "/Users/coreydolik/early-stage-github-signals-1/src/main.py", line 129, in main
+    github_collector = GitHubCollector(config, cache)
+  File "/Users/coreydolik/early-stage-github-signals-1/src/collectors/github_collector.py", line 29, in __init__
+    super().__init__(config, cache)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+TypeError: BaseCollector.__init__() takes 1 positional argument but 3 were given
+2025-06-02 10:20:54,736 - src.main - INFO - Starting Early Stage GitHub Signals Platform
+2025-06-02 10:20:54,736 - src.main - INFO - Loaded configuration from config.yaml
+2025-06-02 10:20:54,751 - src.main - ERROR - Error during execution: HackerNewsCollector.__init__() takes 1 positional argument but 3 were given
+Traceback (most recent call last):
+  File "/Users/coreydolik/early-stage-github-signals-1/src/main.py", line 130, in main
+    hackernews_collector = HackerNewsCollector(config, cache)
+TypeError: HackerNewsCollector.__init__() takes 1 positional argument but 3 were given
+2025-06-02 10:30:42,541 - src.main - INFO - Starting Early Stage GitHub Signals Platform
+2025-06-02 10:30:42,542 - src.main - INFO - Loaded configuration from config.yaml
+2025-06-02 10:30:42,552 - src.main - INFO - Collecting trending GitHub repositories
+2025-06-02 10:30:42,552 - src.main - ERROR - Error during execution: 'GitHubCollector' object has no attribute 'collect_trending_repositories'
+Traceback (most recent call last):
+  File "/Users/coreydolik/early-stage-github-signals-1/src/main.py", line 134, in main
+    repositories = github_collector.collect_trending_repositories()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'GitHubCollector' object has no attribute 'collect_trending_repositories'
+2025-06-02 16:10:42,557 - src.main - INFO - Starting Early Stage GitHub Signals Platform
+2025-06-02 16:10:42,557 - src.main - INFO - Loaded configuration from config.yaml
+2025-06-02 16:10:42,565 - src.main - INFO - Collecting trending GitHub repositories
+2025-06-02 16:10:42,565 - GitHubCollector - INFO - Collecting trending GitHub repositories created after 2025-05-26
+2025-06-02 16:10:42,565 - GitHubCollector - INFO - Collecting repositories for language: python
+2025-06-02 16:10:43,260 - GitHubCollector - INFO - Collecting repositories for language: javascript
+2025-06-02 16:10:44,093 - GitHubCollector - INFO - Collecting repositories for language: typescript
+2025-06-02 16:10:44,943 - GitHubCollector - INFO - Collecting repositories for language: go
+2025-06-02 16:10:45,848 - GitHubCollector - INFO - Collecting repositories for language: rust
+2025-06-02 16:10:46,718 - GitHubCollector - INFO - Collecting repositories for language: java
+2025-06-02 16:10:47,588 - GitHubCollector - INFO - Collecting repositories for language: kotlin
+2025-06-02 16:10:48,438 - GitHubCollector - INFO - Collecting repositories for language: swift
+2025-06-02 16:10:49,276 - GitHubCollector - INFO - Collected 0 repositories
+2025-06-02 16:10:49,277 - src.main - INFO - Collected 0 repositories
+2025-06-02 16:10:49,277 - src.main - INFO - Collecting Hacker News discussions
+2025-06-02 16:10:49,277 - src.main - ERROR - Error during execution: 'HackerNewsCollector' object has no attribute 'collect_tech_discussions'
+Traceback (most recent call last):
+  File "/Users/coreydolik/early-stage-github-signals-1/src/main.py", line 139, in main
+    hn_discussions = hackernews_collector.collect_tech_discussions()
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'HackerNewsCollector' object has no attribute 'collect_tech_discussions'
+2025-06-02 16:12:59,376 - src.main - INFO - Starting Early Stage GitHub Signals Platform
+2025-06-02 16:12:59,377 - src.main - INFO - Loaded configuration from config.yaml
+2025-06-02 16:12:59,389 - src.main - INFO - Collecting trending GitHub repositories
+2025-06-02 16:12:59,389 - GitHubCollector - INFO - Collecting trending GitHub repositories created after 2025-05-26
+2025-06-02 16:12:59,389 - GitHubCollector - INFO - Collecting repositories for language: python
+2025-06-02 16:13:00,080 - GitHubCollector - INFO - Collecting repositories for language: javascript
+2025-06-02 16:13:00,968 - GitHubCollector - INFO - Collecting repositories for language: typescript
+2025-06-02 16:13:01,867 - GitHubCollector - INFO - Collecting repositories for language: go
+2025-06-02 16:13:02,819 - GitHubCollector - INFO - Collecting repositories for language: rust
+2025-06-02 16:13:03,661 - GitHubCollector - INFO - Collecting repositories for language: java
+2025-06-02 16:13:04,543 - GitHubCollector - INFO - Collecting repositories for language: kotlin
+2025-06-02 16:13:05,426 - GitHubCollector - INFO - Collecting repositories for language: swift
+2025-06-02 16:13:06,272 - GitHubCollector - INFO - Collected 0 repositories
+2025-06-02 16:13:06,272 - src.main - INFO - Collected 0 repositories
+2025-06-02 16:13:06,272 - src.main - INFO - Collecting Hacker News discussions
+2025-06-02 16:13:06,272 - HackerNewsCollector - INFO - Collecting Hacker News stories from the last 30 days
+2025-06-02 16:13:06,983 - HackerNewsCollector - INFO - Found 928 stories to process
+2025-06-02 16:14:37,427 - HackerNewsCollector - INFO - Found 51 relevant Hacker News stories
+2025-06-02 16:16:45,089 - src.main - INFO - Collected 51 Hacker News discussions
+2025-06-02 16:16:45,090 - src.main - INFO - Analyzing repositories for startup potential
+2025-06-02 16:16:45,090 - src.main - ERROR - Error during execution: StartupScorer.__init__() takes 1 positional argument but 4 were given
+Traceback (most recent call last):
+  File "/Users/coreydolik/early-stage-github-signals-1/src/main.py", line 144, in main
+    scorer = StartupScorer(config, repositories, hn_discussions)
+TypeError: StartupScorer.__init__() takes 1 positional argument but 4 were given
+2025-06-02 16:18:05,888 - src.main - INFO - Starting Early Stage GitHub Signals Platform
+2025-06-02 16:18:05,888 - src.main - INFO - Loaded configuration from config.yaml
+2025-06-02 16:18:05,899 - src.main - INFO - Collecting trending GitHub repositories
+2025-06-02 16:18:05,899 - GitHubCollector - INFO - Collecting trending GitHub repositories created after 2025-05-26
+2025-06-02 16:18:05,899 - GitHubCollector - INFO - Collecting repositories for language: python
+2025-06-02 16:18:06,515 - GitHubCollector - INFO - Collecting repositories for language: javascript
+2025-06-02 16:18:07,356 - GitHubCollector - INFO - Collecting repositories for language: typescript
+2025-06-02 16:18:08,256 - GitHubCollector - INFO - Collecting repositories for language: go
+2025-06-02 16:18:09,130 - GitHubCollector - INFO - Collecting repositories for language: rust
+2025-06-02 16:18:09,989 - GitHubCollector - INFO - Collecting repositories for language: java
+2025-06-02 16:18:10,944 - GitHubCollector - INFO - Collecting repositories for language: kotlin
+2025-06-02 16:18:11,769 - GitHubCollector - INFO - Collecting repositories for language: swift
+2025-06-02 16:18:12,651 - GitHubCollector - INFO - Collected 0 repositories
+2025-06-02 16:18:12,651 - src.main - INFO - Collected 0 repositories
+2025-06-02 16:18:12,651 - src.main - INFO - Collecting Hacker News discussions
+2025-06-02 16:18:12,651 - HackerNewsCollector - INFO - Collecting Hacker News stories from the last 30 days
+2025-06-02 16:18:12,868 - HackerNewsCollector - INFO - Found 929 stories to process
+2025-06-02 16:19:26,466 - HackerNewsCollector - INFO - Found 51 relevant Hacker News stories
+2025-06-02 16:21:42,205 - src.main - INFO - Collected 51 Hacker News discussions
+2025-06-02 16:21:42,205 - src.main - INFO - Analyzing repositories for startup potential
+2025-06-02 16:21:42,205 - src.main - ERROR - Error during execution: StartupScorer.__init__() takes 1 positional argument but 4 were given
+Traceback (most recent call last):
+  File "/Users/coreydolik/early-stage-github-signals-1/src/main.py", line 144, in main
+    scorer = StartupScorer(config, repositories, hn_discussions)
+TypeError: StartupScorer.__init__() takes 1 positional argument but 4 were given
+2025-06-02 16:27:52,091 - src.main - INFO - Starting Early Stage GitHub Signals Platform
+2025-06-02 16:27:52,091 - src.main - INFO - Loaded configuration from config.yaml
+2025-06-02 16:27:52,100 - src.main - INFO - Collecting trending GitHub repositories
+2025-06-02 16:27:52,100 - GitHubCollector - INFO - Collecting trending GitHub repositories created after 2025-05-26
+2025-06-02 16:27:52,100 - GitHubCollector - INFO - Collecting repositories for language: python
+2025-06-02 16:27:52,748 - GitHubCollector - INFO - Collecting repositories for language: javascript
+2025-06-02 16:27:53,596 - GitHubCollector - INFO - Collecting repositories for language: typescript
+2025-06-02 16:27:54,456 - GitHubCollector - INFO - Collecting repositories for language: go
+2025-06-02 16:27:55,339 - GitHubCollector - INFO - Collecting repositories for language: rust
+2025-06-02 16:27:56,259 - GitHubCollector - INFO - Collecting repositories for language: java
+2025-06-02 16:27:57,090 - GitHubCollector - INFO - Collecting repositories for language: kotlin
+2025-06-02 16:27:57,913 - GitHubCollector - INFO - Collecting repositories for language: swift
+2025-06-02 16:27:58,748 - GitHubCollector - INFO - Collected 0 repositories
+2025-06-02 16:27:58,749 - src.main - INFO - Collected 0 repositories
+2025-06-02 16:27:58,749 - src.main - INFO - Collecting Hacker News discussions
+2025-06-02 16:27:58,749 - HackerNewsCollector - INFO - Collecting Hacker News stories from the last 30 days
+2025-06-02 16:27:59,070 - HackerNewsCollector - INFO - Found 930 stories to process
+2025-06-02 16:29:15,341 - HackerNewsCollector - INFO - Found 51 relevant Hacker News stories
+2025-06-02 16:31:27,153 - src.main - INFO - Collected 51 Hacker News discussions
+2025-06-02 16:31:27,154 - src.main - INFO - Analyzing repositories for startup potential
+2025-06-02 16:31:27,154 - src.main - ERROR - Error during execution: StartupScorer.__init__() takes 1 positional argument but 4 were given
+Traceback (most recent call last):
+  File "/Users/coreydolik/early-stage-github-signals-1/src/main.py", line 144, in main
+    scorer = StartupScorer(config, repositories, hn_discussions)
+TypeError: StartupScorer.__init__() takes 1 positional argument but 4 were given
+2025-06-02 16:31:27,797 - src.main - INFO - Starting Early Stage GitHub Signals Platform
+2025-06-02 16:31:27,797 - src.main - INFO - Loaded configuration from config.yaml
+2025-06-02 16:31:27,807 - src.main - INFO - Collecting trending GitHub repositories
+2025-06-02 16:31:27,808 - GitHubCollector - INFO - Collecting trending GitHub repositories created after 2025-05-26
+2025-06-02 16:31:27,808 - GitHubCollector - INFO - Collecting repositories for language: python
+2025-06-02 16:31:28,473 - GitHubCollector - INFO - Collecting repositories for language: javascript
+2025-06-02 16:31:29,341 - GitHubCollector - INFO - Collecting repositories for language: typescript
+2025-06-02 16:31:30,180 - GitHubCollector - INFO - Collecting repositories for language: go
+2025-06-02 16:31:31,024 - GitHubCollector - INFO - Collecting repositories for language: rust
+2025-06-02 16:31:31,949 - GitHubCollector - INFO - Collecting repositories for language: java
+2025-06-02 16:31:32,831 - GitHubCollector - INFO - Collecting repositories for language: kotlin
+2025-06-02 16:31:33,772 - GitHubCollector - INFO - Collecting repositories for language: swift
+2025-06-02 16:31:34,605 - GitHubCollector - INFO - Collected 0 repositories
+2025-06-02 16:31:34,605 - src.main - INFO - Collected 0 repositories
+2025-06-02 16:31:34,605 - src.main - INFO - Collecting Hacker News discussions
+2025-06-02 16:31:34,605 - HackerNewsCollector - INFO - Collecting Hacker News stories from the last 30 days
+2025-06-02 16:31:34,892 - HackerNewsCollector - INFO - Found 932 stories to process
+2025-06-02 16:32:46,231 - HackerNewsCollector - INFO - Found 51 relevant Hacker News stories
+2025-06-02 16:34:53,526 - src.main - INFO - Collected 51 Hacker News discussions
+2025-06-02 16:34:53,526 - src.main - INFO - Analyzing repositories for startup potential
+2025-06-02 16:34:53,537 - StartupScorer - INFO - Scoring 0 repositories for startup potential
+2025-06-02 16:34:53,537 - StartupScorer - INFO - Completed scoring 0 repositories
+2025-06-02 16:34:53,537 - src.main - INFO - Scored 0 repositories
+2025-06-02 16:34:53,537 - src.main - INFO - Analyzing trends and patterns
+2025-06-02 16:34:53,537 - src.main - ERROR - Error during execution: TrendAnalyzer.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/coreydolik/early-stage-github-signals-1/src/main.py", line 150, in main
+    trend_analyzer = TrendAnalyzer(scored_repos)
+TypeError: TrendAnalyzer.__init__() takes 1 positional argument but 2 were given
+2025-06-02 16:38:08,563 - src.main - INFO - Starting Early Stage GitHub Signals Platform
+2025-06-02 16:38:08,563 - src.main - INFO - Loaded configuration from config.yaml
+2025-06-02 16:38:08,569 - src.main - INFO - Collecting trending GitHub repositories
+2025-06-02 16:38:08,569 - GitHubCollector - INFO - Collecting trending GitHub repositories created after 2025-05-26
+2025-06-02 16:38:08,569 - GitHubCollector - INFO - Collecting repositories for language: python
+2025-06-02 16:38:09,201 - GitHubCollector - INFO - Collecting repositories for language: javascript
+2025-06-02 16:38:10,048 - GitHubCollector - INFO - Collecting repositories for language: typescript
+2025-06-02 16:38:10,936 - GitHubCollector - INFO - Collecting repositories for language: go
+2025-06-02 16:38:11,799 - GitHubCollector - INFO - Collecting repositories for language: rust
+2025-06-02 16:38:12,647 - GitHubCollector - INFO - Collecting repositories for language: java
+2025-06-02 16:38:13,462 - GitHubCollector - INFO - Collecting repositories for language: kotlin
+2025-06-02 16:38:14,331 - GitHubCollector - INFO - Collecting repositories for language: swift
+2025-06-02 16:38:15,161 - GitHubCollector - INFO - Collected 0 repositories
+2025-06-02 16:38:15,162 - src.main - INFO - Collected 0 repositories
+2025-06-02 16:38:15,162 - src.main - INFO - Collecting Hacker News discussions
+2025-06-02 16:38:15,162 - HackerNewsCollector - INFO - Collecting Hacker News stories from the last 30 days
+2025-06-02 16:38:15,557 - HackerNewsCollector - INFO - Found 932 stories to process
+2025-06-02 16:39:22,257 - HackerNewsCollector - INFO - Found 51 relevant Hacker News stories
+2025-06-02 16:41:29,523 - src.main - INFO - Collected 51 Hacker News discussions
+2025-06-02 16:41:29,524 - src.main - INFO - Analyzing repositories for startup potential
+2025-06-02 16:41:29,543 - StartupScorer - INFO - Scoring 0 repositories for startup potential
+2025-06-02 16:41:29,543 - StartupScorer - INFO - Completed scoring 0 repositories
+2025-06-02 16:41:29,543 - src.main - INFO - Scored 0 repositories
+2025-06-02 16:41:29,543 - src.main - INFO - Analyzing trends and patterns
+2025-06-02 16:41:29,543 - src.main - ERROR - Error during execution: TrendAnalyzer.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/coreydolik/early-stage-github-signals-1/src/main.py", line 150, in main
+    trend_analyzer = TrendAnalyzer(scored_repos)
+TypeError: TrendAnalyzer.__init__() takes 1 positional argument but 2 were given

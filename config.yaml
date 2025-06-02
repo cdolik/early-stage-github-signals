@@ -1,0 +1,102 @@
+# Early Stage GitHub Signals Configuration
+
+# GitHub API settings
+github:
+  access_token: ${GITHUB_TOKEN}  # Set via environment variable
+  requests_per_hour: 5000
+  language_filter:
+    - python
+    - javascript
+    - typescript
+    - go
+    - rust
+    - java
+    - kotlin
+    - swift
+  trending_days: 7
+  repo_age_threshold: 90  # days
+  min_stars: 5
+  max_repos_to_analyze: 250
+
+# Hacker News API settings
+hackernews:
+  base_url: "https://hacker-news.firebaseio.com/v0"
+  lookback_days: 30
+  points_threshold: 5
+
+# Scoring parameters
+scoring:
+  repository:
+    recent_creation: 3             # ≤90 days
+    professional_language: 2       # Python/Go/TypeScript/etc
+    ci_cd_setup: 2                 # Has CI/CD config
+    quality_documentation: 2       # README quality
+    active_development: 3          # 10+ commits/week
+    external_website: 2            # Has website link
+    startup_keywords: 3            # Keywords in description
+    y_combinator_mentions: 2       # YC mentions
+    tests_present: 1               # Has tests
+  
+  organization:
+    recent_creation: 3             # Recent org creation
+    team_size: 3                   # 2-15 members
+    multiple_repos: 2              # Has multiple repos
+    professional_profile: 2        # Profile quality
+    organization_website: 2        # Has website
+    hiring_indicators: 3           # Hiring mentions
+  
+  community:
+    hacker_news_discussion: 5      # HN points/comments
+    star_growth: 3                 # Rapid star growth
+    external_contributors: 2       # Non-org contributors
+    issue_engagement: 2            # Issue activity
+    fork_activity: 2               # Fork count/activity
+    social_mentions: 1             # Social media mentions
+
+# Startup keywords (used for scoring)
+startup_keywords:
+  - startup
+  - saas
+  - b2b
+  - b2c
+  - fintech
+  - ai
+  - machine learning
+  - blockchain
+  - crypto
+  - web3
+  - healthtech
+  - biotech
+  - edtech
+  - devtools
+  - no-code
+  - low-code
+  - platform
+  - marketplace
+  - enterprise
+  - seed
+  - series
+  - funding
+  - venture
+  - YC
+  - Y Combinator
+  - techstars
+  - accelerator
+
+# Output configuration
+output:
+  reports_directory: "./reports"
+  docs_directory: "./docs"
+  api_directory: "./docs/api"
+  top_repositories_count: 25
+
+# Caching
+cache:
+  enabled: true
+  directory: "./data/cache"
+  ttl: 86400  # seconds (24 hours)
+
+# Logging
+logging:
+  level: "INFO"
+  file: "github_signals.log"

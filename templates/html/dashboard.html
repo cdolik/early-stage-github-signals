@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fab fa-github"></i> {{ title }}</h1>
+            <p class="subtitle">Discovering tomorrow's startups today</p>
+            <div class="report-meta">
+                <span class="date">Report Date: {{ date }}</span>
+                <span class="repo-count">{{ repository_count }} repositories analyzed</span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="dashboard-controls">
+            <div class="search-filter">
+                <input type="text" id="repo-search" placeholder="Search repositories...">
+                <select id="language-filter">
+                    <option value="">All Languages</option>
+                </select>
+                <select id="confidence-filter">
+                    <option value="">All Confidence Levels</option>
+                    <option value="high">High Confidence</option>
+                    <option value="medium">Medium Confidence</option>
+                    <option value="low">Low Confidence</option>
+                </select>
+                <button id="reset-filters" class="btn">Reset Filters</button>
+            </div>
+        </div>
+        
+        <div class="dashboard-overview">
+            <div class="overview-card">
+                <h3>Repository Score Distribution</h3>
+                <canvas id="score-distribution-chart"></canvas>
+            </div>
+            <div class="overview-card">
+                <h3>Language Distribution</h3>
+                <canvas id="language-chart"></canvas>
+            </div>
+            <div class="overview-card">
+                <h3>Confidence Levels</h3>
+                <canvas id="confidence-chart"></canvas>
+            </div>
+        </div>
+        
+        <div class="dashboard-main">
+            <h2>Top Startup Repositories</h2>
+            <table id="repositories-table">
+                <thead>
+                    <tr>
+                        <th data-sort="name">Repository <i class="fas fa-sort"></i></th>
+                        <th data-sort="total_score">Score <i class="fas fa-sort"></i></th>
+                        <th data-sort="confidence">Confidence <i class="fas fa-sort"></i></th>
+                        <th data-sort="language">Language <i class="fas fa-sort"></i></th>
+                        <th data-sort="stars">Stars <i class="fas fa-sort"></i></th>
+                        <th data-sort="age_days">Age (Days) <i class="fas fa-sort"></i></th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody id="repo-table-body">
+                    <!-- Repository rows will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Repository details modal -->
+        <div id="repo-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="repo-details-content"></div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Generated at {{ generated_at }} | <a href="{{ api_url }}">API</a> | <a href="{{ latest_api_url }}">Latest API</a> | GitHub Signals Platform</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Pass data to JavaScript
+        const dashboardData = {{ json_data|safe }};
+    </script>
+    <script src="assets/js/dashboard.js"></script>
+</body>
+</html>
