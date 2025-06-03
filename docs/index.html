@@ -24,21 +24,6 @@
         <div class="dashboard-controls">
             <div class="search-filter">
                 <input type="text" id="searchInput" placeholder="Search repositories...">
-                <select id="languageFilter">
-                    <option value="">All Languages</option>
-                </select>
-                <select id="scoreFilter">
-                    <option value="">All Confidence Levels</option>
-                    <option value="high">High Confidence</option>
-                    <option value="medium">Medium Confidence</option>
-                    <option value="low">Low Confidence</option>
-                </select>
-                <select id="sortBy">
-                    <option value="">Sort By</option>
-                    <option value="score">Score</option>
-                    <option value="language">Language</option>
-                </select>
-                <button id="filter-btn">Filter</button>
             </div>
         </div>
         
@@ -93,6 +78,17 @@
                 </div>
             </div>
         </div>
+
+        <section class="section">
+            <h2 class="section-title">Startup Categories</h2>
+            <div class="category-tabs">
+                <button class="tab-button active" data-category="hot">🔥 Hot This Week</button>
+                <button class="tab-button" data-category="vc-ready">💰 VC-Ready</button>
+                <button class="tab-button" data-category="ai-ml">🚀 AI/ML</button>
+                <button class="tab-button" data-category="fintech">💳 Fintech</button>
+                <button class="tab-button" data-category="all">📋 All Startups</button>
+            </div>
+        </section>
     </div>
     
     <footer>
@@ -142,5 +138,45 @@
     </template>
     
     <script src="assets/js/dashboard.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const grid = document.getElementById('repositoriesGrid');
+            if (grid) {
+                new GitHubSignalsDashboard();
+            }
+        });
+    </script>
+
+    <style>
+        .category-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--border-color);
+            background: var(--card-background);
+            color: var(--text-primary);
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        .tab-button.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+    </style>
 </body>
 </html>
