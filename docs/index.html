@@ -23,15 +23,20 @@
     <div class="container">
         <div class="dashboard-controls">
             <div class="search-filter">
-                <input type="text" id="repo-search" placeholder="Search repositories...">
-                <select id="language-filter">
+                <input type="text" id="searchInput" placeholder="Search repositories...">
+                <select id="languageFilter">
                     <option value="">All Languages</option>
                 </select>
-                <select id="confidence-filter">
+                <select id="scoreFilter">
                     <option value="">All Confidence Levels</option>
                     <option value="high">High Confidence</option>
                     <option value="medium">Medium Confidence</option>
                     <option value="low">Low Confidence</option>
+                </select>
+                <select id="sortBy">
+                    <option value="">Sort By</option>
+                    <option value="score">Score</option>
+                    <option value="language">Language</option>
                 </select>
                 <button id="filter-btn">Filter</button>
             </div>
