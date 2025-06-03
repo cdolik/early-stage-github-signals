@@ -89,7 +89,7 @@
     
     <script>
         // Pass data to JavaScript
-        const dashboardData = {{ json_data|safe }};
+        const dashboardData = {{ json_data|tojson|safe }};
     </script>
     <script src="assets/js/dashboard.js"></script>
 </body>

@@ -207,3 +207,32 @@ Traceback (most recent call last):
   File "/Users/coreydolik/early-stage-github-signals-1/src/main.py", line 150, in main
     trend_analyzer = TrendAnalyzer(scored_repos)
 TypeError: TrendAnalyzer.__init__() takes 1 positional argument but 2 were given
+2025-06-02 19:43:28,111 - src.main - INFO - Starting Early Stage GitHub Signals Platform
+2025-06-02 19:43:28,111 - src.main - INFO - Loaded configuration from config.yaml
+2025-06-02 19:43:28,116 - src.main - INFO - Collecting trending GitHub repositories
+2025-06-02 19:43:28,116 - GitHubCollector - INFO - Collecting trending GitHub repositories created after 2025-05-26
+2025-06-02 19:43:28,116 - GitHubCollector - INFO - Collecting repositories for language: python
+2025-06-02 19:43:28,754 - GitHubCollector - INFO - Collecting repositories for language: javascript
+2025-06-02 19:43:29,613 - GitHubCollector - INFO - Collecting repositories for language: typescript
+2025-06-02 19:43:30,478 - GitHubCollector - INFO - Collecting repositories for language: go
+2025-06-02 19:43:31,295 - GitHubCollector - INFO - Collecting repositories for language: rust
+2025-06-02 19:43:32,179 - GitHubCollector - INFO - Collecting repositories for language: java
+2025-06-02 19:43:33,043 - GitHubCollector - INFO - Collecting repositories for language: kotlin
+2025-06-02 19:43:33,865 - GitHubCollector - INFO - Collecting repositories for language: swift
+2025-06-02 19:43:34,718 - GitHubCollector - INFO - Collected 0 repositories
+2025-06-02 19:43:34,718 - src.main - INFO - Collected 0 repositories
+2025-06-02 19:43:34,718 - src.main - INFO - Collecting Hacker News discussions
+2025-06-02 19:43:34,718 - HackerNewsCollector - INFO - Collecting Hacker News stories from the last 30 days
+2025-06-02 19:43:35,100 - HackerNewsCollector - INFO - Found 942 stories to process
+2025-06-02 19:44:54,359 - HackerNewsCollector - INFO - Found 50 relevant Hacker News stories
+2025-06-02 19:47:00,843 - src.main - INFO - Collected 50 Hacker News discussions
+2025-06-02 19:47:00,843 - src.main - INFO - Analyzing repositories for startup potential
+2025-06-02 19:47:00,864 - StartupScorer - INFO - Scoring 0 repositories for startup potential
+2025-06-02 19:47:00,865 - StartupScorer - INFO - Completed scoring 0 repositories
+2025-06-02 19:47:00,865 - src.main - INFO - Scored 0 repositories
+2025-06-02 19:47:00,865 - src.main - INFO - Analyzing trends and patterns
+2025-06-02 19:47:00,865 - src.main - ERROR - Error during execution: TrendAnalyzer.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/coreydolik/early-stage-github-signals-1/src/main.py", line 150, in main
+    trend_analyzer = TrendAnalyzer(scored_repos)
+TypeError: TrendAnalyzer.__init__() takes 1 positional argument but 2 were given
