@@ -14,9 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             await this.loadData();
             this.setupEventListeners();
+            this.renderStatistics();
+            this.renderChart();
             this.showCategory('hot');
+            this.hideLoading();
         } catch (error) {
             console.error('Failed to initialize dashboard:', error);
+            this.showError();
         }
     }
 
@@ -24,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('./api/latest.json');
             if (!response.ok) throw new Error('Failed to fetch data');
+            
             this.data = await response.json();
             this.categorizeRepositories();
         } catch (error) {
@@ -34,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     categorizeRepositories() {
         if (!this.data.repositories) return;
-
+        
         this.categories = {
             hot: this.data.repositories.filter(repo => 
                 repo.total_score >= 30 && 
@@ -54,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
             all: this.data.repositories
         };
 
+        // Sort each category by score
         Object.keys(this.categories).forEach(key => {
             this.categories[key].sort((a, b) => b.total_score - a.total_score);
         });
@@ -76,7 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
             button.addEventListener('click', (e) => {
                 const category = e.target.getAttribute('data-category');
                 this.showCategory(category);
-
+                
+                // Update active tab
                 document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
                 e.target.classList.add('active');
             });
@@ -87,12 +94,45 @@ document.addEventListener('DOMContentLoaded', () => {
         this.currentCategory = category;
         const repos = this.categories[category] || [];
         this.renderRepositories(repos);
+        this.updateCategoryStats(category, repos.length);
+    }
+
+    updateCategoryStats(category, count) {
+        const categoryNames = {
+            hot: 'Hot This Week',
+            'vc-ready': 'VC-Ready',
+            'ai-ml': 'AI/ML',
+            fintech: 'Fintech',
+            all: 'All Startups'
+        };
+        
+        const statsElement = document.querySelector('.stats-grid');
+        if (statsElement) {
+            statsElement.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">${count}</div>
+                    <div class="stat-label">${categoryNames[category]} Repos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${this.data.repositories.length}</div>
+                    <div class="stat-label">Total Analyzed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${Math.round(this.data.repositories.reduce((sum, repo) => sum + repo.total_score, 0) / this.data.repositories.length)}</div>
+                    <div class="stat-label">Average Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${new Date().toLocaleDateString()}</div>
+                    <div class="stat-label">Last Updated</div>
+                </div>
+            `;
+        }
     }
 
     renderRepositories(repositories) {
         const container = document.getElementById('repositoriesGrid');
         if (!container) return;
-
+        
         container.innerHTML = '';
 
         if (repositories.length === 0) {
