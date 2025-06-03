@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Early Stage GitHub Signals</title>
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fab fa-github"></i> Early Stage GitHub Signals</h1>
+            <p class="subtitle">Discovering tomorrow's startups today</p>
+            <div class="report-meta">
+                <span class="date">Report Date: <span id="report-date">Loading...</span></span>
+                <span class="repo-count"><span id="repo-count">0</span> repositories analyzed</span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="dashboard-controls">
+            <div class="search-filter">
+                <input type="text" id="repo-search" placeholder="Search repositories...">
+                <select id="language-filter">
+                    <option value="">All Languages</option>
+                </select>
+                <select id="confidence-filter">
+                    <option value="">All Confidence Levels</option>
+                    <option value="high">High Confidence</option>
+                    <option value="medium">Medium Confidence</option>
+                    <option value="low">Low Confidence</option>
+                </select>
+                <button id="filter-btn">Filter</button>
+            </div>
+        </div>
+        
+        <div id="loading">
+            <div class="spinner"></div>
+            <p>Loading repository data...</p>
+        </div>
+
+        <div id="error-message" style="display:none;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>Error loading repository data. Please try again later.</p>
+        </div>
+        
+        <div id="dashboard-content" style="display:none;">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Average Score</h3>
+                    <div class="stat-value" id="average-score">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Top Languages</h3>
+                    <div class="stat-value" id="top-languages">-</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Common Topics</h3>
+                    <div class="stat-value" id="common-topics">-</div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart">
+                    <h3>Score Distribution</h3>
+                    <canvas id="score-distribution"></canvas>
+                </div>
+                <div class="chart">
+                    <h3>Top Languages</h3>
+                    <canvas id="language-distribution"></canvas>
+                </div>
+            </div>
+            
+            <h2>Top Repositories</h2>
+            <div id="repositories-list">
+                <!-- Repository cards will be inserted here -->
+            </div>
+            
+            <div class="trends-section">
+                <h2>Trend Analysis</h2>
+                <div id="trends-content">
+                    <!-- Trend analysis will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Early Stage GitHub Signals · <span id="generated-date">Generated at: Loading...</span></p>
+            <p>Developed with <i class="fas fa-heart"></i> for startup trend detection</p>
+        </div>
+    </footer>
+    
+    <template id="repository-card-template">
+        <div class="repository-card">
+            <div class="score-indicator">
+                <div class="score">00</div>
+                <div class="confidence">HIGH</div>
+            </div>
+            <div class="repository-details">
+                <h3 class="repo-name"><a href="#" target="_blank">Repository Name</a></h3>
+                <p class="repo-description">Repository description goes here</p>
+                <div class="repo-meta">
+                    <span class="language"><i class="fas fa-code"></i> <span class="language-name">Language</span></span>
+                    <span class="stars"><i class="fas fa-star"></i> <span class="stars-count">0</span></span>
+                    <span class="forks"><i class="fas fa-code-branch"></i> <span class="forks-count">0</span></span>
+                    <span class="age"><i class="fas fa-calendar"></i> <span class="created-at">0 days ago</span></span>
+                </div>
+                <div class="score-breakdown">
+                    <div class="score-category">
+                        <span class="category-name">Repository:</span>
+                        <span class="category-score">0/20</span>
+                    </div>
+                    <div class="score-category">
+                        <span class="category-name">Organization:</span>
+                        <span class="category-score">0/15</span>
+                    </div>
+                    <div class="score-category">
+                        <span class="category-name">Community:</span>
+                        <span class="category-score">0/15</span>
+                    </div>
+                </div>
+                <div class="repo-strengths">
+                    <h4>Key Strengths:</h4>
+                    <ul class="strengths-list">
+                        <!-- Strengths will be inserted here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <script src="assets/js/dashboard.js"></script>
+</body>
+</html>

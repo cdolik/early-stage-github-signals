@@ -51,75 +51,85 @@ class GitHubCollector(BaseCollector):
         
     def collect(self, **kwargs: Any) -> List[Dict[str, Any]]:
         """
-        Collect GitHub repository data.
+        Collect trending GitHub repositories based on configuration.
+        
+        This is the main entry point that collects repositories matching
+        our criteria for startup potential.
         
         Args:
-            **kwargs: Collection parameters:
-                - days: Number of trending days to look back (default from config)
+            **kwargs: Optional parameters to override config settings:
+                - days: Number of days to look back (default from config)
+                - min_stars: Minimum stars (default from config)
                 - languages: List of languages to filter by (default from config)
-                - min_stars: Minimum number of stars (default from config)
-                - max_repos: Maximum number of repositories to collect (default from config)
                 
         Returns:
-            List of repository data dictionaries
+            List of repository data dictionaries with all needed information
         """
+        # Get parameters from kwargs or config
         days = kwargs.get('days', self.config.get('github.trending_days', 7))
-        languages = kwargs.get('languages', self.config.get('github.language_filter'))
         min_stars = kwargs.get('min_stars', self.config.get('github.min_stars', 5))
-        max_repos = kwargs.get('max_repos', self.config.get('github.max_repos_to_analyze', 250))
+        languages = kwargs.get('languages', self.config.get('github.language_filter', []))
+        max_repos = self.config.get('github.max_repos_to_analyze', 250)
         
-        # Calculate the date threshold
+        # Calculate the date threshold for "recent" repositories
         date_threshold = datetime.datetime.now() - datetime.timedelta(days=days)
-        date_str = format_date(date_threshold)
+        self.logger.info(f"Collecting trending GitHub repositories created after {date_threshold.strftime('%Y-%m-%d')}")
         
         repositories = []
-        processed = 0
         
-        self.logger.info(f"Collecting trending GitHub repositories created after {date_str}")
-        
-        # If languages are specified, collect repos for each language
+        # Collect repositories for each language
         if languages:
             for language in languages:
-                if processed >= max_repos:
-                    break
-                
                 self.logger.info(f"Collecting repositories for language: {language}")
                 language_repos = self._collect_trending_repos(
                     language=language,
-                    date_threshold=date_str,
-                    min_stars=min_stars,
-                    max_repos=(max_repos - processed)
+                    date_threshold=date_threshold,
+                    min_stars=min_stars
                 )
-                
                 repositories.extend(language_repos)
-                processed += len(language_repos)
+                
+                # Respect rate limits
+                if len(repositories) >= max_repos:
+                    break
         else:
-            # Collect repositories without language filter
+            # If no languages specified, collect general trending repos
             repositories = self._collect_trending_repos(
-                language=None,
-                date_threshold=date_str,
-                min_stars=min_stars,
-                max_repos=max_repos
+                date_threshold=date_threshold,
+                min_stars=min_stars
             )
-            
-        self.logger.info(f"Collected {len(repositories)} repositories")
         
-        # Enrich repository data with additional information
-        return self._enrich_repository_data(repositories)
+        # Limit the number of repositories to analyze
+        repositories = repositories[:max_repos]
+        
+        # Enrich repository data with additional details
+        enriched_repos = []
+        for repo_data in repositories:
+            try:
+                # Get detailed information for scoring
+                detailed_repo = self._enrich_repository_data(repo_data)
+                enriched_repos.append(detailed_repo)
+                # Sleep briefly to avoid hammering the API
+                time.sleep(0.5)
+            except Exception as e:
+                self.logger.warning(f"Error enriching repository {repo_data.get('full_name')}: {str(e)}")
+                enriched_repos.append(repo_data)  # Add the basic data anyway
+        
+        self.logger.info(f"Collected {len(enriched_repos)} repositories")
+        return enriched_repos
         
     def _collect_trending_repos(
         self,
-        language: Optional[str],
-        date_threshold: str,
-        min_stars: int,
-        max_repos: int
+        language: Optional[str] = None,
+        date_threshold: Optional[datetime.datetime] = None,
+        min_stars: int = 5,
+        max_repos: int = 100
     ) -> List[Dict[str, Any]]:
         """
         Collect trending repositories with the GitHub search API.
         
         Args:
             language: Programming language filter (optional)
-            date_threshold: Date threshold string in YYYY-MM-DD format
+            date_threshold: Date threshold as datetime object
             min_stars: Minimum number of stars
             max_repos: Maximum number of repositories to collect
             
@@ -127,8 +137,13 @@ class GitHubCollector(BaseCollector):
             List of basic repository data
         """
         # Construct the search query
+        if date_threshold is None:
+            date_threshold = datetime.datetime.now() - datetime.timedelta(days=7)
+            
+        formatted_date = date_threshold.strftime('%Y-%m-%d')
+        
         query_parts = [
-            f"created:>={date_threshold}",
+            f"created:>={formatted_date}",
             f"stars:>={min_stars}"
         ]
         
@@ -222,77 +237,120 @@ class GitHubCollector(BaseCollector):
             'default_branch': repo.default_branch,
         }
         
-    def _enrich_repository_data(self, repositories: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _enrich_repository_data(self, repo_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Enrich repository data with additional information.
         
         Args:
-            repositories: List of basic repository data
+            repo_data: Basic repository data dictionary
             
         Returns:
-            List of enriched repository data
+            Enriched repository data dictionary
         """
-        enriched_repos = []
+        self.logger.debug(f"Enriching data for repository: {repo_data['full_name']}")
         
-        for repo_data in repositories:
-            try:
-                self.logger.debug(f"Enriching data for repository: {repo_data['full_name']}")
+        # Try to get data from cache first
+        cache_key = f"repo_{repo_data['id']}_details"
+        cached_data = self.cache.get(cache_key) if self.cache else None
+        
+        if cached_data:
+            self.logger.debug(f"Found cached data for {repo_data['full_name']}")
+            return cached_data
+        
+        try:
+            # Get the full repository object
+            repo = self.client.get_repo(repo_data['full_name'])
+            
+            # Check rate limits before making additional API calls
+            if not self._check_rate_limits():
+                # Return the basic data without enrichment
+                return repo_data
+            
+            # Enrich with additional data
+            enriched_data = repo_data.copy()
+            
+            # Check for CI/CD setup
+            enriched_data['ci_cd_setup'] = self._has_ci_cd_setup(repo)
+            
+            # Check for tests
+            enriched_data['has_tests'] = self._has_tests(repo)
+            
+            # Get readme quality
+            enriched_data['readme_quality'] = self._get_readme_quality(repo)
+            
+            # Get recent commit activity
+            enriched_data['commit_activity'] = self._get_commit_activity(repo)
+            
+            # Get external website
+            enriched_data['external_website'] = self._get_external_website(repo, repo_data)
+            
+            # Get organization data if applicable
+            if repo_data['owner']['type'] == 'Organization':
+                enriched_data['organization'] = self._get_organization_data(repo.owner.login)
+            else:
+                enriched_data['organization'] = None
+            
+            # Get contributor data
+            enriched_data['contributors'] = self._get_contributor_data(repo)
                 
-                # Get the full repository object
-                repo = self.client.get_repo(repo_data['full_name'])
+            # Get repository details
+            repo_details = self.get_repository_details(repo)
+            if repo_details:
+                enriched_data.update(repo_details)
                 
-                # Check rate limits before making additional API calls
-                if not self._check_rate_limits():
-                    # Add the basic data without enrichment
-                    enriched_repos.append(repo_data)
-                    continue
+            # Cache the enriched data
+            if self.cache:
+                self.cache.set(cache_key, enriched_data, expire=86400)  # Cache for 24 hours
                 
-                # Enrich with additional data
-                enriched_data = repo_data.copy()
-                
-                # Check for CI/CD setup
-                enriched_data['ci_cd_setup'] = self._has_ci_cd_setup(repo)
-                
-                # Check for tests
-                enriched_data['has_tests'] = self._has_tests(repo)
-                
-                # Get readme quality
-                enriched_data['readme_quality'] = self._get_readme_quality(repo)
-                
-                # Get recent commit activity
-                enriched_data['commit_activity'] = self._get_commit_activity(repo)
-                
-                # Get external website
-                enriched_data['external_website'] = self._get_external_website(repo, repo_data)
-                
-                # Get organization data if applicable
-                if repo_data['owner']['type'] == 'Organization':
-                    enriched_data['organization'] = self._get_organization_data(repo.owner.login)
-                else:
-                    enriched_data['organization'] = None
-                
-                # Get contributor data
-                enriched_data['contributors'] = self._get_contributor_data(repo)
-                
-                enriched_repos.append(enriched_data)
-                
-            except RateLimitExceededException:
-                self.logger.warning("GitHub API rate limit exceeded during enrichment")
-                # Add the basic data without enrichment
-                enriched_repos.append(repo_data)
-                break
-            except GithubException as e:
-                self.logger.warning(f"GitHub API error during enrichment: {e}")
-                # Add the basic data without enrichment
-                enriched_repos.append(repo_data)
-                continue
-            except Exception as e:
-                self.logger.error(f"Error enriching data for {repo_data['full_name']}: {e}")
-                # Add the basic data without enrichment
-                enriched_repos.append(repo_data)
-                continue
-                
-        return enriched_repos
+            return enriched_data
+            
+        except RateLimitExceededException:
+            self.logger.warning(f"GitHub API rate limit exceeded during enrichment of {repo_data['full_name']}")
+            return repo_data
+        except GithubException as e:
+            self.logger.warning(f"GitHub API error during enrichment of {repo_data['full_name']}: {e}")
+            return repo_data
+        except Exception as e:
+            self.logger.error(f"Error enriching data for {repo_data['full_name']}: {e}")
+            return repo_data
+            
+    def get_repository_details(self, repo: Repository) -> Dict[str, Any]:
+        """
+        Get detailed information about a repository.
+
+        Args:
+            repo: GitHub Repository object
+
+        Returns:
+            Dictionary with detailed repository information
+        """
+        try:
+            # Extract additional details
+            details = {
+                'watchers_count': repo.watchers_count,
+                'network_count': repo.network_count,
+                'subscribers_count': repo.subscribers_count,
+                'is_fork': repo.fork,
+                'parent': repo.parent.full_name if repo.fork and repo.parent else None,
+                'source': repo.source.full_name if repo.source else None,
+                'has_issues': repo.has_issues,
+                'has_projects': repo.has_projects,
+                'has_downloads': repo.has_downloads,
+                'has_wiki': repo.has_wiki,
+                'has_pages': repo.has_pages,
+                'archived': repo.archived,
+                'disabled': repo.disabled,
+                'visibility': repo.visibility,
+            }
+
+            return details
+        except GithubException as e:
+            self.logger.warning(f"Error fetching repository details for {repo.full_name}: {e}")
+            return {}
+        except Exception as e:
+            self.logger.error(f"Unexpected error fetching repository details for {repo.full_name}: {e}")
+            return {}
+    
         
     def _has_ci_cd_setup(self, repo: Repository) -> bool:
         """
