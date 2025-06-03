@@ -22,45 +22,70 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   
   // Fetch the data
-  fetch('../api/latest.json')
-    .then(response => response.json())
-    .then(data => {
-      repositories = data.repositories;
-      filteredRepos = [...repositories];
-      
-      // Populate language filter options
-      const languages = ['all', ...new Set(repositories.map(repo => repo.language).filter(Boolean))];
-      languages.forEach(lang => {
-        const option = document.createElement('option');
-        option.value = lang;
-        option.textContent = lang === 'all' ? 'All Languages' : lang;
-        filterLanguage.appendChild(option);
-      });
-      
-      // Render repositories
-      renderRepositories(filteredRepos);
-      
-      // Render charts for trends
-      renderCharts(data.trends);
-      
-      // Render insights
-      renderInsights(data.insights);
-      
-      // Remove loading state
-      document.querySelector('.loading').style.display = 'none';
-    })
-    .catch(err => {
-      console.error('Error fetching data:', err);
+  async function loadData() {
+    try {
+      const response = await fetch('./api/latest.json');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        repositories = await response.json();
+        console.log('Fetched data:', repositories); // Debug log
+        filteredRepos = [...repositories];
+        
+        // Populate language filter options
+        const languages = ['all', ...new Set(repositories.map(repo => repo.language).filter(Boolean))];
+        languages.forEach(lang => {
+          const option = document.createElement('option');
+          option.value = lang;
+          option.textContent = lang === 'all' ? 'All Languages' : lang;
+          filterLanguage.appendChild(option);
+        });
+        
+        // Render repositories
+        renderRepositories(filteredRepos);
+        
+        // Render charts for trends
+        renderCharts(repositories.trends);
+        
+        // Render insights
+        renderInsights(repositories.insights);
+        
+        // Remove loading state
+        document.querySelector('.loading').style.display = 'none';
+      } else {
+        throw new Error("Response is not JSON");
+      }
+    } catch (error) {
+      console.error('Error loading data:', error);
       reposContainer.innerHTML = `<div class="error">Failed to load repositories data. Please try again later.</div>`;
       document.querySelector('.loading').style.display = 'none';
-    });
+    }
+  }
+  
+  loadData();
   
   // Event listeners for filters
-  filterLanguage.addEventListener('change', updateFilters);
-  filterCategory.addEventListener('change', updateFilters);
-  filterSort.addEventListener('change', updateFilters);
-  searchInput.addEventListener('input', updateFilters);
-  resetBtn.addEventListener('click', resetFilters);
+  if (filterLanguage) {
+    filterLanguage.addEventListener('change', updateFilters);
+  }
+
+  if (filterCategory) {
+    filterCategory.addEventListener('change', updateFilters);
+  }
+
+  if (filterSort) {
+    filterSort.addEventListener('change', updateFilters);
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', updateFilters);
+  }
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', resetFilters);
+  }
   
   /**
    * Update filters and re-render repositories
