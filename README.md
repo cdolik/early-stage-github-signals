@@ -48,6 +48,49 @@ Our algorithm evaluates three key areas:
 
 ### Installation
 
+```bash
+# Clone the repository
+git clone https://github.com/your-username/early-stage-github-signals.git
+cd early-stage-github-signals
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Set your GitHub token
+export GITHUB_TOKEN="your_github_token"
+```
+
+### Running the Platform
+
+```bash
+# Full run (processes many repositories, can take 15+ minutes)
+python run.py
+
+# Quick test run (5 repositories, minimal API usage)
+./test_run.sh
+# or
+python run.py --debug --lite --max-repos 5 --skip-hackernews
+```
+
+### Command Line Options
+
+| Option | Description |
+|--------|-------------|
+| `--debug` | Enable debug logging |
+| `--lite` | Run in lite mode with minimal API calls |
+| `--max-repos N` | Limit analysis to N repositories |
+| `--skip-hackernews` | Skip Hacker News data collection |
+| `--dry-run` | Run without API calls (sample data) |
+| `--force-refresh` | Force refresh cached data |
+| `--skip-api` | Skip API file generation |
+| `--skip-html` | Skip HTML dashboard generation |
+| `--skip-reports` | Skip Markdown report generation |
+| `--date YYYY-MM-DD` | Set report date (defaults to today) |
+
+### API Usage Optimization
+
+The platform is designed to respect GitHub's API rate limits (5000 requests/hour). The `--lite` mode is recommended for development and testing to minimize API usage.
+
 ## 📊 Sample Output
 
 The platform identifies startups like:

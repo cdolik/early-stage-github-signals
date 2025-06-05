@@ -12,25 +12,21 @@ import sys
 import time
 import argparse
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import List, Dict, Any, Optional, Tuple
 
-# Add the project root directory to PYTHONPATH
-# This ensures imports work correctly
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 # Import modules from our project
-from utils.config import Config
-from utils.logger import setup_logger
-from utils.cache import Cache
-from collectors.github_collector import GitHubCollector
-from collectors.hackernews_collector import HackerNewsCollector
-from analyzers.startup_scorer import StartupScorer
-from analyzers.trend_analyzer import TrendAnalyzer
-from analyzers.insights_generator import InsightsGenerator
-from generators.report_generator import ReportGenerator
-from generators.html_generator import HtmlGenerator
-from generators.api_generator import ApiGenerator
+from src.utils.config import Config
+from src.utils.logger import setup_logger
+from src.utils.cache import Cache
+from src.collectors.github_collector import GitHubCollector
+from src.collectors.hackernews_collector import HackerNewsCollector
+from src.analyzers.startup_scorer import StartupScorer
+from src.analyzers.trend_analyzer import TrendAnalyzer
+from src.analyzers.insights_generator import InsightsGenerator
+from src.generators.report_generator import ReportGenerator
+from src.generators.html_generator import HtmlGenerator
+from src.generators.api_generator import ApiGenerator
 
 
 def parse_args() -> argparse.Namespace:
@@ -65,6 +61,11 @@ def parse_args() -> argparse.Namespace:
         help='Maximum number of repositories to analyze'
     )
     parser.add_argument(
+        '--lite',
+        action='store_true',
+        help='Run in lite mode with minimal API calls and data collection'
+    )
+    parser.add_argument(
         '--skip-api', 
         action='store_true',
         help='Skip API generation'
@@ -78,6 +79,11 @@ def parse_args() -> argparse.Namespace:
         '--skip-reports', 
         action='store_true',
         help='Skip report generation'
+    )
+    parser.add_argument(
+        '--skip-hackernews',
+        action='store_true',
+        help='Skip Hacker News data collection'
     )
     parser.add_argument(
         '--date',
@@ -128,6 +134,14 @@ def main() -> int:
         if args.max_repos:
             config.set('github.max_repos_to_analyze', args.max_repos)
         
+        # Activate lite mode if specified
+        if args.lite:
+            logger.info("Running in lite mode with reduced API usage")
+            # Limit repositories to a small number for testing
+            config.set('github.max_repos_to_analyze', min(25, config.get('github.max_repos_to_analyze', 100)))
+            # Skip detailed data collection in lite mode
+            config.set('github.skip_detailed_analysis', True)
+        
         # Set up cache
         cache = Cache()
         if args.force_refresh:
@@ -137,7 +151,7 @@ def main() -> int:
         # Set up dry-run mode
         is_dry_run = args.dry_run
         if is_dry_run:
-            logger.info("Running in dry-run mode - no API calls or file writes")
+            logger.info("Running in dry-run mode - using sample data, no API calls or file writes")
         
         # Set report date
         if args.date:
@@ -172,33 +186,107 @@ def main() -> int:
             repos = [
                 {
                     "id": 12345,
-                    "name": "sample-repo",
-                    "full_name": "organization/sample-repo",
-                    "url": "https://github.com/organization/sample-repo",
-                    "description": "A sample repository for dry run",
+                    "name": "ai-platform",
+                    "full_name": "startup-org/ai-platform",
+                    "url": "https://github.com/startup-org/ai-platform",
+                    "description": "An AI platform for startups to automate workflows",
                     "created_at": (datetime.now() - timedelta(days=30)).isoformat(),
                     "updated_at": datetime.now().isoformat(),
                     "language": "Python",
-                    "topics": ["ai", "machine learning", "platform"],
-                    "stars": 100,
-                    "forks": 20,
-                    "watchers": 50,
-                    "organization": "organization",
+                    "topics": ["ai", "machine-learning", "platform", "saas", "startup"],
+                    "stars": 250,
+                    "forks": 45,
+                    "watchers": 80,
+                    "organization": "startup-org",
                     "has_website": True,
-                    "has_readme": True
+                    "has_readme": True,
+                    "readme_quality": 0.85,
+                    "days_since_last_commit": 2,
+                    "commit_frequency": 0.8,
+                    "has_tests": True,
+                    "external_contributors": 5,
+                    "org_data": {
+                        "created_at": (datetime.now() - timedelta(days=180)).isoformat(),
+                        "members_count": 6,
+                        "repos_count": 4,
+                        "has_website": True,
+                        "description": "Building the next generation of AI tools"
+                    },
+                },
+                {
+                    "id": 67890,
+                    "name": "fintech-api",
+                    "full_name": "fintech-co/fintech-api",
+                    "url": "https://github.com/fintech-co/fintech-api",
+                    "description": "Modern API for financial technology applications",
+                    "created_at": (datetime.now() - timedelta(days=60)).isoformat(),
+                    "updated_at": datetime.now().isoformat(),
+                    "language": "TypeScript",
+                    "topics": ["fintech", "api", "financial", "payments", "blockchain"],
+                    "stars": 180,
+                    "forks": 30,
+                    "watchers": 45,
+                    "organization": "fintech-co",
+                    "has_website": True,
+                    "has_readme": True,
+                    "readme_quality": 0.75,
+                    "days_since_last_commit": 5,
+                    "commit_frequency": 0.7,
+                    "has_tests": True,
+                    "external_contributors": 3,
+                    "org_data": {
+                        "created_at": (datetime.now() - timedelta(days=240)).isoformat(),
+                        "members_count": 4,
+                        "repos_count": 3,
+                        "has_website": True,
+                        "description": "Revolutionizing fintech with modern solutions"
+                    }
+                },
+                {
+                    "id": 24680,
+                    "name": "saas-toolkit",
+                    "full_name": "devtools/saas-toolkit",
+                    "url": "https://github.com/devtools/saas-toolkit",
+                    "description": "A toolkit for building modern SaaS applications",
+                    "created_at": (datetime.now() - timedelta(days=45)).isoformat(),
+                    "updated_at": datetime.now().isoformat(),
+                    "language": "JavaScript",
+                    "topics": ["saas", "toolkit", "productivity", "startup", "webapp"],
+                    "stars": 120,
+                    "forks": 25,
+                    "watchers": 35,
+                    "organization": "devtools",
+                    "has_website": True,
+                    "has_readme": True,
+                    "readme_quality": 0.7,
+                    "days_since_last_commit": 7,
+                    "commit_frequency": 0.6,
+                    "has_tests": True,
+                    "external_contributors": 2,
+                    "org_data": {
+                        "created_at": (datetime.now() - timedelta(days=300)).isoformat(),
+                        "members_count": 3,
+                        "repos_count": 5,
+                        "has_website": True,
+                        "description": "Developer tools for the modern web"
+                    }
                 }
             ]
         
         # Step 2: Collect Hacker News discussions (if any)
         hackernews_collector = HackerNewsCollector(config, cache)
         
-        if not is_dry_run:
+        if not is_dry_run and not args.skip_hackernews and not args.lite:
             logger.info("Collecting Hacker News discussions...")
             start_time = time.time()
             
             # Calculate date threshold for HN stories
             hn_days = config.get('hackernews.days_to_check', 30)
             hn_date_threshold = report_date - timedelta(days=hn_days)
+            
+            # Ensure date_threshold has timezone info
+            if hn_date_threshold.tzinfo is None:
+                hn_date_threshold = hn_date_threshold.replace(tzinfo=timezone.utc)
             
             # Collect HN discussions
             hn_discussions = hackernews_collector.collect(
@@ -208,8 +296,9 @@ def main() -> int:
             
             logger.info(f"Collected {len(hn_discussions)} Hacker News discussions in {time.time() - start_time:.2f} seconds")
         else:
-            # In dry-run mode, use sample HN data
-            logger.info("Using sample Hacker News data for dry run")
+            # In dry-run mode or lite mode, use sample HN data
+            reason = "dry run" if is_dry_run else "lite mode" if args.lite else "hackernews collection skipped"
+            logger.info(f"Using sample Hacker News data ({reason})")
             hn_discussions = []
         
         # Step 3: Score repositories
@@ -244,7 +333,7 @@ def main() -> int:
         
         # Step 4: Analyze trends
         trend_analyzer = TrendAnalyzer()
-        trends = trend_analyzer.analyze_trends(scored_repos)
+        trends = trend_analyzer.analyze_trends(scored_repos) if scored_repos else {}
         
         # Calculate summary statistics for reporting
         if scored_repos:

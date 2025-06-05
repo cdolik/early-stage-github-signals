@@ -24,15 +24,19 @@ def format_date(date_obj: datetime.datetime) -> str:
 
 def parse_date(date_str: str) -> datetime.datetime:
     """
-    Parse a date string into a datetime object.
+    Parse a date string into a timezone-aware datetime object.
     
     Args:
         date_str: The date string to parse
         
     Returns:
-        Parsed datetime object
+        Parsed timezone-aware datetime object
     """
-    return parser.parse(date_str)
+    dt = parser.parse(date_str)
+    # Ensure timezone awareness
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=datetime.timezone.utc)
+    return dt
 
 
 def sanitize_filename(name: str) -> str:
