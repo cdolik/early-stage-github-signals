@@ -3,12 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Early Stage GitHub Signals</title>
-    <link rel="stylesheet" href="assets/css/dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>🔥 Hot Startups This Week - Early Stage GitHub Signals</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        .header h1 { 
+            font-size: 3rem; 
+            margin-bottom: 0.5rem; 
+            font-weight: 800;
+        }
+        .header p { 
+            font-size: 1.2rem; 
+            opacity: 0.9; 
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 2rem 1rem; 
+        }
+        .stats { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 1.5rem; 
+            margin-bottom: 3rem; 
+        }
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .stat-value { 
+            font-size: 2.5rem; 
+            font-weight: 800; 
+            color: #2563eb; 
+            margin-bottom: 0.5rem;
+        }
+        .stat-label { 
+            color: #64748b; 
+            font-size: 1rem; 
+            font-weight: 500;
+        }
+        .repo-list { 
+            background: white; 
+            border-radius: 16px; 
+            overflow: hidden; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+        .repo-header { 
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            color: white; 
+            padding: 2rem; 
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            text-align: center;
+        }
+        .repo-item {
+            padding: 2rem;
+            border-bottom: 1px solid #f1f5f9;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 1.5rem;
+            align-items: start;
+            transition: background-color 0.2s;
+        }
+        .repo-item:hover {
+            background-color: #f8fafc;
+        }
+        .repo-item:last-child { border-bottom: none; }
+        .score-badge {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            min-width: 80px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+        }
+        .score-high { background: linear-gradient(135deg, #10b981, #059669); }
+        .score-medium { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .score-low { background: linear-gradient(135deg, #64748b, #475569); }
+        .repo-info h3 { 
+            margin-bottom: 0.75rem; 
+            color: #1e293b;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        .repo-info a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.2s;
+        }
+        .repo-info a:hover { 
+            color: #1d4ed8;
+            text-decoration: underline; 
+        }
+        .repo-description { 
+            color: #64748b; 
+            font-size: 1rem; 
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        .repo-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 0.75rem;
+        }
+        .potential-level {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+        .insights {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+            margin-top: 1rem;
+        }
+        .insights h4 {
+            color: #1e293b;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .insights-text {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        .loading, .error { 
+            text-align: center; 
+            padding: 4rem; 
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+        .error { 
+            background: #fee2e2; 
+            color: #dc2626; 
+            border-radius: 8px; 
+            margin: 2rem 0;
+        }
+        .footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 3rem;
+        }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .repo-item {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                text-align: center;
+            }
+            .repo-meta {
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
+    <header class="header">
+        <div class="container">
+            <h1>🔥 Hot Startups This Week</h1>
+            <p>Discover promising early-stage startups through GitHub activity analysis</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalRepos">-</div>
+                <div class="stat-label">Hot Repositories</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgScore">-</div>
+                <div class="stat-label">Average Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="topScore">-</div>
+                <div class="stat-label">Highest Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="lastUpdated">-</div>
+                <div class="stat-label">Last Updated</div>
+            </div>
+        </div>
+
+        <div class="repo-list">
+            <div class="repo-header">
+                🚀 This Week's Hottest Startup Repositories
+            </div>
+            <div id="loading" class="loading">
+                <div>🔍 Loading hot startups...</div>
+                <div style="margin-top: 1rem; font-size: 0.9rem;">Analyzing GitHub repositories for startup potential</div>
+            </div>
+            <div id="error" class="error" style="display: none;">
+                ❌ Failed to load startup data. Please try again later.
+            </div>
+            <div id="repositories"></div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Early Stage GitHub Signals • Generated with ❤️ for startup discovery</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                <a href="https://github.com/your-username/early-stage-github-signals" style="color: #2563eb;">View on GitHub</a>
+            </p>
+        </div>
+    </footer>
     <header>
         <div class="container">
             <h1><i class="fab fa-github"></i> Early Stage GitHub Signals</h1>
@@ -137,8 +374,102 @@
         </div>
     </template>
     
-    <script src="assets/js/dashboard.js"></script>
     <script>
+        async function loadStartups() {
+            try {
+                console.log('Fetching startup data...');
+                const response = await fetch('./api/latest.json');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('Data loaded:', data);
+                
+                displayStartups(data);
+                hideLoading();
+                
+            } catch (error) {
+                console.error('Error loading startups:', error);
+                showError();
+            }
+        }
+
+        function displayStartups(data) {
+            const repos = data.repositories || [];
+            
+            // Update stats
+            document.getElementById('totalRepos').textContent = repos.length;
+            document.getElementById('avgScore').textContent = Math.round(data.average_score || 0);
+            document.getElementById('topScore').textContent = data.highest_score || 0;
+            document.getElementById('lastUpdated').textContent = new Date(data.generated_at).toLocaleDateString();
+
+            // Display repositories
+            const container = document.getElementById('repositories');
+            
+            if (repos.length === 0) {
+                container.innerHTML = `
+                    <div style="padding: 3rem; text-align: center; color: #64748b;">
+                        <h3>🔍 No startups found this week</h3>
+                        <p>Check back next week for new discoveries!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = repos.map(repo => {
+                const scoreClass = repo.total_score >= 35 ? 'score-high' : 
+                                 repo.total_score >= 25 ? 'score-medium' : 'score-low';
+                
+                return `
+                    <div class="repo-item">
+                        <div class="score-badge ${scoreClass}">${repo.total_score}/50</div>
+                        <div class="repo-info">
+                            <h3><a href="${repo.url}" target="_blank">${repo.name}</a></h3>
+                            <div class="potential-level">${repo.potential_level || '🔍 ANALYZING'}</div>
+                            <div class="repo-description">${repo.description || 'No description available'}</div>
+                            <div class="repo-meta">
+                                <span>⭐ ${repo.stars || 0} stars</span>
+                                <span>🍴 ${repo.forks || 0} forks</span>
+                                <span>💻 ${repo.language || 'Unknown'}</span>
+                                <span>👥 ${repo.organization || 'Individual'}</span>
+                                ${repo.has_website ? '<span>🌐 Has website</span>' : ''}
+                            </div>
+                            ${repo.insights && (repo.insights.strengths?.length || repo.insights.summary) ? `
+                                <div class="insights">
+                                    <h4>💡 Why it's interesting:</h4>
+                                    <div class="insights-text">
+                                        ${repo.insights.summary || repo.insights.strengths?.join(', ') || 'High startup potential detected'}
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div style="text-align: right; font-size: 0.85rem; color: #64748b;">
+                            <div style="margin-bottom: 0.5rem;"><strong>Score Breakdown:</strong></div>
+                            <div>Repository: ${repo.repository_score || 0}/20</div>
+                            <div>Organization: ${repo.organization_score || 0}/15</div>
+                            <div>Community: ${repo.community_score || 0}/15</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        function showError() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+        }
+
+        // Load startups when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Dashboard initialized');
+            loadStartups();
+        });
         document.addEventListener('DOMContentLoaded', function() {
             const grid = document.getElementById('repositoriesGrid');
             if (grid) {

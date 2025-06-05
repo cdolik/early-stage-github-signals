@@ -1,34 +1,100 @@
 """
-API generator for GitHub repository analysis data.
+API generator for JSON output files.
 """
-import os
-import datetime
+
 import json
+import os
+from datetime import datetime
+from pathlib import Path
+import logging
 from typing import Any, Dict, List, Optional, Tuple
 
 from ..utils import Config, setup_logger
 
 
 class ApiGenerator:
-    """
-    Generates JSON API files for GitHub repository analysis.
-    """
+    """Generates JSON API files for the dashboard."""
     
-    def __init__(self):
+    def __init__(self, config=None):
         """
         Initialize the API generator with configuration.
+        
+        Args:
+            config: Configuration manager (optional)
         """
-        self.config = Config()
+        self.config = config if config is not None else Config()
         self.logger = setup_logger(self.__class__.__name__)
+        self.api_dir = Path('docs/api')
+        self.api_dir.mkdir(parents=True, exist_ok=True)
+    
+    def generate(self, report_data: dict) -> list:
+        """Generate API files."""
+        generated_files = []
         
-        # Set up output directory
-        self.api_dir = self.config.get(
-            'output.api_directory',
-            os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-                       "docs", "api")
-        )
+        # Generate latest.json
+        latest_file = self.api_dir / 'latest.json'
+        api_data = self._format_api_data(report_data)
         
-    def generate_api(
+        with open(latest_file, 'w') as f:
+            json.dump(api_data, f, indent=2, default=str)
+        generated_files.append(str(latest_file))
+        
+        # Generate dated file
+        date_str = datetime.now().strftime('%Y-%m-%d')
+        dated_file = self.api_dir / f'{date_str}.json'
+        
+        with open(dated_file, 'w') as f:
+            json.dump(api_data, f, indent=2, default=str)
+        generated_files.append(str(dated_file))
+        
+        self.logger.info(f"Generated {len(generated_files)} API files")
+        return generated_files
+    
+    def _format_api_data(self, report_data: dict) -> dict:
+        """Format data for API consumption."""
+        repositories = []
+        
+        for repo in report_data.get('repositories', []):
+            api_repo = {
+                'id': repo['id'],
+                'name': repo['name'],
+                'full_name': repo['full_name'],
+                'url': repo['url'],
+                'description': repo.get('description'),
+                'language': repo.get('language'),
+                'stars': repo.get('stars', 0),
+                'forks': repo.get('forks', 0),
+                'watchers': repo.get('watchers', 0),
+                'open_issues': repo.get('open_issues', 0),
+                'created_at': repo.get('created_at'),
+                'updated_at': repo.get('updated_at'),
+                'organization': repo.get('organization'),
+                'total_score': repo.get('total_score', 0),
+                'repository_score': repo.get('repository_score', 0),
+                'organization_score': repo.get('organization_score', 0),
+                'community_score': repo.get('community_score', 0),
+                'potential_level': repo.get('potential_level'),
+                'insights': repo.get('insights', {}),
+                'has_website': repo.get('has_website', False),
+                'topics': repo.get('topics', [])
+            }
+            repositories.append(api_repo)
+        
+        return {
+            'generated_at': report_data.get('generated_at'),
+            'total_repositories': len(repositories),
+            'average_score': round(report_data.get('average_score', 0), 1),
+            'highest_score': report_data.get('highest_score', 0),
+            'repositories': repositories,
+            'meta': {
+                'platform': 'Early Stage GitHub Signals',
+                'version': '1.0',
+                'api_version': 'v1'
+            }
+        }
+        self.api_dir.mkdir(parents=True, exist_ok=True)
+    
+    def generate(
         self,
         repositories: List[Dict[str, Any]],
         trends: Dict[str, Any],
@@ -70,7 +136,7 @@ class ApiGenerator:
             
         self.logger.info(f"API files saved to {dated_api_path} and {latest_api_path}")
         return dated_api_path, latest_api_path
-        
+    
     def _prepare_api_data(
         self,
         repositories: List[Dict[str, Any]],

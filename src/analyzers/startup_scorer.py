@@ -29,6 +29,11 @@ class StartupScorer:
         # Load scoring parameters from config
         self.scoring_params = self.config.get('scoring', {})
         self.startup_keywords = self.config.get('startup_keywords', [])
+        self.accelerator_keywords = [
+            'y combinator', 'ycombinator', 'yc', 'techstars', '500 startups', 
+            'seedcamp', 'startup chile', 'angelpad', 'dreamit', 'boost vc',
+            'founders factory', 'boomtown', 'amplify', 'accelerator', 'incubator'
+        ]
         
     def score_repository(self, repo_data: Dict[str, Any], hn_data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
@@ -36,381 +41,561 @@ class StartupScorer:
         
         Args:
             repo_data: Repository data from GitHubCollector
-            hn_data: Hacker News data related to the repository (optional)
+            hn_data: Hacker News discussion data (optional)
             
         Returns:
-            Dictionary with scores and breakdown
+            Repository data with scores and insights
         """
-        # Initialize score components
-        repo_score = self._score_repository_signals(repo_data)
-        org_score = self._score_organization_signals(repo_data)
-        community_score = self._score_community_signals(repo_data, hn_data)
+        self.logger.debug(f"Scoring repository: {repo_data.get('full_name')}")
+        
+        # Create copy of repo data to avoid modifying original
+        scored_repo = repo_data.copy()
+        
+        # Score repository signals
+        repository_result = self._score_repository_signals(scored_repo)
+        repository_score = repository_result.get('total', 0)
+        repository_details = repository_result.get('details', {})
+        
+        # Score organization signals
+        organization_result = self._score_organization_signals(scored_repo)
+        organization_score = organization_result.get('total', 0)
+        organization_details = organization_result.get('details', {})
+        
+        # Score community signals
+        community_result = self._score_community_signals(scored_repo, hn_data)
+        community_score = community_result.get('total', 0)
+        community_details = community_result.get('details', {})
         
         # Calculate total score
-        total_score = repo_score['total'] + org_score['total'] + community_score['total']
+        total_score = repository_score + organization_score + community_score
         
-        # Determine confidence level
-        confidence = self._calculate_confidence_level(total_score)
+        # Determine potential level
+        potential_level = self._get_potential_level(total_score)
         
-        # Compile final results
-        return {
-            'total_score': total_score,
-            'repository_score': repo_score,
-            'organization_score': org_score,
-            'community_score': community_score,
-            'confidence_level': confidence,
-            'repository': repo_data['full_name'],
-            'scored_at': datetime.datetime.now().isoformat()
+        # Add scores to repository data
+        scored_repo['repository_score'] = repository_score
+        scored_repo['organization_score'] = organization_score
+        scored_repo['community_score'] = community_score
+        scored_repo['total_score'] = total_score
+        scored_repo['potential_level'] = potential_level
+        scored_repo['score_details'] = {
+            'repository': repository_details,
+            'organization': organization_details,
+            'community': community_details
         }
         
-    def _score_repository_signals(self, repo_data: Dict[str, Any]) -> Dict[str, Any]:
+        # Generate insights
+        insights = self._generate_insights(
+            scored_repo, 
+            repository_details,
+            organization_details,
+            community_details,
+            total_score
+        )
+        scored_repo['insights'] = insights
+        
+        return scored_repo
+        
+    def _score_repository_signals(self, repo: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Score repository signals for startup potential.
+        Score repository signals (max 20 points).
         
         Args:
-            repo_data: Repository data from GitHubCollector
+            repo: Repository data
             
         Returns:
-            Dictionary with repository score and breakdown
+            Dictionary with total score and details
         """
-        scores = {}
-        params = self.scoring_params.get('repository', {})
+        self.logger.debug(f"Scoring repository signals for: {repo.get('full_name')}")
         
-        # Recent creation (≤90 days)
-        created_at = datetime.datetime.fromisoformat(repo_data['created_at'].replace('Z', '+00:00'))
-        age_days = (datetime.datetime.now().replace(tzinfo=None) - created_at.replace(tzinfo=None)).days
-        repo_age_threshold = self.config.get('github.repo_age_threshold', 90)
+        score = 0
+        details = {}
+        max_points = self.scoring_params.get('repository', {}).get('max_points', 20)
         
-        if age_days <= repo_age_threshold:
-            scores['recent_creation'] = params.get('recent_creation', 3)
-        else:
-            scores['recent_creation'] = 0
+        # Recent creation (0-3 points)
+        recent_creation_score = 0
+        if repo.get('created_at'):
+            created_at = datetime.datetime.fromisoformat(repo.get('created_at').replace('Z', '+00:00'))
+            days_since_creation = (datetime.datetime.now() - created_at).days
             
-        # Professional language (Python/Go/TypeScript/etc)
-        professional_languages = self.config.get('github.language_filter', [
-            'python', 'javascript', 'typescript', 'go', 'rust',
-            'java', 'kotlin', 'swift', 'ruby', 'php'
-        ])
+            if days_since_creation <= 30:
+                recent_creation_score = 3  # Very recent
+            elif days_since_creation <= 90:
+                recent_creation_score = 2  # Recent
+            elif days_since_creation <= 180:
+                recent_creation_score = 1  # Somewhat recent
         
-        if repo_data.get('language') and repo_data['language'].lower() in [l.lower() for l in professional_languages]:
-            scores['professional_language'] = params.get('professional_language', 2)
-        else:
-            scores['professional_language'] = 0
-            
-        # CI/CD setup
-        if repo_data.get('ci_cd_setup'):
-            scores['ci_cd_setup'] = params.get('ci_cd_setup', 2)
-        else:
-            scores['ci_cd_setup'] = 0
-            
-        # Quality documentation
-        readme_score = repo_data.get('readme_quality', {}).get('score', 0)
-        if readme_score >= 1.5:
-            scores['quality_documentation'] = params.get('quality_documentation', 2)
-        elif readme_score >= 1.0:
-            scores['quality_documentation'] = params.get('quality_documentation', 2) * 0.5
-        else:
-            scores['quality_documentation'] = 0
-            
-        # Active development (10+ commits/week)
-        weekly_commits = repo_data.get('commit_activity', {}).get('weekly_commits', 0)
-        if weekly_commits >= 10:
-            scores['active_development'] = params.get('active_development', 3)
-        elif weekly_commits >= 5:
-            scores['active_development'] = params.get('active_development', 3) * 0.5
-        else:
-            scores['active_development'] = 0
-            
-        # External website
-        if repo_data.get('external_website'):
-            scores['external_website'] = params.get('external_website', 2)
-        else:
-            scores['external_website'] = 0
-            
-        # Startup keywords in description
-        description = repo_data.get('description', '').lower() if repo_data.get('description') else ''
-        topics = [t.lower() for t in repo_data.get('topics', [])]
-        
-        keyword_count = 0
-        for keyword in self.startup_keywords:
-            if keyword.lower() in description or keyword.lower() in topics:
-                keyword_count += 1
-                
-        if keyword_count >= 2:
-            scores['startup_keywords'] = params.get('startup_keywords', 3)
-        elif keyword_count == 1:
-            scores['startup_keywords'] = params.get('startup_keywords', 3) * 0.5
-        else:
-            scores['startup_keywords'] = 0
-            
-        # Y Combinator mentions
-        yc_keywords = ['yc ', 'y combinator', 'ycombinator', 'y-combinator', 'w20', 's20', 'w21', 's21', 'w22', 's22', 'w23', 's23']
-        
-        has_yc = False
-        for keyword in yc_keywords:
-            if description and keyword.lower() in description.lower():
-                has_yc = True
-                break
-            for topic in topics:
-                if keyword.lower() in topic:
-                    has_yc = True
-                    break
-                    
-        if has_yc:
-            scores['y_combinator_mentions'] = params.get('y_combinator_mentions', 2)
-        else:
-            scores['y_combinator_mentions'] = 0
-            
-        # Tests present
-        if repo_data.get('has_tests'):
-            scores['tests_present'] = params.get('tests_present', 1)
-        else:
-            scores['tests_present'] = 0
-            
-        # Calculate total repository score
-        total = sum(scores.values())
-        
-        return {
-            'total': total,
-            'max_possible': 20,
-            'percentage': (total / 20) * 100,
-            'breakdown': scores
+        score += recent_creation_score
+        details['recent_creation'] = {
+            'points': recent_creation_score,
+            'reason': f"Repository created {days_since_creation if 'days_since_creation' in locals() else 'unknown'} days ago"
         }
         
-    def _score_organization_signals(self, repo_data: Dict[str, Any]) -> Dict[str, Any]:
+        # Professional language (0-2 points)
+        professional_language_score = 0
+        professional_languages = ['TypeScript', 'Python', 'Go', 'Swift', 'Kotlin', 'Rust', 'JavaScript', 'Java', 'C#', 'C++']
+        
+        language = repo.get('language')
+        if language in professional_languages:
+            professional_language_score = 2
+        elif language:  # Any other language
+            professional_language_score = 1
+        
+        score += professional_language_score
+        details['professional_language'] = {
+            'points': professional_language_score,
+            'reason': f"Using {language}" if language else "No primary language detected"
+        }
+        
+        # CI/CD setup (0-2 points)
+        ci_cd_score = 2 if repo.get('has_ci_cd') else 0
+        score += ci_cd_score
+        details['ci_cd_setup'] = {
+            'points': ci_cd_score,
+            'reason': "CI/CD workflow detected" if ci_cd_score else "No CI/CD setup"
+        }
+        
+        # Quality documentation (0-2 points)
+        readme = repo.get('readme', {})
+        readme_quality_score = min(2, round(readme.get('quality_score', 0) / 2.5))
+        
+        score += readme_quality_score
+        details['quality_documentation'] = {
+            'points': readme_quality_score,
+            'reason': f"README quality score: {readme.get('quality_score', 0)}/5"
+        }
+        
+        # Active development (0-3 points)
+        active_development_score = 0
+        commit_activity = repo.get('commit_activity', {})
+        
+        if commit_activity.get('active_development'):
+            # Very active (several commits in past 7 days)
+            if commit_activity.get('recent_commits', 0) >= 10:
+                active_development_score = 3
+            # Moderately active
+            elif commit_activity.get('recent_commits', 0) >= 5:
+                active_development_score = 2
+            # Somewhat active
+            else:
+                active_development_score = 1
+        
+        score += active_development_score
+        details['active_development'] = {
+            'points': active_development_score,
+            'reason': f"{commit_activity.get('recent_commits', 0)} recent commits"
+        }
+        
+        # External website (0-2 points)
+        website_score = 2 if repo.get('has_website') else 0
+        score += website_score
+        details['external_website'] = {
+            'points': website_score,
+            'reason': "External website found" if website_score else "No external website"
+        }
+        
+        # Startup keywords (0-3 points)
+        startup_keywords_score = self._assess_startup_keywords(repo)
+        score += startup_keywords_score
+        details['startup_keywords'] = {
+            'points': startup_keywords_score,
+            'reason': f"Found {startup_keywords_score} startup-related keywords"
+        }
+        
+        # Accelerator mentions (0-2 points)
+        accelerator_score = self._assess_accelerator_mentions(repo)
+        score += accelerator_score
+        details['accelerator_mentions'] = {
+            'points': accelerator_score,
+            'reason': "Accelerator program mentioned" if accelerator_score else "No accelerator mentions"
+        }
+        
+        # Tests present (0-1 point)
+        tests_score = 1 if repo.get('has_tests') else 0
+        score += tests_score
+        details['tests_present'] = {
+            'points': tests_score,
+            'reason': "Test suite detected" if tests_score else "No tests detected"
+        }
+        
+        # Ensure we don't exceed max points
+        score = min(score, max_points)
+        
+        return {
+            'total': score,
+            'max': max_points,
+            'details': details
+        }
+    
+    def _score_organization_signals(self, repo: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Score organization signals for startup potential.
+        Score organization signals (max 15 points).
         
         Args:
-            repo_data: Repository data from GitHubCollector
+            repo: Repository data
             
         Returns:
-            Dictionary with organization score and breakdown
+            Dictionary with total score and details
         """
-        scores = {}
-        params = self.scoring_params.get('organization', {})
-        org_data = repo_data.get('organization', {})
+        self.logger.debug(f"Scoring organization signals for: {repo.get('full_name')}")
         
-        # If this is not an organization repository, most scores will be 0
-        if not org_data or repo_data['owner']['type'] != 'Organization':
+        score = 0
+        details = {}
+        max_points = self.scoring_params.get('organization', {}).get('max_points', 15)
+        
+        # If no organization, return minimal score
+        if not repo.get('organization'):
             return {
                 'total': 0,
-                'max_possible': 15,
-                'percentage': 0,
-                'breakdown': {
-                    'recent_creation': 0,
-                    'team_size': 0,
-                    'multiple_repos': 0,
-                    'professional_profile': 0,
-                    'organization_website': 0,
-                    'hiring_indicators': 0
-                }
+                'max': max_points,
+                'details': {'no_organization': {'points': 0, 'reason': 'Individual repository, not an organization'}}
             }
-            
-        # Recent org creation
-        try:
-            if org_data.get('created_at'):
-                created_at = datetime.datetime.fromisoformat(org_data['created_at'].replace('Z', '+00:00'))
-                age_days = (datetime.datetime.now().replace(tzinfo=None) - created_at.replace(tzinfo=None)).days
-                
-                if age_days <= 365:  # 1 year
-                    scores['recent_creation'] = params.get('recent_creation', 3)
-                elif age_days <= 730:  # 2 years
-                    scores['recent_creation'] = params.get('recent_creation', 3) * 0.5
-                else:
-                    scores['recent_creation'] = 0
-            else:
-                scores['recent_creation'] = 0
-        except (ValueError, TypeError):
-            scores['recent_creation'] = 0
-            
-        # Team size 2-15 members
-        team_size = org_data.get('team_size', 0)
-        if 2 <= team_size <= 15:
-            scores['team_size'] = params.get('team_size', 3)
-        elif 16 <= team_size <= 30:
-            scores['team_size'] = params.get('team_size', 3) * 0.5
-        else:
-            scores['team_size'] = 0
-            
-        # Multiple repositories
-        public_repos = org_data.get('public_repos', 0)
-        if 2 <= public_repos <= 10:
-            scores['multiple_repos'] = params.get('multiple_repos', 2)
-        elif public_repos > 10:
-            scores['multiple_repos'] = params.get('multiple_repos', 2) * 0.5
-        else:
-            scores['multiple_repos'] = 0
-            
-        # Professional org profile
-        has_name = bool(org_data.get('name'))
-        has_bio = bool(org_data.get('bio'))
-        has_email = bool(org_data.get('email'))
-        has_location = bool(org_data.get('location'))
         
-        profile_completeness = sum([has_name, has_bio, has_email, has_location])
-        if profile_completeness >= 3:
-            scores['professional_profile'] = params.get('professional_profile', 2)
-        elif profile_completeness >= 2:
-            scores['professional_profile'] = params.get('professional_profile', 2) * 0.5
-        else:
-            scores['professional_profile'] = 0
-            
-        # Organization website
-        if org_data.get('blog') or org_data.get('has_website'):
-            scores['organization_website'] = params.get('organization_website', 2)
-        else:
-            scores['organization_website'] = 0
-            
-        # Hiring indicators
-        if org_data.get('hiring_indicators'):
-            scores['hiring_indicators'] = params.get('hiring_indicators', 3)
-        else:
-            scores['hiring_indicators'] = 0
-            
-        # Calculate total organization score
-        total = sum(scores.values())
+        org_details = repo.get('org_details', {})
         
-        return {
-            'total': total,
-            'max_possible': 15,
-            'percentage': (total / 15) * 100,
-            'breakdown': scores
+        # Recent organization creation (0-3 points)
+        recent_creation_score = 0
+        if org_details.get('recent_creation'):
+            recent_creation_score = 3
+        elif org_details.get('created_at'):
+            created_at = datetime.datetime.fromisoformat(org_details.get('created_at').replace('Z', '+00:00'))
+            days_since_creation = (datetime.datetime.now() - created_at).days
+            
+            if days_since_creation <= 365:  # Within a year
+                recent_creation_score = 2
+            elif days_since_creation <= 730:  # Within two years
+                recent_creation_score = 1
+        
+        score += recent_creation_score
+        details['recent_creation'] = {
+            'points': recent_creation_score,
+            'reason': "Organization recently created" if recent_creation_score else "Established organization"
         }
         
+        # Team size (0-3 points)
+        team_size_score = 0
+        team_size = org_details.get('total_members', 0)
+        
+        if team_size >= 5:
+            team_size_score = 3  # Good size for a startup
+        elif team_size >= 3:
+            team_size_score = 2  # Small team
+        elif team_size >= 1:
+            team_size_score = 1  # Solo founder or very small
+        
+        score += team_size_score
+        details['team_size'] = {
+            'points': team_size_score,
+            'reason': f"Organization has {team_size} members"
+        }
+        
+        # Multiple repositories (0-2 points)
+        multiple_repos_score = 0
+        public_repos = org_details.get('public_repos', 0)
+        
+        if public_repos >= 5:
+            multiple_repos_score = 2  # Very active organization
+        elif public_repos >= 2:
+            multiple_repos_score = 1  # Multiple projects
+        
+        score += multiple_repos_score
+        details['multiple_repos'] = {
+            'points': multiple_repos_score,
+            'reason': f"Organization has {public_repos} public repositories"
+        }
+        
+        # Professional profile (0-2 points)
+        professional_profile_score = 0
+        
+        # Check for description and contact info
+        if org_details.get('description'):
+            professional_profile_score += 1
+        
+        # Check for social media presence
+        if org_details.get('twitter_username') or org_details.get('blog') or org_details.get('email'):
+            professional_profile_score += 1
+        
+        score += professional_profile_score
+        details['professional_profile'] = {
+            'points': professional_profile_score,
+            'reason': "Complete organization profile" if professional_profile_score == 2 else 
+                    "Partial organization profile" if professional_profile_score == 1 else
+                    "Minimal organization profile"
+        }
+        
+        # Website (0-2 points)
+        website_score = 2 if org_details.get('has_website') else 0
+        score += website_score
+        details['website'] = {
+            'points': website_score,
+            'reason': "Organization has website" if website_score else "No organization website"
+        }
+        
+        # Hiring indicators (0-3 points)
+        hiring_score = 0
+        
+        # Direct hiring indicator
+        if org_details.get('hiring_indicators'):
+            hiring_score = 3
+        # Recent commits might indicate active hiring
+        elif repo.get('commit_activity', {}).get('active_development'):
+            hiring_score = 1
+        
+        score += hiring_score
+        details['hiring_indicators'] = {
+            'points': hiring_score,
+            'reason': "Organization is actively hiring" if hiring_score == 3 else
+                    "Some hiring activity detected" if hiring_score == 1 else
+                    "No hiring indicators"
+        }
+        
+        # Ensure we don't exceed max points
+        score = min(score, max_points)
+        
+        return {
+            'total': score,
+            'max': max_points,
+            'details': details
+        }
+    
     def _score_community_signals(
         self,
-        repo_data: Dict[str, Any],
+        repo: Dict[str, Any],
         hn_data: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """
-        Score community signals for startup potential.
+        Score community signals (max 15 points).
         
         Args:
-            repo_data: Repository data from GitHubCollector
-            hn_data: Hacker News data related to the repository (optional)
+            repo: Repository data
+            hn_data: Hacker News discussion data (optional)
             
         Returns:
-            Dictionary with community score and breakdown
+            Dictionary with total score and details
         """
-        scores = {}
-        params = self.scoring_params.get('community', {})
+        self.logger.debug(f"Scoring community signals for: {repo.get('full_name')}")
         
-        # Hacker News discussion
+        score = 0
+        details = {}
+        max_points = self.scoring_params.get('community', {}).get('max_points', 15)
+        
+        # Hacker News discussion (0-5 points)
+        hn_score = 0
+        hn_reason = "No Hacker News discussion found"
+        
         if hn_data:
-            hn_score = hn_data.get('hn_score', 0)
-            comment_count = hn_data.get('comment_count', 0)
+            points = hn_data.get('points', 0)
+            comments = hn_data.get('comments', 0)
             
-            # Scale HN score based on points and comments
-            scaled_score = min(5, (hn_score / 30) * params.get('hacker_news_discussion', 5))
-            scores['hacker_news_discussion'] = scaled_score
-        else:
-            scores['hacker_news_discussion'] = 0
+            if points >= 100 or comments >= 50:
+                hn_score = 5  # Substantial discussion
+            elif points >= 50 or comments >= 25:
+                hn_score = 3  # Moderate discussion
+            elif points > 0 or comments > 0:
+                hn_score = 1  # Some discussion
             
-        # Rapid star growth
-        stars = repo_data.get('stargazers_count', 0)
-        age_days = (datetime.datetime.now().replace(tzinfo=None) - 
-                  datetime.datetime.fromisoformat(repo_data['created_at'].replace('Z', '+00:00')).replace(tzinfo=None)).days
+            hn_reason = f"HN post with {points} points and {comments} comments"
         
-        # Calculate stars per day
-        stars_per_day = stars / max(1, age_days)
-        
-        # Score based on stars per day
-        if stars_per_day >= 2.0:
-            scores['star_growth'] = params.get('star_growth', 3)
-        elif stars_per_day >= 1.0:
-            scores['star_growth'] = params.get('star_growth', 3) * 0.66
-        elif stars_per_day >= 0.5:
-            scores['star_growth'] = params.get('star_growth', 3) * 0.33
-        else:
-            scores['star_growth'] = 0
-            
-        # External contributors
-        external_count = repo_data.get('contributors', {}).get('external_count', 0)
-        if external_count >= 3:
-            scores['external_contributors'] = params.get('external_contributors', 2)
-        elif external_count >= 1:
-            scores['external_contributors'] = params.get('external_contributors', 2) * 0.5
-        else:
-            scores['external_contributors'] = 0
-            
-        # Issue engagement
-        issue_count = repo_data.get('open_issues_count', 0)
-        if issue_count >= 5:
-            scores['issue_engagement'] = params.get('issue_engagement', 2)
-        elif issue_count >= 2:
-            scores['issue_engagement'] = params.get('issue_engagement', 2) * 0.5
-        else:
-            scores['issue_engagement'] = 0
-            
-        # Fork activity
-        fork_count = repo_data.get('forks_count', 0)
-        if fork_count >= 3:
-            scores['fork_activity'] = params.get('fork_activity', 2)
-        elif fork_count >= 1:
-            scores['fork_activity'] = params.get('fork_activity', 2) * 0.5
-        else:
-            scores['fork_activity'] = 0
-            
-        # Social mentions (simplified, would be more comprehensive in a production system)
-        # For now, we'll consider topics like "trending" as an indicator
-        topics = [t.lower() for t in repo_data.get('topics', [])]
-        social_topics = ['trending', 'popular', 'featured', 'producthunt']
-        
-        has_social_mentions = any(topic in topics for topic in social_topics)
-        if has_social_mentions:
-            scores['social_mentions'] = params.get('social_mentions', 1)
-        else:
-            scores['social_mentions'] = 0
-            
-        # Calculate total community score
-        total = sum(scores.values())
-        
-        return {
-            'total': total,
-            'max_possible': 15,
-            'percentage': (total / 15) * 100,
-            'breakdown': scores
+        score += hn_score
+        details['hn_discussion'] = {
+            'points': hn_score,
+            'reason': hn_reason
         }
         
-    def _calculate_confidence_level(self, total_score: float) -> str:
-        """
-        Calculate confidence level based on total score.
+        # Star growth (0-3 points)
+        star_growth_score = 0
+        stars = repo.get('stars', 0)
         
-        Args:
-            total_score: The total score (0-50)
-            
-        Returns:
-            Confidence level string: 'high', 'medium', or 'low'
-        """
-        if total_score >= 35:  # 70% or higher
-            return 'high'
-        elif total_score >= 25:  # 50% or higher
-            return 'medium'
+        if stars >= 100:
+            star_growth_score = 3  # High traction
+        elif stars >= 50:
+            star_growth_score = 2  # Good traction
+        elif stars >= 10:
+            star_growth_score = 1  # Some traction
+        
+        score += star_growth_score
+        details['star_growth'] = {
+            'points': star_growth_score,
+            'reason': f"{stars} stars on GitHub"
+        }
+        
+        # External contributors (0-2 points)
+        contributors_score = 0
+        external_contributors = repo.get('contributors', {}).get('external_contributors', 0)
+        
+        if external_contributors >= 5:
+            contributors_score = 2  # Significant outside contribution
+        elif external_contributors >= 1:
+            contributors_score = 1  # Some outside contribution
+        
+        score += contributors_score
+        details['external_contributors'] = {
+            'points': contributors_score,
+            'reason': f"{external_contributors} external contributors"
+        }
+        
+        # Issue engagement (0-2 points)
+        issue_score = 0
+        open_issues = repo.get('open_issues', 0)
+        
+        # We don't have closed issues data, so this is an approximation
+        if open_issues >= 10:
+            issue_score = 2  # Active issue tracker
+        elif open_issues >= 5:
+            issue_score = 1  # Some issue activity
+        
+        score += issue_score
+        details['issue_engagement'] = {
+            'points': issue_score,
+            'reason': f"{open_issues} open issues"
+        }
+        
+        # Fork activity (0-2 points)
+        fork_score = 0
+        forks = repo.get('forks', 0)
+        
+        if forks >= 10:
+            fork_score = 2  # Significant fork activity
+        elif forks >= 5:
+            fork_score = 1  # Some fork activity
+        
+        score += fork_score
+        details['fork_activity'] = {
+            'points': fork_score,
+            'reason': f"{forks} forks"
+        }
+        
+        # Social mentions / Product Hunt (0-1 point)
+        # This is a placeholder since we don't have actual Product Hunt data
+        product_hunt_data = repo.get('product_hunt_data', None)
+        
+        # Product Hunt signals (1 point)
+        ph_score = 0
+        if product_hunt_data:
+            ph_score = 1  # Basic implementation
+        score += ph_score
+        details['product_hunt'] = {'points': ph_score, 'reason': 'Product Hunt presence detected' if ph_score else 'No Product Hunt data'}
+        
+        return {
+            'total': score,
+            'max': max_points,
+            'details': details
+        }
+    
+    def _assess_startup_keywords(self, repo: Dict[str, Any]) -> int:
+        """Assess startup keyword relevance (0-3 points)."""
+        description = (repo.get('description') or '').lower()
+        topics = ' '.join(repo.get('topics', [])).lower()
+        text = f"{description} {topics}"
+        
+        matches = sum(1 for keyword in self.startup_keywords if keyword in text)
+        
+        if matches >= 3:
+            return 3
+        elif matches >= 2:
+            return 2
+        elif matches >= 1:
+            return 1
+        return 0
+    
+    def _assess_accelerator_mentions(self, repo: Dict[str, Any]) -> int:
+        """Check for accelerator mentions (0-2 points)."""
+        description = (repo.get('description') or '').lower()
+        readme_content = (repo.get('readme', {}).get('content') or '').lower()
+        text = f"{description} {readme_content}"
+        
+        for keyword in self.accelerator_keywords:
+            if keyword in text:
+                return 2
+        return 0
+    
+    def _get_potential_level(self, score: int) -> str:
+        """Determine potential level based on score."""
+        if score >= 35:
+            return "🚀 HIGH POTENTIAL"
+        elif score >= 25:
+            return "📈 WORTH WATCHING"
+        elif score >= 15:
+            return "🔍 EARLY STAGE"
         else:
-            return 'low'
+            return "⚠️ LOW POTENTIAL"
+    
+    def _generate_insights(self, repo: Dict, repo_details: Dict, org_details: Dict, community_details: Dict, total_score: int) -> Dict:
+        """Generate actionable insights."""
+        strengths = []
+        concerns = []
         
+        # Analyze strengths
+        if repo_details.get('active_development', {}).get('points', 0) >= 2:
+            strengths.append("Active development")
+        if org_details.get('team_size', {}).get('points', 0) >= 2:
+            strengths.append("Good team size")
+        if community_details.get('star_growth', {}).get('points', 0) >= 2:
+            strengths.append("Strong traction")
+        if repo_details.get('quality_documentation', {}).get('points', 0) >= 2:
+            strengths.append("Well-documented")
+        if repo_details.get('startup_keywords', {}).get('points', 0) >= 2:
+            strengths.append("Clear startup focus")
+        if org_details.get('hiring_indicators', {}).get('points', 0) >= 2:
+            strengths.append("Actively hiring")
+        if community_details.get('external_contributors', {}).get('points', 0) >= 1:
+            strengths.append("Community involvement")
+        if repo_details.get('ci_cd_setup', {}).get('points', 0) >= 1:
+            strengths.append("Professional development setup")
+            
+        # Analyze concerns
+        if not repo.get('has_website'):
+            concerns.append("No external website")
+        if repo.get('contributors', {}).get('external_contributors', 0) == 0:
+            concerns.append("No external contributors")
+        if repo_details.get('tests_present', {}).get('points', 0) == 0:
+            concerns.append("No test suite detected")
+        if org_details.get('team_size', {}).get('points', 0) == 0 and repo.get('organization'):
+            concerns.append("Small team size")
+        
+        # Generate investment readiness assessment
+        if total_score >= 35:
+            investment_readiness = "High"
+            summary = f"Promising startup with strong signals ({total_score}/50 points)"
+        elif total_score >= 25:
+            investment_readiness = "Medium"
+            summary = f"Emerging startup showing potential ({total_score}/50 points)"
+        else:
+            investment_readiness = "Low"
+            summary = f"Early project with limited startup signals ({total_score}/50 points)"
+        
+        return {
+            'strengths': strengths,
+            'concerns': concerns,
+            'summary': summary,
+            'investment_readiness': investment_readiness
+        }
+    
     def score_repositories(self) -> List[Dict[str, Any]]:
         """
-        Score all repositories for startup potential.
+        Score all repositories.
         
         Returns:
-            List of repositories with their scores and breakdowns
+            List of repositories with scores and insights
         """
-        self.logger.info(f"Scoring {len(self.repositories)} repositories for startup potential")
+        self.logger.info(f"Scoring {len(self.repositories)} repositories")
         
         scored_repos = []
+        
         for repo in self.repositories:
-            # Find related HN discussions for this repo
-            repo_url = repo.get('url', '')
-            related_hn = next(
-                (hn for hn in self.hn_discussions if repo_url in hn.get('urls', [])), 
-                None
-            )
+            # Find matching HN discussion if any
+            hn_data = None
+            for hn in self.hn_discussions:
+                if hn.get('github_repo') == repo.get('full_name'):
+                    hn_data = hn
+                    break
             
-            # Score the repository
-            scored_repo = self.score_repository(repo, related_hn)
+            # Score repository
+            scored_repo = self.score_repository(repo, hn_data)
             scored_repos.append(scored_repo)
-            
-        self.logger.info(f"Completed scoring {len(scored_repos)} repositories")
+        
+        # Sort by score
+        scored_repos = sorted(scored_repos, key=lambda r: r.get('total_score', 0), reverse=True)
+        
+        self.logger.info(f"Scored {len(scored_repos)} repositories")
         return scored_repos
