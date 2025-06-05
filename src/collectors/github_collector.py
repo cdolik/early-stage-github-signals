@@ -1,13 +1,19 @@
 """
 GitHub data collector for the Early Stage GitHub Signals platform.
 """
+import os
+import base64
 import datetime
 import time
+import re
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 import requests
 from github import Github, GithubException, RateLimitExceededException
 from github.Repository import Repository
 from github.Organization import Organization
+
+from .base_collector import BaseCollector
+from ..utils import format_date, parse_date, rate_limited_request
 
 from .base_collector import BaseCollector
 from ..utils import format_date, parse_date, rate_limited_request
@@ -23,22 +29,35 @@ class GitHubCollector(BaseCollector):
         Initialize the GitHub collector.
         
         Args:
-            config: Configuration manager
-            cache: Cache manager
+            config: Configuration manager (optional)
+            cache: Cache manager (optional)
         """
         super().__init__(config, cache)
-        # Get GitHub API token from config
-        self.api_token = self.config.get('github.access_token')
-        if not self.api_token:
-            self.logger.warning("No GitHub API token found. Rate limits will be restricted.")
-            
-        # Initialize the GitHub client
-        self.client = Github(self.api_token)
+        
+        # Get GitHub configuration
+        self.base_url = self.config.get('github.base_url', 'https://api.github.com')
+        self.token = os.environ.get('GITHUB_TOKEN')
+        
+        if not self.token:
+            self.logger.warning("GITHUB_TOKEN not found in environment variables")
+        
+        # Initialize GitHub API client
+        self.github = Github(self.token)
+        
+        # Track API call statistics
+        self.api_calls = 0
+        self.last_rate_limit_check = 0
+        
+        # Keywords for startup potential
+        self.startup_keywords = self.config.get('startup_keywords', [])
+        
+        # Languages to focus on
+        self.languages = self.config.get('github.languages', [])
+        
+        # Initialize session for direct API calls
         self.session = requests.Session()
-        if self.api_token:
-            self.session.headers.update({
-                'Authorization': f'token {self.api_token}'
-            })
+        if self.token:
+            self.session.headers.update({'Authorization': f'token {self.token}'})
         
     def get_name(self) -> str:
         """
@@ -51,72 +70,63 @@ class GitHubCollector(BaseCollector):
         
     def collect(self, **kwargs: Any) -> List[Dict[str, Any]]:
         """
-        Collect trending GitHub repositories based on configuration.
-        
-        This is the main entry point that collects repositories matching
-        our criteria for startup potential.
+        Collect GitHub repository data.
         
         Args:
-            **kwargs: Optional parameters to override config settings:
-                - days: Number of days to look back (default from config)
-                - min_stars: Minimum stars (default from config)
-                - languages: List of languages to filter by (default from config)
-                
+            date_threshold: Only consider repositories created after this date
+            min_stars: Minimum number of stars for repositories
+            max_repos: Maximum number of repositories to collect
+            language: Optional specific language to filter by
+            
         Returns:
-            List of repository data dictionaries with all needed information
+            List of repositories with basic and enriched data
         """
-        # Get parameters from kwargs or config
-        days = kwargs.get('days', self.config.get('github.trending_days', 7))
-        min_stars = kwargs.get('min_stars', self.config.get('github.min_stars', 5))
-        languages = kwargs.get('languages', self.config.get('github.language_filter', []))
-        max_repos = self.config.get('github.max_repos_to_analyze', 250)
+        self.logger.info("Collecting GitHub repositories...")
         
-        # Calculate the date threshold for "recent" repositories
-        date_threshold = datetime.datetime.now() - datetime.timedelta(days=days)
-        self.logger.info(f"Collecting trending GitHub repositories created after {date_threshold.strftime('%Y-%m-%d')}")
+        # Extract parameters
+        date_threshold = kwargs.get('date_threshold')
+        min_stars = kwargs.get('min_stars', 5)
+        max_repos = kwargs.get('max_repos', 100)
+        language = kwargs.get('language')
         
-        repositories = []
+        # If no specific language provided, use all configured languages
+        languages_to_check = [language] if language else self.languages
         
-        # Collect repositories for each language
-        if languages:
-            for language in languages:
-                self.logger.info(f"Collecting repositories for language: {language}")
-                language_repos = self._collect_trending_repos(
-                    language=language,
-                    date_threshold=date_threshold,
-                    min_stars=min_stars
-                )
-                repositories.extend(language_repos)
-                
-                # Respect rate limits
-                if len(repositories) >= max_repos:
-                    break
-        else:
-            # If no languages specified, collect general trending repos
-            repositories = self._collect_trending_repos(
+        all_repos = []
+        
+        # Check each language
+        for lang in languages_to_check:
+            self.logger.info(f"Collecting repositories for language: {lang or 'Any'}")
+            
+            # Collect repositories for this language
+            repos = self._collect_trending_repos(
+                language=lang,
                 date_threshold=date_threshold,
-                min_stars=min_stars
+                min_stars=min_stars,
+                max_repos=max_repos
             )
+            
+            all_repos.extend(repos)
+            
+            # Don't exceed max repos
+            if len(all_repos) >= max_repos:
+                self.logger.info(f"Reached maximum repositories limit ({max_repos})")
+                all_repos = all_repos[:max_repos]
+                break
         
-        # Limit the number of repositories to analyze
-        repositories = repositories[:max_repos]
-        
-        # Enrich repository data with additional details
+        # Enrich repositories with additional data
         enriched_repos = []
-        for repo_data in repositories:
+        for repo_data in all_repos:
             try:
-                # Get detailed information for scoring
-                detailed_repo = self._enrich_repository_data(repo_data)
-                enriched_repos.append(detailed_repo)
-                # Sleep briefly to avoid hammering the API
-                time.sleep(0.5)
+                enriched_repo = self._enrich_repository_data(repo_data)
+                enriched_repos.append(enriched_repo)
             except Exception as e:
-                self.logger.warning(f"Error enriching repository {repo_data.get('full_name')}: {str(e)}")
-                enriched_repos.append(repo_data)  # Add the basic data anyway
+                self.logger.error(f"Error enriching repository {repo_data.get('full_name')}: {str(e)}")
         
-        self.logger.info(f"Collected {len(enriched_repos)} repositories")
+        self.logger.info(f"Collected {len(enriched_repos)} repositories with {self.api_calls} API calls")
+        
         return enriched_repos
-        
+    
     def _collect_trending_repos(
         self,
         language: Optional[str] = None,
@@ -125,116 +135,98 @@ class GitHubCollector(BaseCollector):
         max_repos: int = 100
     ) -> List[Dict[str, Any]]:
         """
-        Collect trending repositories with the GitHub search API.
+        Collect trending repositories based on criteria.
         
         Args:
-            language: Programming language filter (optional)
-            date_threshold: Date threshold as datetime object
-            min_stars: Minimum number of stars
+            language: Filter by programming language
+            date_threshold: Only consider repositories created after this date
+            min_stars: Minimum number of stars for repositories
             max_repos: Maximum number of repositories to collect
             
         Returns:
-            List of basic repository data
+            List of repositories with basic data
         """
-        # Construct the search query
-        if date_threshold is None:
-            date_threshold = datetime.datetime.now() - datetime.timedelta(days=7)
-            
-        formatted_date = date_threshold.strftime('%Y-%m-%d')
+        repositories = []
         
-        query_parts = [
-            f"created:>={formatted_date}",
-            f"stars:>={min_stars}"
-        ]
+        # Prepare date filter
+        date_query = ""
+        if date_threshold:
+            date_str = format_date(date_threshold)
+            date_query = f" created:>{date_str}"
         
+        # Prepare language filter
+        lang_query = ""
         if language:
-            query_parts.append(f"language:{language}")
-            
-        query = " ".join(query_parts)
+            lang_query = f" language:{language}"
+        
+        # Prepare stars filter
+        stars_query = f" stars:>={min_stars}"
+        
+        # Build query
+        query = f"is:public{date_query}{lang_query}{stars_query}"
         
         try:
-            # Search for repositories
-            repositories = []
-            page = 1
-            per_page = 100  # GitHub API maximum
+            # Execute search query
+            self.logger.debug(f"Executing GitHub search: {query}")
+            search_results = self.github.search_repositories(query, sort="stars", order="desc")
+            self.api_calls += 1
             
-            while len(repositories) < max_repos:
-                # Check rate limits
-                if self._check_rate_limits():
-                    # Search for repositories
-                    results = self.client.search_repositories(
-                        query=query,
-                        sort="stars",
-                        order="desc",
-                        page=page,
-                        per_page=per_page
-                    )
-                    
-                    # No more results
-                    if results.totalCount == 0 or page * per_page >= results.totalCount:
-                        break
-                        
-                    # Process the results
-                    for repo in results:
-                        if len(repositories) >= max_repos:
-                            break
-                            
-                        # Extract basic repository information
-                        repo_data = self._extract_basic_repo_data(repo)
-                        repositories.append(repo_data)
-                        
-                    page += 1
-                    
-                # If we've reached the limit, break to avoid unnecessary API calls
-                if len(repositories) >= max_repos:
+            # Process results
+            count = 0
+            for repo in search_results:
+                if count >= max_repos:
                     break
-                    
-            return repositories
+                
+                # Extract basic repository data
+                repo_data = self._extract_basic_repo_data(repo)
+                repositories.append(repo_data)
+                count += 1
+                
+                # Check rate limits periodically
+                if count % 10 == 0:
+                    if not self._check_rate_limits():
+                        self.logger.warning("Rate limit reached, pausing collection")
+                        break
+            
+            self.logger.info(f"Collected {len(repositories)} repositories matching query: {query}")
             
         except RateLimitExceededException:
-            self.logger.error("GitHub API rate limit exceeded. Try again later or use an API token.")
-            return []
+            self.logger.error("GitHub API rate limit exceeded")
+            self._check_rate_limits(force=True)
         except GithubException as e:
-            self.logger.error(f"GitHub API error: {e}")
-            return []
+            self.logger.error(f"GitHub API error: {str(e)}")
+        except Exception as e:
+            self.logger.error(f"Error collecting repositories: {str(e)}")
+        
+        return repositories
             
     def _extract_basic_repo_data(self, repo: Repository) -> Dict[str, Any]:
         """
-        Extract basic data from a GitHub Repository object.
+        Extract basic data from a repository object.
         
         Args:
-            repo: The GitHub Repository object
+            repo: GitHub Repository object
             
         Returns:
             Dictionary with basic repository data
         """
+        # Extract basic repository data
         return {
-            'id': repo.id,
-            'full_name': repo.full_name,
-            'name': repo.name,
-            'owner': {
-                'login': repo.owner.login,
-                'type': repo.owner.type,
-                'id': repo.owner.id,
-                'url': repo.owner.html_url,
-            },
-            'html_url': repo.html_url,
-            'description': repo.description,
-            'created_at': repo.created_at.isoformat(),
-            'updated_at': repo.updated_at.isoformat(),
-            'pushed_at': repo.pushed_at.isoformat() if repo.pushed_at else None,
-            'language': repo.language,
-            'stargazers_count': repo.stargazers_count,
-            'watchers_count': repo.watchers_count,
-            'forks_count': repo.forks_count,
-            'open_issues_count': repo.open_issues_count,
-            'topics': repo.topics,
-            'has_wiki': repo.has_wiki,
-            'has_pages': repo.has_pages,
-            'has_projects': repo.has_projects,
-            'has_downloads': repo.has_downloads,
-            'license': repo.license.name if repo.license else None,
-            'default_branch': repo.default_branch,
+            "id": repo.id,
+            "name": repo.name,
+            "full_name": repo.full_name,
+            "url": repo.html_url,
+            "api_url": repo.url,
+            "description": repo.description,
+            "created_at": repo.created_at.isoformat() if repo.created_at else None,
+            "updated_at": repo.updated_at.isoformat() if repo.updated_at else None,
+            "language": repo.language,
+            "topics": list(repo.get_topics()),
+            "stars": repo.stargazers_count,
+            "forks": repo.forks_count,
+            "watchers": repo.subscribers_count,
+            "open_issues": repo.open_issues_count,
+            "organization": repo.organization.login if repo.organization else None
         }
         
     def _enrich_repository_data(self, repo_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -242,119 +234,87 @@ class GitHubCollector(BaseCollector):
         Enrich repository data with additional information.
         
         Args:
-            repo_data: Basic repository data dictionary
+            repo_data: Basic repository data
             
         Returns:
-            Enriched repository data dictionary
+            Dictionary with enriched repository data
         """
-        self.logger.debug(f"Enriching data for repository: {repo_data['full_name']}")
-        
-        # Try to get data from cache first
-        cache_key = f"repo_{repo_data['id']}_details"
-        cached_data = self.cache.get(cache_key) if self.cache else None
-        
-        if cached_data:
-            self.logger.debug(f"Found cached data for {repo_data['full_name']}")
-            return cached_data
+        self.logger.debug(f"Enriching repository: {repo_data.get('full_name')}")
         
         try:
-            # Get the full repository object
-            repo = self.client.get_repo(repo_data['full_name'])
+            # Get repository object
+            repo = self.github.get_repo(repo_data.get('full_name'))
+            self.api_calls += 1
             
-            # Check rate limits before making additional API calls
-            if not self._check_rate_limits():
-                # Return the basic data without enrichment
-                return repo_data
+            # Get detailed repository data
+            details = self.get_repository_details(repo)
+            repo_data.update(details)
             
-            # Enrich with additional data
-            enriched_data = repo_data.copy()
-            
-            # Check for CI/CD setup
-            enriched_data['ci_cd_setup'] = self._has_ci_cd_setup(repo)
-            
-            # Check for tests
-            enriched_data['has_tests'] = self._has_tests(repo)
-            
-            # Get readme quality
-            enriched_data['readme_quality'] = self._get_readme_quality(repo)
-            
-            # Get recent commit activity
-            enriched_data['commit_activity'] = self._get_commit_activity(repo)
-            
-            # Get external website
-            enriched_data['external_website'] = self._get_external_website(repo, repo_data)
-            
-            # Get organization data if applicable
-            if repo_data['owner']['type'] == 'Organization':
-                enriched_data['organization'] = self._get_organization_data(repo.owner.login)
-            else:
-                enriched_data['organization'] = None
+            # Get organization data if available
+            org_name = repo_data.get('organization')
+            if org_name:
+                try:
+                    org_data = self._get_organization_data(org_name)
+                    repo_data['org_details'] = org_data
+                except Exception as e:
+                    self.logger.error(f"Error getting organization data for {org_name}: {str(e)}")
             
             # Get contributor data
-            enriched_data['contributors'] = self._get_contributor_data(repo)
-                
-            # Get repository details
-            repo_details = self.get_repository_details(repo)
-            if repo_details:
-                enriched_data.update(repo_details)
-                
-            # Cache the enriched data
-            if self.cache:
-                self.cache.set(cache_key, enriched_data, expire=86400)  # Cache for 24 hours
-                
-            return enriched_data
+            try:
+                contributor_data = self._get_contributor_data(repo)
+                repo_data['contributors'] = contributor_data
+            except Exception as e:
+                self.logger.error(f"Error getting contributor data for {repo_data.get('full_name')}: {str(e)}")
             
+            return repo_data
+        
         except RateLimitExceededException:
-            self.logger.warning(f"GitHub API rate limit exceeded during enrichment of {repo_data['full_name']}")
-            return repo_data
+            self.logger.error("GitHub API rate limit exceeded")
+            self._check_rate_limits(force=True)
+            raise
         except GithubException as e:
-            self.logger.warning(f"GitHub API error during enrichment of {repo_data['full_name']}: {e}")
-            return repo_data
+            self.logger.error(f"GitHub API error: {str(e)}")
+            raise
         except Exception as e:
-            self.logger.error(f"Error enriching data for {repo_data['full_name']}: {e}")
-            return repo_data
-            
+            self.logger.error(f"Error enriching repository {repo_data.get('full_name')}: {str(e)}")
+            raise
+        
     def get_repository_details(self, repo: Repository) -> Dict[str, Any]:
         """
         Get detailed information about a repository.
-
+        
         Args:
             repo: GitHub Repository object
-
+            
         Returns:
-            Dictionary with detailed repository information
+            Dictionary with repository details
         """
-        try:
-            # Extract additional details
-            details = {
-                'watchers_count': repo.watchers_count,
-                'network_count': repo.network_count,
-                'subscribers_count': repo.subscribers_count,
-                'is_fork': repo.fork,
-                'parent': repo.parent.full_name if repo.fork and repo.parent else None,
-                'source': repo.source.full_name if repo.source else None,
-                'has_issues': repo.has_issues,
-                'has_projects': repo.has_projects,
-                'has_downloads': repo.has_downloads,
-                'has_wiki': repo.has_wiki,
-                'has_pages': repo.has_pages,
-                'archived': repo.archived,
-                'disabled': repo.disabled,
-                'visibility': repo.visibility,
-            }
-
-            return details
-        except GithubException as e:
-            self.logger.warning(f"Error fetching repository details for {repo.full_name}: {e}")
-            return {}
-        except Exception as e:
-            self.logger.error(f"Unexpected error fetching repository details for {repo.full_name}: {e}")
-            return {}
-    
+        details = {}
         
+        # Check for CI/CD setup
+        details['has_ci_cd'] = self._has_ci_cd_setup(repo)
+        
+        # Check for tests
+        details['has_tests'] = self._has_tests(repo)
+        
+        # Get README quality assessment
+        readme = self._get_readme_quality(repo)
+        details['readme'] = readme
+        
+        # Get commit activity
+        commit_activity = self._get_commit_activity(repo)
+        details['commit_activity'] = commit_activity
+        
+        # Check if repo has external website
+        website_url = self._get_external_website(repo, details)
+        details['website_url'] = website_url
+        details['has_website'] = bool(website_url)
+        
+        return details
+    
     def _has_ci_cd_setup(self, repo: Repository) -> bool:
         """
-        Check if a repository has CI/CD setup.
+        Check if repository has CI/CD setup.
         
         Args:
             repo: GitHub Repository object
@@ -362,39 +322,47 @@ class GitHubCollector(BaseCollector):
         Returns:
             True if CI/CD setup found, False otherwise
         """
-        # Check for common CI/CD configuration files
-        ci_files = [
-            '.github/workflows',
-            '.travis.yml',
-            'circle.yml', '.circleci/config.yml',
-            'Jenkinsfile',
-            '.gitlab-ci.yml',
-            'azure-pipelines.yml',
-            '.drone.yml',
-            'appveyor.yml',
-            '.github/actions'
-        ]
-        
         try:
-            for file_path in ci_files:
-                try:
-                    # Try to get the content of the file or directory listing
-                    repo.get_contents(file_path)
-                    # If no exception, file exists
+            # Check for GitHub Actions workflows
+            try:
+                workflows_dir = repo.get_contents(".github/workflows")
+                if workflows_dir and len(workflows_dir) > 0:
                     return True
-                except GithubException:
-                    # File does not exist, try next
-                    continue
+            except GithubException:
+                pass
             
-            # No CI/CD files found
+            # Check for Travis CI
+            try:
+                travis_file = repo.get_contents(".travis.yml")
+                if travis_file:
+                    return True
+            except GithubException:
+                pass
+            
+            # Check for CircleCI
+            try:
+                circle_file = repo.get_contents(".circleci/config.yml")
+                if circle_file:
+                    return True
+            except GithubException:
+                pass
+            
+            # Check for Jenkins
+            try:
+                jenkins_file = repo.get_contents("Jenkinsfile")
+                if jenkins_file:
+                    return True
+            except GithubException:
+                pass
+            
             return False
-        except GithubException:
-            # Error accessing repository contents
+        except Exception as e:
+            self.logger.error(f"Error checking CI/CD setup: {str(e)}")
             return False
             
     def _has_tests(self, repo: Repository) -> bool:
         """
-        Check if a repository has test files.
+        Check if repository has tests.
         
         Args:
             repo: GitHub Repository object
@@ -402,178 +370,206 @@ class GitHubCollector(BaseCollector):
         Returns:
             True if tests found, False otherwise
         """
-        # Check for common test directories and files
-        test_paths = [
-            'test', 'tests', 'Test', 'Tests',
-            'spec', 'specs', 'Spec', 'Specs',
-            '__tests__', '__test__',
-            'test.py', 'test.js', 'test.ts', 'test.go',
-            'test.java', 'test.rb', 'test.php'
-        ]
-        
         try:
-            # Get top level contents
-            contents = repo.get_contents("")
-            
-            for content in contents:
-                if content.type == "dir" and content.name.lower() in [p.lower() for p in test_paths]:
-                    return True
-                elif content.name.lower() in [p.lower() for p in test_paths]:
-                    return True
-            
-            # Check if there are files with "test" in the name
-            search_url = f"https://api.github.com/search/code?q=test+in:path+repo:{repo.full_name}"
-            response = rate_limited_request(
-                self.session.get,
-                url=search_url,
-                headers={'Accept': 'application/vnd.github.v3+json'}
-            )
-            
-            if response.status_code == 200:
-                data = response.json()
-                if data.get('total_count', 0) > 0:
-                    return True
+            # Check common test directories
+            test_dirs = ["test", "tests", "spec", "specs"]
+            for test_dir in test_dirs:
+                try:
+                    test_contents = repo.get_contents(test_dir)
+                    if test_contents and len(test_contents) > 0:
+                        return True
+                except GithubException:
+                    continue
             
             return False
-        except GithubException:
-            # Error accessing repository contents
+        except Exception as e:
+            self.logger.error(f"Error checking for tests: {str(e)}")
             return False
             
     def _get_readme_quality(self, repo: Repository) -> Dict[str, Any]:
         """
-        Analyze the quality of the repository README.
+        Get README quality assessment.
         
         Args:
             repo: GitHub Repository object
             
         Returns:
-            Dictionary with readme quality metrics
+            Dictionary with README quality assessment
         """
+        result = {
+            'exists': False,
+            'length': 0,
+            'quality_score': 0,
+            'has_images': False,
+            'content': None
+        }
+        
         try:
-            try:
-                readme = repo.get_readme()
-                content = readme.decoded_content.decode('utf-8')
-                
-                # Calculate readme metrics
-                length = len(content)
-                has_images = '![' in content or '<img' in content
-                has_headings = '#' in content or '<h1' in content or '<h2' in content
-                has_code = '```' in content or '`' in content or '<code' in content
-                has_links = '(' in content or 'http' in content or '<a href' in content
-                sections = content.count('#') + content.count('<h')
-                
-                # Score the readme (simple heuristic)
-                score = 0
-                if length > 500:  # Good length
-                    score += 0.5
-                if length > 1000:  # Comprehensive
-                    score += 0.5
-                if has_images:  # Visual aids
-                    score += 0.25
-                if has_headings:  # Organized
-                    score += 0.25
-                if has_code:  # Code examples
-                    score += 0.25
-                if has_links:  # References
-                    score += 0.25
-                if sections > 3:  # Multiple sections
-                    score += 0.5
-                    
-                return {
-                    'exists': True,
-                    'length': length,
-                    'has_images': has_images,
-                    'has_headings': has_headings,
-                    'has_code': has_code,
-                    'has_links': has_links,
-                    'sections': sections,
-                    'score': min(score, 2.0)  # Scale to 2.0 max
-                }
-                
-            except GithubException:
-                # No README found
-                return {
-                    'exists': False,
-                    'length': 0,
-                    'has_images': False,
-                    'has_headings': False,
-                    'has_code': False,
-                    'has_links': False,
-                    'sections': 0,
-                    'score': 0.0
-                }
-        except Exception:
-            # Error analyzing README
-            return {
-                'exists': False,
-                'length': 0,
-                'has_images': False,
-                'has_headings': False,
-                'has_code': False,
-                'has_links': False,
-                'sections': 0,
-                'score': 0.0
-            }
+            # Try to get README content
+            readme_content = None
+            for readme_name in ["README.md", "README", "Readme.md", "readme.md"]:
+                try:
+                    readme = repo.get_contents(readme_name)
+                    if readme:
+                        content = base64.b64decode(readme.content).decode('utf-8')
+                        readme_content = content
+                        break
+                except GithubException:
+                    continue
+            
+            if not readme_content:
+                return result
+            
+            # README exists
+            result['exists'] = True
+            result['length'] = len(readme_content)
+            result['content'] = readme_content
+            
+            # Check for images
+            if '![' in readme_content or '<img' in readme_content:
+                result['has_images'] = True
+            
+            # Calculate quality score (0-5)
+            quality_score = 1  # Base score for having a README
+            
+            # Length factor
+            if len(readme_content) > 5000:
+                quality_score += 1  # Comprehensive README
+            elif len(readme_content) > 1500:
+                quality_score += 0.5  # Decent README
+            
+            # Images factor
+            if result['has_images']:
+                quality_score += 1
+            
+            # Check for common documentation sections
+            sections = ['installation', 'usage', 'getting started', 'api', 'examples', 'contributing']
+            section_count = sum(1 for section in sections if section in readme_content.lower())
+            if section_count >= 3:
+                quality_score += 1
+            elif section_count >= 1:
+                quality_score += 0.5
+            
+            # Check for code examples
+            if '```' in readme_content:
+                quality_score += 1
+            
+            result['quality_score'] = min(5, quality_score)  # Cap at 5
+            
+            return result
+        except Exception as e:
+            self.logger.error(f"Error analyzing README: {str(e)}")
+            return result
             
     def _get_commit_activity(self, repo: Repository) -> Dict[str, Any]:
         """
-        Get the commit activity for a repository.
+        Get commit activity for a repository.
         
         Args:
             repo: GitHub Repository object
             
         Returns:
-            Dictionary with commit activity metrics
+            Dictionary with commit activity data
         """
+        result = {
+            'recent_commits': 0,
+            'total_commits': 0,
+            'last_commit_date': None,
+            'active_development': False,
+            'contributors_count': 0,
+        }
+        
         try:
-            # Get commits from the last week
-            commits = repo.get_commits(since=datetime.datetime.now() - datetime.timedelta(days=7))
-            commit_count = 0
-            authors = set()
+            # Get stats contributors (this gives commit counts by contributor)
+            stats_contributors = repo.get_stats_contributors()
+            self.api_calls += 1
+            
+            if stats_contributors:
+                result['contributors_count'] = len(stats_contributors)
+                result['total_commits'] = sum(sc.total for sc in stats_contributors)
+            
+            # Get recent commits (last 30 days)
+            thirty_days_ago = datetime.datetime.now() - datetime.timedelta(days=30)
+            
+            # Get last commit date
+            commits = repo.get_commits(since=thirty_days_ago)
+            self.api_calls += 1
+            
+            # Count recent commits
+            recent_commits = 0
+            last_commit_date = None
             
             for commit in commits:
-                commit_count += 1
-                if commit.author:
-                    authors.add(commit.author.login)
-                    
-            return {
-                'weekly_commits': commit_count,
-                'unique_authors': len(authors)
-            }
-        except GithubException:
-            # Error getting commit activity
-            return {
-                'weekly_commits': 0,
-                'unique_authors': 0
-            }
+                recent_commits += 1
+                if last_commit_date is None or (commit.commit.author and commit.commit.author.date > last_commit_date):
+                    last_commit_date = commit.commit.author.date if commit.commit.author else None
+                
+                # Limit API calls
+                if recent_commits >= 50:  # Only check the first 50 commits
+                    break
+            
+            result['recent_commits'] = recent_commits
+            result['last_commit_date'] = last_commit_date.isoformat() if last_commit_date else None
+            
+            # Consider active if there were commits in the last 14 days
+            if last_commit_date:
+                fourteen_days_ago = datetime.datetime.now() - datetime.timedelta(days=14)
+                result['active_development'] = last_commit_date >= fourteen_days_ago
+            
+            return result
+        except Exception as e:
+            self.logger.error(f"Error getting commit activity: {str(e)}")
+            return result
             
     def _get_external_website(self, repo: Repository, repo_data: Dict[str, Any]) -> Optional[str]:
         """
-        Get the external website URL for a repository.
+        Check if repository has an external website.
         
         Args:
             repo: GitHub Repository object
-            repo_data: Repository data dictionary
+            repo_data: Repository data
             
         Returns:
-            Website URL if available, None otherwise
+            Website URL if found, None otherwise
         """
-        # Check if website is set in repository info
-        if repo.homepage and repo.homepage.strip() and repo.homepage.startswith(('http://', 'https://')):
-            return repo.homepage.strip()
-            
+        # Check repository website
+        if repo.homepage and repo.homepage.strip():
+            url = repo.homepage.strip()
+            if url.startswith('http'):
+                return url
+        
         # Check repository description for URLs
-        if repo_data['description']:
-            import re
-            urls = re.findall(r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+', repo_data['description'])
-            if urls:
-                return urls[0]
-                
+        if repo.description:
+            url_pattern = r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+'
+            matches = re.findall(url_pattern, repo.description)
+            if matches:
+                return matches[0]
+        
+        # Check README for URLs
+        readme = repo_data.get('readme', {}).get('content')
+        if readme:
+            # Look for common website patterns in README
+            patterns = [
+                r'website:?\s*(https?://\S+)',
+                r'site:?\s*(https?://\S+)',
+                r'homepage:?\s*(https?://\S+)',
+                r'\[(demo|website|homepage|live)\]\((https?://\S+)\)',
+                r'<a\s+href=[\'"]?(https?://[^\'" >]+)[\'"]?\s*>\s*(?:website|homepage|demo)'
+            ]
+            
+            for pattern in patterns:
+                matches = re.findall(pattern, readme, re.IGNORECASE)
+                if matches:
+                    if isinstance(matches[0], tuple):
+                        return matches[0][1]
+                    else:
+                        return matches[0]
+        
         return None
         
     def _get_organization_data(self, org_name: str) -> Dict[str, Any]:
         """
-        Get data about a GitHub organization.
+        Get data for a GitHub organization.
         
         Args:
             org_name: Organization login name
@@ -582,64 +578,63 @@ class GitHubCollector(BaseCollector):
             Dictionary with organization data
         """
         try:
-            org = self.client.get_organization(org_name)
+            # Get organization
+            org = self.github.get_organization(org_name)
+            self.api_calls += 1
             
-            # Get basic organization data
+            # Extract basic organization data
             org_data = {
-                'login': org.login,
                 'name': org.name,
+                'description': org.description,
                 'blog': org.blog,
                 'email': org.email,
-                'bio': org.bio,
-                'location': org.location,
+                'twitter_username': org.twitter_username,
                 'public_repos': org.public_repos,
-                'followers': org.followers,
                 'created_at': org.created_at.isoformat() if org.created_at else None,
                 'updated_at': org.updated_at.isoformat() if org.updated_at else None,
-                'has_website': bool(org.blog),
+                'has_website': bool(org.blog) and org.blog.startswith('http'),
+                'total_members': 0,
+                'recent_creation': False,
+                'hiring_indicators': False
             }
             
-            # Check for hiring indicators in organization bio or description
-            hiring_keywords = ['hiring', 'careers', 'jobs', 'join us', 'join our team',
-                             'we\'re hiring', 'open positions', 'apply', 'vacancy']
+            # Check if organization was created recently (last 180 days)
+            if org.created_at:
+                days_since_creation = (datetime.datetime.now() - org.created_at).days
+                org_data['recent_creation'] = days_since_creation <= 180
             
-            has_hiring = False
-            if org.bio:
-                has_hiring = any(keyword in org.bio.lower() for keyword in hiring_keywords)
-                
-            org_data['hiring_indicators'] = has_hiring
-            
-            # Get team size (member count)
+            # Get member count
             try:
                 members = list(org.get_members())
-                org_data['team_size'] = len(members)
-            except GithubException:
-                # Can't access members, use public members as fallback
-                try:
-                    public_members = list(org.get_public_members())
-                    org_data['team_size'] = len(public_members)
-                except GithubException:
-                    org_data['team_size'] = 0
-                    
-            return org_data
+                self.api_calls += 1
+                org_data['total_members'] = len(members)
+            except GithubException as e:
+                self.logger.warning(f"Error getting members for {org_name}: {str(e)}")
             
-        except GithubException:
-            # Error getting organization data
-            return {
-                'login': org_name,
-                'name': None,
-                'blog': None,
-                'email': None,
-                'bio': None,
-                'location': None,
-                'public_repos': 0,
-                'followers': 0,
-                'created_at': None,
-                'updated_at': None,
-                'has_website': False,
-                'hiring_indicators': False,
-                'team_size': 0
-            }
+            # Check for hiring indicators in organization profile
+            hiring_keywords = ['hiring', 'careers', 'jobs', 'join us', 'join our team', 'we\'re hiring']
+            if org.description:
+                if any(keyword in org.description.lower() for keyword in hiring_keywords):
+                    org_data['hiring_indicators'] = True
+            
+            # Check for hiring indicators on website
+            if org.blog and not org_data['hiring_indicators']:
+                try:
+                    response = rate_limited_request(self.session.get, base_delay=2.0, url=org.blog, timeout=10)
+                    if response.status_code == 200:
+                        content = response.text.lower()
+                        if any(keyword in content for keyword in hiring_keywords):
+                            org_data['hiring_indicators'] = True
+                except Exception as e:
+                    self.logger.warning(f"Error checking organization website: {str(e)}")
+            
+            return org_data
+        except GithubException as e:
+            self.logger.error(f"Error getting organization data for {org_name}: {str(e)}")
+            return {'name': org_name, 'error': str(e)}
+        except Exception as e:
+            self.logger.error(f"Error processing organization {org_name}: {str(e)}")
+            return {'name': org_name, 'error': str(e)}
             
     def _get_contributor_data(self, repo: Repository) -> Dict[str, Any]:
         """
@@ -688,47 +683,44 @@ class GitHubCollector(BaseCollector):
                 'external_count': 0
             }
             
-    def _check_rate_limits(self) -> bool:
+    def _check_rate_limits(self, force: bool = False) -> bool:
         """
         Check GitHub API rate limits and wait if necessary.
         
-        Returns:
-            True if rate limit is OK, False if waiting for reset
-        """
-        try:
-            # Get rate limit information
-            rate_limit = self.client.get_rate_limit()
-            core_limit = rate_limit.core
-            search_limit = rate_limit.search
+        Args:
+            force: If True, check rate limits regardless of when last checked
             
-            # Check core rate limit
-            if core_limit.remaining < 10:  # Keep some buffer
-                reset_time = core_limit.reset.timestamp()
-                wait_time = max(1, reset_time - time.time())
-                
-                self.logger.warning(f"GitHub core API rate limit approaching. "
-                                  f"Waiting {wait_time:.1f} seconds for reset.")
-                                  
-                if wait_time > 60:  # If wait time is long, return False
-                    return False
-                    
-                time.sleep(wait_time)
-                
-            # Check search rate limit if very low
-            if search_limit.remaining < 3:
-                reset_time = search_limit.reset.timestamp()
-                wait_time = max(1, reset_time - time.time())
-                
-                self.logger.warning(f"GitHub search API rate limit approaching. "
-                                  f"Waiting {wait_time:.1f} seconds for reset.")
-                                  
-                if wait_time > 60:  # If wait time is long, return False
-                    return False
-                    
-                time.sleep(wait_time)
-                
+        Returns:
+            True if rate limits are OK, False if exceeded
+        """
+        # Only check every 100 API calls unless forced
+        if not force and (self.api_calls - self.last_rate_limit_check) < 100:
+            return True
+        
+        try:
+            # Get rate limits from GitHub
+            rate_limit = self.github.get_rate_limit()
+            self.last_rate_limit_check = self.api_calls
+            
+            # Check core limits
+            core = rate_limit.core
+            search = rate_limit.search
+            
+            self.logger.debug(f"GitHub API Rate Limits - Core: {core.remaining}/{core.limit}, Search: {search.remaining}/{search.limit}")
+            
+            # If rate limit is close to exceeded, wait until reset
+            if core.remaining < 100:
+                reset_time = core.reset
+                if reset_time:
+                    wait_seconds = (reset_time - datetime.datetime.utcnow()).total_seconds()
+                    if wait_seconds > 0:
+                        self.logger.warning(f"Rate limit low ({core.remaining}/{core.limit}), waiting {wait_seconds:.2f} seconds")
+                        if wait_seconds > 3600:  # Don't wait more than an hour
+                            return False
+                        time.sleep(wait_seconds + 5)  # Add buffer
+            
             return True
             
-        except GithubException:
-            # Error checking rate limit
-            return True  # Assume it's OK and let the API calls handle any errors
+        except Exception as e:
+            self.logger.error(f"Error checking rate limits: {str(e)}")
+            return True  # Assume OK if check fails

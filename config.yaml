@@ -1,28 +1,90 @@
-# Early Stage GitHub Signals Configuration
+# Early Stage GitHub Signals Platform Configuration
 
-# GitHub API settings
 github:
-  access_token: ${GITHUB_TOKEN}  # Set via environment variable
+  # API settings
+  base_url: "https://api.github.com"
   requests_per_hour: 5000
-  language_filter:
-    - python
-    - javascript
-    - typescript
-    - go
-    - rust
-    - java
-    - kotlin
-    - swift
+  
+  # Search parameters
   trending_days: 7
-  repo_age_threshold: 90  # days
   min_stars: 5
-  max_repos_to_analyze: 250
+  max_repos_to_analyze: 100
+  
+  # Languages to focus on
+  languages:
+    - Python
+    - TypeScript
+    - JavaScript
+    - Go
+    - Rust
+    - Java
 
-# Hacker News API settings
-hackernews:
-  base_url: "https://hacker-news.firebaseio.com/v0"
-  lookback_days: 30
-  points_threshold: 5
+# Scoring algorithm weights
+scoring:
+  repository:
+    max_points: 20
+    recent_creation: 3
+    professional_language: 2
+    ci_cd_setup: 2
+    quality_documentation: 2
+    active_development: 3
+    external_website: 2
+    startup_keywords: 3
+    accelerator_mentions: 2
+    tests_present: 1
+    
+  organization:
+    max_points: 15
+    recent_creation: 3
+    team_size: 3
+    multiple_repos: 2
+    professional_profile: 2
+    website: 2
+    hiring_indicators: 3
+    
+  community:
+    max_points: 15
+    hn_discussion: 5
+    star_growth: 3
+    external_contributors: 2
+    issue_engagement: 2
+    fork_activity: 2
+    social_mentions: 1
+
+# Keywords for startup detection
+startup_keywords:
+  - startup
+  - saas
+  - platform
+  - api
+  - service
+  - app
+  - tool
+  - ai
+  - ml
+  - machine learning
+  - artificial intelligence
+  - fintech
+  - payment
+  - blockchain
+  - crypto
+  - automation
+  - productivity
+  - analytics
+  - dashboard
+
+# Output settings
+output:
+  api_directory: "docs/api"
+  reports_directory: "reports"
+  cache_directory: "data/cache"
+  top_repositories_count: 25
+
+# Logging settings
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "github_signals.log"
 
 # Scoring parameters
 scoring:
