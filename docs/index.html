@@ -5,15 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔥 Hot Startups This Week - Early Stage GitHub Signals</title>
     <style>
+        /* Base Styles */
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --neutral-color: #64748b;
+            --background-color: #f8fafc;
+            --card-background: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 8px 15px -3px rgba(0, 0, 0, 0.1);
+        }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
+            background: var(--background-color);
+            color: var(--text-primary);
             line-height: 1.6;
         }
+
+        /* Header Styles */
         .header {
-            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             padding: 3rem 0;
             text-align: center;
@@ -29,11 +46,15 @@
             max-width: 600px;
             margin: 0 auto;
         }
+
+        /* Layout */
         .container { 
             max-width: 1200px; 
             margin: 0 auto; 
             padding: 2rem 1rem; 
         }
+
+        /* Stats Cards */
         .stats { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
@@ -41,38 +62,40 @@
             margin-bottom: 3rem; 
         }
         .stat-card {
-            background: white;
+            background: var(--card-background);
             padding: 2rem;
             border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-sm);
             text-align: center;
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--border-color);
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .stat-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
         }
         .stat-value { 
             font-size: 2.5rem; 
             font-weight: 800; 
-            color: #2563eb; 
+            color: var(--primary-color); 
             margin-bottom: 0.5rem;
         }
         .stat-label { 
-            color: #64748b; 
+            color: var(--text-secondary); 
             font-size: 1rem; 
             font-weight: 500;
         }
+
+        /* Repository List */
         .repo-list { 
-            background: white; 
+            background: var(--card-background); 
             border-radius: 16px; 
             overflow: hidden; 
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
         }
         .repo-header { 
-            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white; 
             padding: 2rem; 
             font-size: 1.5rem; 
@@ -81,7 +104,7 @@
         }
         .repo-item {
             padding: 2rem;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid var(--border-color);
             display: grid;
             grid-template-columns: auto 1fr auto;
             gap: 1.5rem;
@@ -89,11 +112,12 @@
             transition: background-color 0.2s;
         }
         .repo-item:hover {
-            background-color: #f8fafc;
+            background-color: var(--background-color);
         }
         .repo-item:last-child { border-bottom: none; }
+
+        /* Score Badge */
         .score-badge {
-            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             padding: 0.75rem 1rem;
             border-radius: 12px;
@@ -106,14 +130,16 @@
         .score-high { background: linear-gradient(135deg, #10b981, #059669); }
         .score-medium { background: linear-gradient(135deg, #f59e0b, #d97706); }
         .score-low { background: linear-gradient(135deg, #64748b, #475569); }
+
+        /* Repository Info */
         .repo-info h3 { 
             margin-bottom: 0.75rem; 
-            color: #1e293b;
+            color: var(--text-primary);
             font-size: 1.3rem;
             font-weight: 600;
         }
         .repo-info a {
-            color: #2563eb;
+            color: var(--primary-color);
             text-decoration: none;
             font-weight: 700;
             transition: color 0.2s;
@@ -123,7 +149,7 @@
             text-decoration: underline; 
         }
         .repo-description { 
-            color: #64748b; 
+            color: var(--text-secondary); 
             font-size: 1rem; 
             margin-bottom: 1rem;
             line-height: 1.5;
@@ -133,7 +159,7 @@
             flex-wrap: wrap;
             gap: 1rem;
             font-size: 0.9rem;
-            color: #64748b;
+            color: var(--text-secondary);
             margin-bottom: 0.75rem;
         }
         .potential-level {
@@ -146,27 +172,31 @@
             margin-bottom: 0.5rem;
             display: inline-block;
         }
+
+        /* Insights */
         .insights {
-            background: #f8fafc;
+            background: var(--background-color);
             padding: 1rem;
             border-radius: 8px;
-            border-left: 4px solid #2563eb;
+            border-left: 4px solid var(--primary-color);
             margin-top: 1rem;
         }
         .insights h4 {
-            color: #1e293b;
+            color: var(--text-primary);
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
             font-weight: 600;
         }
         .insights-text {
-            color: #64748b;
+            color: var(--text-secondary);
             font-size: 0.85rem;
         }
+
+        /* Loading & Error States */
         .loading, .error { 
             text-align: center; 
             padding: 4rem; 
-            color: #64748b;
+            color: var(--text-secondary);
             font-size: 1.1rem;
         }
         .error { 
@@ -175,13 +205,17 @@
             border-radius: 8px; 
             margin: 2rem 0;
         }
+
+        /* Footer */
         .footer {
             text-align: center;
             padding: 3rem 1rem;
-            color: #64748b;
-            border-top: 1px solid #e2e8f0;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
             margin-top: 3rem;
         }
+
+        /* Responsive */
         @media (max-width: 768px) {
             .header h1 { font-size: 2rem; }
             .repo-item {
@@ -242,137 +276,10 @@
         <div class="container">
             <p>Early Stage GitHub Signals • Generated with ❤️ for startup discovery</p>
             <p style="margin-top: 0.5rem; font-size: 0.9rem;">
-                <a href="https://github.com/your-username/early-stage-github-signals" style="color: #2563eb;">View on GitHub</a>
+                <a href="https://github.com/cdolik/early-stage-github-signals" style="color: #2563eb;">View on GitHub</a>
             </p>
         </div>
     </footer>
-    <header>
-        <div class="container">
-            <h1><i class="fab fa-github"></i> Early Stage GitHub Signals</h1>
-            <p class="subtitle">Discovering tomorrow's startups today</p>
-            <div class="report-meta">
-                <span class="date">Report Date: <span id="report-date">Loading...</span></span>
-                <span class="repo-count"><span id="repo-count">0</span> repositories analyzed</span>
-            </div>
-        </div>
-    </header>
-    
-    <div class="container">
-        <div class="dashboard-controls">
-            <div class="search-filter">
-                <input type="text" id="searchInput" placeholder="Search repositories...">
-            </div>
-        </div>
-        
-        <div id="loading">
-            <div class="spinner"></div>
-            <p>Loading repository data...</p>
-        </div>
-
-        <div id="error-message" style="display:none;">
-            <i class="fas fa-exclamation-triangle"></i>
-            <p>Error loading repository data. Please try again later.</p>
-        </div>
-        
-        <div id="dashboard-content" style="display:none;">
-            <div class="stats-container">
-                <div class="stat-card">
-                    <h3>Average Score</h3>
-                    <div class="stat-value" id="average-score">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Top Languages</h3>
-                    <div class="stat-value" id="top-languages">-</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Common Topics</h3>
-                    <div class="stat-value" id="common-topics">-</div>
-                </div>
-            </div>
-            
-            <div class="chart-container">
-                <div class="chart">
-                    <h3>Score Distribution</h3>
-                    <canvas id="score-distribution"></canvas>
-                </div>
-                <div class="chart">
-                    <h3>Top Languages</h3>
-                    <canvas id="language-distribution"></canvas>
-                </div>
-            </div>
-            
-            <h2>Top Repositories</h2>
-            <div id="repositories-list">
-                <!-- Repository cards will be inserted here -->
-            </div>
-            <div id="repositoriesGrid"></div>
-            <div class="loading">Loading...</div>
-            
-            <div class="trends-section">
-                <h2>Trend Analysis</h2>
-                <div id="trends-content">
-                    <!-- Trend analysis will be inserted here -->
-                </div>
-            </div>
-        </div>
-
-        <section class="section">
-            <h2 class="section-title">Startup Categories</h2>
-            <div class="category-tabs">
-                <button class="tab-button active" data-category="hot">🔥 Hot This Week</button>
-                <button class="tab-button" data-category="vc-ready">💰 VC-Ready</button>
-                <button class="tab-button" data-category="ai-ml">🚀 AI/ML</button>
-                <button class="tab-button" data-category="fintech">💳 Fintech</button>
-                <button class="tab-button" data-category="all">📋 All Startups</button>
-            </div>
-        </section>
-    </div>
-    
-    <footer>
-        <div class="container">
-            <p>Early Stage GitHub Signals · <span id="generated-date">Generated at: Loading...</span></p>
-            <p>Developed with <i class="fas fa-heart"></i> for startup trend detection</p>
-        </div>
-    </footer>
-    
-    <template id="repository-card-template">
-        <div class="repository-card">
-            <div class="score-indicator">
-                <div class="score">00</div>
-                <div class="confidence">HIGH</div>
-            </div>
-            <div class="repository-details">
-                <h3 class="repo-name"><a href="#" target="_blank">Repository Name</a></h3>
-                <p class="repo-description">Repository description goes here</p>
-                <div class="repo-meta">
-                    <span class="language"><i class="fas fa-code"></i> <span class="language-name">Language</span></span>
-                    <span class="stars"><i class="fas fa-star"></i> <span class="stars-count">0</span></span>
-                    <span class="forks"><i class="fas fa-code-branch"></i> <span class="forks-count">0</span></span>
-                    <span class="age"><i class="fas fa-calendar"></i> <span class="created-at">0 days ago</span></span>
-                </div>
-                <div class="score-breakdown">
-                    <div class="score-category">
-                        <span class="category-name">Repository:</span>
-                        <span class="category-score">0/20</span>
-                    </div>
-                    <div class="score-category">
-                        <span class="category-name">Organization:</span>
-                        <span class="category-score">0/15</span>
-                    </div>
-                    <div class="score-category">
-                        <span class="category-name">Community:</span>
-                        <span class="category-score">0/15</span>
-                    </div>
-                </div>
-                <div class="repo-strengths">
-                    <h4>Key Strengths:</h4>
-                    <ul class="strengths-list">
-                        <!-- Strengths will be inserted here -->
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </template>
     
     <script>
         async function loadStartups() {
@@ -470,44 +377,6 @@
             console.log('Dashboard initialized');
             loadStartups();
         });
-        document.addEventListener('DOMContentLoaded', function() {
-            const grid = document.getElementById('repositoriesGrid');
-            if (grid) {
-                new GitHubSignalsDashboard();
-            }
-        });
     </script>
-
-    <style>
-        .category-tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .tab-button {
-            padding: 0.75rem 1.5rem;
-            border: 2px solid var(--border-color);
-            background: var(--card-background);
-            color: var(--text-primary);
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-
-        .tab-button:hover {
-            border-color: var(--primary-color);
-            transform: translateY(-1px);
-        }
-
-        .tab-button.active {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-    </style>
 </body>
 </html>

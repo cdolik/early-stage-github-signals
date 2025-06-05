@@ -4,6 +4,7 @@ GitHub data collector for the Early Stage GitHub Signals platform.
 import os
 import base64
 import datetime
+from datetime import timezone
 import time
 import re
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
@@ -11,6 +12,7 @@ import requests
 from github import Github, GithubException, RateLimitExceededException
 from github.Repository import Repository
 from github.Organization import Organization
+from github.NamedUser import NamedUser
 
 from .base_collector import BaseCollector
 from ..utils import format_date, parse_date, rate_limited_request
@@ -241,28 +243,56 @@ class GitHubCollector(BaseCollector):
         """
         self.logger.debug(f"Enriching repository: {repo_data.get('full_name')}")
         
+        # Check if we should skip detailed analysis (lite mode)
+        skip_detailed = self.config.get('github.skip_detailed_analysis', False)
+        
         try:
             # Get repository object
             repo = self.github.get_repo(repo_data.get('full_name'))
             self.api_calls += 1
             
             # Get detailed repository data
-            details = self.get_repository_details(repo)
-            repo_data.update(details)
+            if not skip_detailed:
+                details = self.get_repository_details(repo)
+                repo_data.update(details)
+            else:
+                # In lite mode, provide minimal details to reduce API calls
+                repo_data.update({
+                    'has_ci_cd': False,
+                    'has_tests': False,
+                    'readme': {'exists': True, 'quality': 0.5},
+                    'commit_activity': {'active_development': True, 'recent_commits': 10},
+                    'website_url': None,
+                    'has_website': False
+                })
             
             # Get organization data if available
             org_name = repo_data.get('organization')
-            if org_name:
+            if org_name and not skip_detailed:
                 try:
                     org_data = self._get_organization_data(org_name)
                     repo_data['org_details'] = org_data
                 except Exception as e:
                     self.logger.error(f"Error getting organization data for {org_name}: {str(e)}")
+            elif org_name:
+                # Provide minimal org data in lite mode
+                repo_data['org_details'] = {
+                    'name': org_name,
+                    'recent_creation': False,
+                    'total_members': 0
+                }
             
             # Get contributor data
             try:
-                contributor_data = self._get_contributor_data(repo)
-                repo_data['contributors'] = contributor_data
+                if not skip_detailed:
+                    contributor_data = self._get_contributor_data(repo)
+                    repo_data['contributors'] = contributor_data
+                else:
+                    # Provide minimal contributor data in lite mode
+                    repo_data['contributors'] = {
+                        'total_count': 1,
+                        'external_count': 0
+                    }
             except Exception as e:
                 self.logger.error(f"Error getting contributor data for {repo_data.get('full_name')}: {str(e)}")
             
@@ -513,7 +543,11 @@ class GitHubCollector(BaseCollector):
             
             # Consider active if there were commits in the last 14 days
             if last_commit_date:
-                fourteen_days_ago = datetime.datetime.now() - datetime.timedelta(days=14)
+                # Use timezone-aware datetime comparison
+                fourteen_days_ago = datetime.datetime.now(timezone.utc) - datetime.timedelta(days=14)
+                # Ensure last_commit_date has timezone info if it doesn't already
+                if last_commit_date.tzinfo is None:
+                    last_commit_date = last_commit_date.replace(tzinfo=timezone.utc)
                 result['active_development'] = last_commit_date >= fourteen_days_ago
             
             return result
@@ -600,7 +634,13 @@ class GitHubCollector(BaseCollector):
             
             # Check if organization was created recently (last 180 days)
             if org.created_at:
-                days_since_creation = (datetime.datetime.now() - org.created_at).days
+                # Ensure timezone awareness for datetime comparison
+                now = datetime.datetime.now(timezone.utc)
+                created_at = org.created_at
+                # Ensure created_at has timezone info if it doesn't already
+                if created_at.tzinfo is None:
+                    created_at = created_at.replace(tzinfo=timezone.utc)
+                days_since_creation = (now - created_at).days
                 org_data['recent_creation'] = days_since_creation <= 180
             
             # Get member count
@@ -649,14 +689,20 @@ class GitHubCollector(BaseCollector):
         try:
             contributors = list(repo.get_contributors())
             
+            # Check if owner is an Organization object
             if repo.owner.type == 'Organization':
                 # For organizations, identify external contributors
                 try:
-                    org_members = set(member.id for member in repo.owner.get_members())
+                    # Get the organization object properly
+                    org = self.github.get_organization(repo.owner.login)
+                    self.api_calls += 1
+                    org_members = set(member.id for member in org.get_members())
                 except GithubException:
                     # Can't access organization members, use public members
                     try:
-                        org_members = set(member.id for member in repo.owner.get_public_members())
+                        org = self.github.get_organization(repo.owner.login)
+                        self.api_calls += 1
+                        org_members = set(member.id for member in org.get_public_members())
                     except GithubException:
                         org_members = set()
                         
@@ -712,7 +758,11 @@ class GitHubCollector(BaseCollector):
             if core.remaining < 100:
                 reset_time = core.reset
                 if reset_time:
-                    wait_seconds = (reset_time - datetime.datetime.utcnow()).total_seconds()
+                    # Ensure timezone awareness for datetime comparison
+                    utc_now = datetime.datetime.now(timezone.utc)
+                    if reset_time.tzinfo is None:
+                        reset_time = reset_time.replace(tzinfo=timezone.utc)
+                    wait_seconds = (reset_time - utc_now).total_seconds()
                     if wait_seconds > 0:
                         self.logger.warning(f"Rate limit low ({core.remaining}/{core.limit}), waiting {wait_seconds:.2f} seconds")
                         if wait_seconds > 3600:  # Don't wait more than an hour

@@ -98,7 +98,7 @@ class ApiGenerator:
         self,
         repositories: List[Dict[str, Any]],
         trends: Dict[str, Any],
-        report_date: Optional[datetime.datetime] = None
+        report_date: Optional[datetime] = None
     ) -> Tuple[str, str]:
         """
         Generate JSON API files for the analyzed repositories.
@@ -112,7 +112,7 @@ class ApiGenerator:
             Tuple of paths to the generated API files (dated, latest)
         """
         if report_date is None:
-            report_date = datetime.datetime.now()
+            report_date = datetime.now()
             
         date_str = report_date.strftime('%Y-%m-%d')
         
@@ -141,7 +141,7 @@ class ApiGenerator:
         self,
         repositories: List[Dict[str, Any]],
         trends: Dict[str, Any],
-        report_date: datetime.datetime
+        report_date: datetime
     ) -> Dict[str, Any]:
         """
         Prepare data for the API files.
