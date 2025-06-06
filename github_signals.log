@@ -625,3 +625,26 @@ TypeError: can't subtract offset-naive and offset-aware datetimes
 2025-06-05 15:36:53,046 - HackerNewsCollector - INFO - Collecting Hacker News stories from the last 30 days
 2025-06-05 15:36:53,384 - HackerNewsCollector - INFO - Found 943 stories to process
 2025-06-05 15:38:00,024 - HackerNewsCollector - INFO - Found 48 relevant Hacker News stories
+2025-06-05 17:18:07,922 - github_signals - INFO - Starting Early Stage GitHub Signals Platform
+2025-06-05 17:18:07,923 - github_signals - INFO - Loaded configuration from config.yaml
+2025-06-05 17:18:07,923 - github_signals - INFO - Running in lite mode with reduced API usage
+2025-06-05 17:18:07,923 - github_signals - INFO - Generating report for date: 2025-06-05
+2025-06-05 17:18:07,933 - github_signals - INFO - Collecting GitHub repositories...
+2025-06-05 17:18:07,934 - GitHubCollector - INFO - Collecting GitHub repositories...
+2025-06-05 17:18:07,937 - GitHubCollector - INFO - Collecting repositories for language: Python
+2025-06-05 17:18:14,209 - GitHubCollector - INFO - Collected 5 repositories matching query: is:public created:>2025-05-29 language:Python stars:>=5
+2025-06-05 17:18:14,210 - GitHubCollector - INFO - Reached maximum repositories limit (5)
+2025-06-05 17:18:16,739 - GitHubCollector - INFO - Collected 5 repositories with 6 API calls
+2025-06-05 17:18:16,739 - github_signals - INFO - Collected 5 repositories in 8.81 seconds
+2025-06-05 17:18:16,753 - github_signals - INFO - Using sample Hacker News data (lite mode)
+2025-06-05 17:18:16,753 - github_signals - INFO - Scoring repositories...
+2025-06-05 17:18:16,786 - github_signals - ERROR - Error running platform: can't subtract offset-naive and offset-aware datetimes
+Traceback (most recent call last):
+  File "/Users/coreydolik/early-stage-github-signals-1/src/main.py", line 320, in main
+    scored_repo = scorer.score_repository(repo, hn_data)
+  File "/Users/coreydolik/early-stage-github-signals-1/src/analyzers/startup_scorer.py", line 55, in score_repository
+    repository_result = self._score_repository_signals(scored_repo)
+  File "/Users/coreydolik/early-stage-github-signals-1/src/analyzers/startup_scorer.py", line 119, in _score_repository_signals
+    days_since_creation = (datetime.datetime.now() - created_at).days
+                           ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+TypeError: can't subtract offset-naive and offset-aware datetimes
