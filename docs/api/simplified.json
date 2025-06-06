@@ -22,13 +22,7 @@
       "name": "postiz-app",
       "score": 4,
       "language": "TypeScript",
-      "why": "53 commits in last 14 days + typescript language"
-    },
-    {
-      "name": "agno",
-      "score": 4,
-      "language": "Unknown",
-      "why": "125 commits in last 14 days + developer-tools topics"
+      "why": "51 commits in last 14 days + typescript language"
     }
   ]
 }

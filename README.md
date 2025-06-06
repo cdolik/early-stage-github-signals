@@ -1,14 +1,15 @@
-# � Early Stage GitHub Signals Platform
+# Early Stage GitHub Signals Platform
 
-> **Discover promising early-stage startups through GitHub activity analysis**
+> **Find promising developer tools through code momentum signals before they go mainstream**
 
 [![Dashboard](https://img.shields.io/badge/Dashboard-Live-brightgreen)](https://cdolik.github.io/early-stage-github-signals/)
 [![GitHub Actions](https://github.com/cdolik/early-stage-github-signals/workflows/Weekly%20GitHub%20Signals%20Report/badge.svg)](https://github.com/cdolik/early-stage-github-signals/actions)
+[![Last Updated](https://img.shields.io/badge/Last%20Updated-2025--06--06-blue)](https://cdolik.github.io/early-stage-github-signals/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## 🎯 What It Does
 
-This platform automatically analyzes trending GitHub repositories to identify startups with high potential **before they hit mainstream VC radar**. Using a focused 10-point scoring system, it finds companies 4-8 weeks earlier than traditional deal sourcing.
+Early Stage GitHub Signals is a powerful signal engine that identifies promising developer tools in their early phases. The platform analyzes GitHub activity using a comprehensive 10-point scoring system that evaluates commit surge, star velocity, team traction, and ecosystem fit to surface high-potential projects weeks before they gain mainstream attention.
 
 ### 🚀 [**View Live Dashboard**](https://cdolik.github.io/early-stage-github-signals/)
 

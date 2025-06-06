@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Early Stage GitHub Signals</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Add Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Add GitHub Markdown CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown-dark.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-area">
+                    <h1>Early Stage GitHub Signals</h1>
+                    <p class="subtitle">How our 10-point scoring system works</p>
+                </div>
+                <div class="header-actions">
+                    <a href="index.html" class="btn-primary">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container markdown-body" id="about-content">
+        <!-- About content will be inserted here -->
+        <div class="loading" id="loadingIndicator">
+            <div class="spinner"></div>
+            <p>Loading content...</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2025 Early Stage GitHub Signals | 
+                <a href="https://github.com/cdolik/early-stage-github-signals">GitHub</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Fetch the about.md content
+                const response = await fetch('about.md');
+                if (!response.ok) throw new Error('Failed to fetch about content');
+                
+                const content = await response.text();
+                
+                // Load marked library for Markdown parsing
+                await loadScript('https://cdn.jsdelivr.net/npm/marked/marked.min.js');
+                
+                // Parse and insert content
+                document.getElementById('about-content').innerHTML = marked.parse(content);
+                
+                // Hide loading indicator
+                document.getElementById('loadingIndicator').classList.add('hidden');
+            } catch (error) {
+                console.error('Error loading about content:', error);
+                document.getElementById('about-content').innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Failed to load content. Please try again later.</p>
+                    </div>
+                `;
+                document.getElementById('loadingIndicator').classList.add('hidden');
+            }
+        });
+        
+        function loadScript(url) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = url;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+    </script>
+</body>
+</html>
