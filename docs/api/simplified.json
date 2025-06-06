@@ -1,0 +1,34 @@
+{
+  "repositories": [
+    {
+      "name": "BillionMail",
+      "score": 5,
+      "language": "Go",
+      "why": "91 commits in last 14 days + 4 active contributors"
+    },
+    {
+      "name": "agenticSeek",
+      "score": 5,
+      "language": "Python",
+      "why": "88 commits in last 14 days + 4 active contributors out of 17 total + python language"
+    },
+    {
+      "name": "livestore",
+      "score": 4,
+      "language": "TypeScript",
+      "why": "61 commits in last 14 days + typescript language"
+    },
+    {
+      "name": "postiz-app",
+      "score": 4,
+      "language": "TypeScript",
+      "why": "53 commits in last 14 days + typescript language"
+    },
+    {
+      "name": "agno",
+      "score": 4,
+      "language": "Unknown",
+      "why": "125 commits in last 14 days + developer-tools topics"
+    }
+  ]
+}

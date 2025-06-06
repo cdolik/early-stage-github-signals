@@ -27,7 +27,7 @@ jobs:
         
     - name: Generate weekly report
       run: |
-        python run.py --date=$(date +%Y-%m-%d)
+        ./run_weekly_gems.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         

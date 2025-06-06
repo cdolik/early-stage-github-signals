@@ -648,3 +648,146 @@ Traceback (most recent call last):
     days_since_creation = (datetime.datetime.now() - created_at).days
                            ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
 TypeError: can't subtract offset-naive and offset-aware datetimes
+2025-06-06 13:33:34,410 - github_signals - INFO - Starting Weekly Dev Tools Gems CLI
+2025-06-06 13:33:34,410 - github_signals - INFO - GitHub API client initialized
+2025-06-06 13:33:34,410 - github_signals - INFO - Collecting from GitHub Trending
+2025-06-06 13:33:34,419 - TrendingCollector - INFO - Collecting GitHub trending repositories...
+2025-06-06 13:33:35,599 - TrendingCollector - INFO - Age filtering requires API calls - skipping for MVP. Will require manual verification.
+2025-06-06 13:33:35,599 - TrendingCollector - INFO - Collected 6 trending repositories
+2025-06-06 13:33:35,599 - github_signals - INFO - Collected 6 trending repositories
+2025-06-06 13:33:35,599 - github_signals - INFO - Collecting from Product Hunt
+2025-06-06 13:33:35,612 - ProductHuntCollector - INFO - Collecting Product Hunt weekly trending products...
+2025-06-06 13:33:37,575 - ProductHuntCollector - ERROR - Could not find Product Hunt data in page
+2025-06-06 13:33:37,576 - ProductHuntCollector - INFO - Collected 0 Product Hunt products
+2025-06-06 13:33:37,576 - github_signals - INFO - Matched 0 Product Hunt products with GitHub repos
+2025-06-06 13:33:37,576 - github_signals - INFO - Collecting from Hacker News
+2025-06-06 13:33:37,596 - ShowHNCollector - INFO - Collecting Show HN posts...
+2025-06-06 13:34:05,197 - ShowHNCollector - INFO - Collected 6 Show HN posts
+2025-06-06 13:34:05,199 - github_signals - INFO - Matched 5 Hacker News stories with GitHub repos
+2025-06-06 13:34:05,199 - github_signals - INFO - Total unique repositories: 11
+2025-06-06 13:34:05,199 - github_signals - INFO - Scoring repositories
+2025-06-06 13:34:05,344 - github_signals - ERROR - Error getting repo object: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+2025-06-06 13:34:05,344 - github_signals - DEBUG - Scored aaPanel/BillionMail with 0/10
+2025-06-06 13:34:05,742 - github_signals - ERROR - Error getting repo object: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+2025-06-06 13:34:05,743 - github_signals - DEBUG - Scored donnemartin/system-design-primer with 1/10
+2025-06-06 13:34:06,118 - github_signals - ERROR - Error getting repo object: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+2025-06-06 13:34:06,119 - github_signals - DEBUG - Scored Fosowl/agenticSeek with 1/10
+2025-06-06 13:34:06,486 - github_signals - ERROR - Error getting repo object: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+2025-06-06 13:34:06,487 - github_signals - DEBUG - Scored livestorejs/livestore with 1/10
+2025-06-06 13:34:06,873 - github_signals - ERROR - Error getting repo object: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+2025-06-06 13:34:06,873 - github_signals - DEBUG - Scored gitroomhq/postiz-app with 1/10
+2025-06-06 13:34:07,248 - github_signals - ERROR - Error getting repo object: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+2025-06-06 13:34:07,249 - github_signals - DEBUG - Scored syncthing/syncthing with 0/10
+2025-06-06 13:34:07,612 - github_signals - ERROR - Error getting repo object: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+2025-06-06 13:34:07,613 - github_signals - DEBUG - Scored hyperdxio/hyperdx with 0/10
+2025-06-06 13:34:08,010 - github_signals - ERROR - Error getting repo object: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+2025-06-06 13:34:08,011 - github_signals - DEBUG - Scored lingodotdev/lingo.dev with 0/10
+2025-06-06 13:34:08,374 - github_signals - ERROR - Error getting repo object: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+2025-06-06 13:34:08,374 - github_signals - DEBUG - Scored storycraft/asdf-overlay with 0/10
+2025-06-06 13:34:08,770 - github_signals - ERROR - Error getting repo object: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+2025-06-06 13:34:08,771 - github_signals - DEBUG - Scored agno-agi/agno with 0/10
+2025-06-06 13:34:09,141 - github_signals - ERROR - Error getting repo object: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+2025-06-06 13:34:09,143 - github_signals - DEBUG - Scored DmitriBogdanov/UTL with 0/10
+2025-06-06 13:34:09,143 - github_signals - INFO - Generating weekly report
+2025-06-06 13:34:09,170 - weekly_gems - INFO - Generating Weekly Dev Tools Gems report for 2025-06-06
+2025-06-06 13:34:09,171 - weekly_gems - INFO - Report saved to /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-06.md
+2025-06-06 13:34:09,172 - github_signals - INFO - Weekly Dev Tools Gems report generated: /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-06.md
+2025-06-06 14:17:15,476 - github_signals - INFO - Starting Weekly Dev Tools Gems CLI
+2025-06-06 14:17:15,476 - github_signals - INFO - GitHub API client initialized
+2025-06-06 14:17:15,477 - github_signals - INFO - Collecting from GitHub Trending
+2025-06-06 14:17:15,488 - TrendingCollector - INFO - Collecting GitHub trending repositories...
+2025-06-06 14:17:16,770 - TrendingCollector - INFO - Age filtering requires API calls - skipping for MVP. Will require manual verification.
+2025-06-06 14:17:16,770 - TrendingCollector - INFO - Collected 5 trending repositories
+2025-06-06 14:17:16,770 - github_signals - INFO - Collected 5 trending repositories
+2025-06-06 14:17:16,770 - github_signals - INFO - Collecting from Product Hunt
+2025-06-06 14:17:16,784 - ProductHuntCollector - INFO - Collecting Product Hunt weekly trending products...
+2025-06-06 14:17:18,986 - ProductHuntCollector - ERROR - Could not find Product Hunt data in page
+2025-06-06 14:17:18,987 - ProductHuntCollector - INFO - Collected 0 Product Hunt products
+2025-06-06 14:17:18,987 - github_signals - INFO - Matched 0 Product Hunt products with GitHub repos
+2025-06-06 14:17:18,987 - github_signals - INFO - Collecting from Hacker News
+2025-06-06 14:17:19,012 - ShowHNCollector - INFO - Collecting Show HN posts...
+2025-06-06 14:17:39,867 - ShowHNCollector - INFO - Collected 5 Show HN posts
+2025-06-06 14:17:39,870 - github_signals - INFO - Matched 4 Hacker News stories with GitHub repos
+2025-06-06 14:17:39,870 - github_signals - INFO - Total unique repositories: 9
+2025-06-06 14:17:39,870 - github_signals - INFO - Scoring repositories
+2025-06-06 14:17:43,338 - github_signals - DEBUG - Scored aaPanel/BillionMail with 5/10
+2025-06-06 14:17:46,883 - github_signals - DEBUG - Scored donnemartin/system-design-primer with 2/10
+2025-06-06 14:17:50,113 - github_signals - DEBUG - Scored Fosowl/agenticSeek with 5/10
+2025-06-06 14:17:53,503 - github_signals - DEBUG - Scored livestorejs/livestore with 4/10
+2025-06-06 14:17:56,816 - github_signals - DEBUG - Scored gitroomhq/postiz-app with 4/10
+2025-06-06 14:17:59,910 - github_signals - DEBUG - Scored hyperdxio/hyperdx with 3/10
+2025-06-06 14:18:03,244 - github_signals - DEBUG - Scored lingodotdev/lingo.dev with 3/10
+2025-06-06 14:18:06,352 - github_signals - DEBUG - Scored storycraft/asdf-overlay with 5/10
+2025-06-06 14:18:13,950 - github_signals - DEBUG - Scored agno-agi/agno with 4/10
+2025-06-06 14:18:13,951 - github_signals - INFO - Generating weekly report
+2025-06-06 14:18:13,978 - weekly_gems - INFO - Generating Weekly Dev Tools Gems report for 2025-06-06
+2025-06-06 14:18:13,987 - weekly_gems - INFO - Report saved to /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-06.md
+2025-06-06 14:18:13,995 - github_signals - INFO - Generating API JSON for dashboard
+2025-06-06 14:18:14,011 - github_signals - INFO - API JSON generated: docs/api/latest.json
+2025-06-06 14:18:14,011 - github_signals - INFO - Weekly Dev Tools Gems report generated: /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-06.md
+2025-06-06 14:24:44,116 - github_signals - INFO - Starting Weekly Dev Tools Gems CLI
+2025-06-06 14:24:44,117 - github_signals - INFO - GitHub API client initialized
+2025-06-06 14:24:44,117 - github_signals - INFO - Collecting from GitHub Trending
+2025-06-06 14:24:44,126 - TrendingCollector - INFO - Collecting GitHub trending repositories...
+2025-06-06 14:24:45,212 - TrendingCollector - INFO - Age filtering requires API calls - skipping for MVP. Will require manual verification.
+2025-06-06 14:24:45,212 - TrendingCollector - INFO - Collected 5 trending repositories
+2025-06-06 14:24:45,212 - github_signals - INFO - Collected 5 trending repositories
+2025-06-06 14:24:45,212 - github_signals - INFO - Collecting from Product Hunt
+2025-06-06 14:24:45,223 - ProductHuntCollector - INFO - Collecting Product Hunt weekly trending products...
+2025-06-06 14:24:46,655 - ProductHuntCollector - ERROR - Could not find Product Hunt data in page
+2025-06-06 14:24:46,655 - ProductHuntCollector - INFO - Collected 0 Product Hunt products
+2025-06-06 14:24:46,655 - github_signals - INFO - Matched 0 Product Hunt products with GitHub repos
+2025-06-06 14:24:46,655 - github_signals - INFO - Collecting from Hacker News
+2025-06-06 14:24:46,677 - ShowHNCollector - INFO - Collecting Show HN posts...
+2025-06-06 14:25:04,784 - ShowHNCollector - INFO - Collected 5 Show HN posts
+2025-06-06 14:25:04,786 - github_signals - INFO - Matched 4 Hacker News stories with GitHub repos
+2025-06-06 14:25:04,787 - github_signals - INFO - Total unique repositories: 9
+2025-06-06 14:25:04,787 - github_signals - INFO - Scoring repositories
+2025-06-06 14:25:08,282 - github_signals - DEBUG - Scored aaPanel/BillionMail with 5/10
+2025-06-06 14:25:11,711 - github_signals - DEBUG - Scored donnemartin/system-design-primer with 2/10
+2025-06-06 14:25:15,163 - github_signals - DEBUG - Scored Fosowl/agenticSeek with 5/10
+2025-06-06 14:25:18,486 - github_signals - DEBUG - Scored livestorejs/livestore with 4/10
+2025-06-06 14:25:21,776 - github_signals - DEBUG - Scored gitroomhq/postiz-app with 4/10
+2025-06-06 14:25:24,781 - github_signals - DEBUG - Scored hyperdxio/hyperdx with 3/10
+2025-06-06 14:25:28,430 - github_signals - DEBUG - Scored lingodotdev/lingo.dev with 3/10
+2025-06-06 14:25:31,474 - github_signals - DEBUG - Scored storycraft/asdf-overlay with 5/10
+2025-06-06 14:25:39,197 - github_signals - DEBUG - Scored agno-agi/agno with 4/10
+2025-06-06 14:25:39,197 - github_signals - INFO - Generating weekly report
+2025-06-06 14:25:39,221 - weekly_gems - INFO - Generating Weekly Dev Tools Gems report for 2025-06-06
+2025-06-06 14:25:39,237 - weekly_gems - INFO - Report saved to /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-06.md
+2025-06-06 14:25:39,245 - github_signals - INFO - Generating API JSON for dashboard
+2025-06-06 14:25:39,263 - github_signals - INFO - API JSON generated: docs/api/latest.json
+2025-06-06 14:25:39,263 - github_signals - INFO - Weekly Dev Tools Gems report generated: /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-06.md
+2025-06-06 14:28:00,152 - github_signals - INFO - Starting Weekly Dev Tools Gems CLI
+2025-06-06 14:28:00,152 - github_signals - INFO - GitHub API client initialized
+2025-06-06 14:28:00,152 - github_signals - INFO - Collecting from GitHub Trending
+2025-06-06 14:28:00,168 - TrendingCollector - INFO - Collecting GitHub trending repositories...
+2025-06-06 14:28:01,272 - TrendingCollector - INFO - Age filtering requires API calls - skipping for MVP. Will require manual verification.
+2025-06-06 14:28:01,272 - TrendingCollector - INFO - Collected 5 trending repositories
+2025-06-06 14:28:01,272 - github_signals - INFO - Collected 5 trending repositories
+2025-06-06 14:28:01,272 - github_signals - INFO - Collecting from Product Hunt
+2025-06-06 14:28:01,284 - ProductHuntCollector - INFO - Collecting Product Hunt weekly trending products...
+2025-06-06 14:28:02,924 - ProductHuntCollector - ERROR - Could not find Product Hunt data in page
+2025-06-06 14:28:02,924 - ProductHuntCollector - INFO - Collected 0 Product Hunt products
+2025-06-06 14:28:02,924 - github_signals - INFO - Matched 0 Product Hunt products with GitHub repos
+2025-06-06 14:28:02,924 - github_signals - INFO - Collecting from Hacker News
+2025-06-06 14:28:02,927 - ShowHNCollector - INFO - Collecting Show HN posts...
+2025-06-06 14:28:20,468 - ShowHNCollector - INFO - Collected 5 Show HN posts
+2025-06-06 14:28:20,470 - github_signals - INFO - Matched 4 Hacker News stories with GitHub repos
+2025-06-06 14:28:20,470 - github_signals - INFO - Total unique repositories: 9
+2025-06-06 14:28:20,470 - github_signals - INFO - Scoring repositories
+2025-06-06 14:28:23,741 - github_signals - DEBUG - Scored aaPanel/BillionMail with 5/10
+2025-06-06 14:28:27,143 - github_signals - DEBUG - Scored donnemartin/system-design-primer with 2/10
+2025-06-06 14:28:30,260 - github_signals - DEBUG - Scored Fosowl/agenticSeek with 5/10
+2025-06-06 14:28:33,480 - github_signals - DEBUG - Scored livestorejs/livestore with 4/10
+2025-06-06 14:28:36,628 - github_signals - DEBUG - Scored gitroomhq/postiz-app with 4/10
+2025-06-06 14:28:39,428 - github_signals - DEBUG - Scored hyperdxio/hyperdx with 3/10
+2025-06-06 14:28:42,847 - github_signals - DEBUG - Scored lingodotdev/lingo.dev with 3/10
+2025-06-06 14:28:50,255 - github_signals - DEBUG - Scored agno-agi/agno with 4/10
+2025-06-06 14:28:52,220 - github_signals - DEBUG - Scored DmitriBogdanov/UTL with 2/10
+2025-06-06 14:28:52,220 - github_signals - INFO - Generating weekly report
+2025-06-06 14:28:52,246 - weekly_gems - INFO - Generating Weekly Dev Tools Gems report for 2025-06-06
+2025-06-06 14:28:52,248 - weekly_gems - INFO - Report saved to /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-06.md
+2025-06-06 14:28:52,250 - github_signals - INFO - Generating API JSON for dashboard
+2025-06-06 14:28:52,255 - github_signals - INFO - API JSON generated: docs/api/latest.json
+2025-06-06 14:28:52,255 - github_signals - INFO - Weekly Dev Tools Gems report generated: /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-06.md

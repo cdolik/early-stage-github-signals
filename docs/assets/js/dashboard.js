@@ -26,6 +26,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async loadData() {
         try {
+            // Try to load simplified format first
+            try {
+                const simplifiedResponse = await fetch('./api/simplified.json');
+                if (simplifiedResponse.ok) {
+                    const simplifiedData = await simplifiedResponse.json();
+                    if (simplifiedData.repositories && simplifiedData.repositories.length > 0) {
+                        console.log("Loaded simplified data format");
+                        
+                        // Convert to our expected format
+                        this.data = {
+                            repositories: simplifiedData.repositories.map(repo => ({
+                                name: repo.name,
+                                description: repo.description || '',
+                                language: repo.language || 'Unknown',
+                                total_score: repo.score,
+                                why: repo.why
+                            }))
+                        };
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.log("Simplified format not available, falling back to legacy format");
+            }
+            
+            // Fall back to legacy format
             const response = await fetch('./api/latest.json');
             if (!response.ok) throw new Error('Failed to fetch data');
             
@@ -42,12 +68,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         this.categories = {
             hot: this.data.repositories.filter(repo => 
-                repo.total_score >= 30 && 
+                repo.total_score >= 8 && 
                 this.isDaysOld(repo.created_at, 7)
             ),
             'vc-ready': this.data.repositories.filter(repo => 
-                repo.total_score >= 25 && 
-                repo.organization_score >= 8 &&
+                repo.total_score >= 7 && 
+                repo.organization_score >= 2 &&
                 (repo.has_website || repo.yc_mention)
             ),
             'ai-ml': this.data.repositories.filter(repo => 
@@ -154,10 +180,16 @@ document.addEventListener('DOMContentLoaded', () => {
     createRepositoryCard(repo) {
         const card = document.createElement('div');
         card.className = 'repository-card';
+        
+        // Create the why info (signals that contributed to the score)
+        const whyInfo = repo.why && repo.why.length ? 
+            `<p class="repo-signals">${repo.why.join(', ')}</p>` : '';
+            
         card.innerHTML = `
             <h3>${repo.name}</h3>
             <p>${repo.description}</p>
-            <p>Score: ${repo.total_score}</p>
+            <p>Score: ${repo.total_score}/10</p>
+            ${whyInfo}
         `;
         return card;
     }

@@ -8,37 +8,29 @@
 
 ## 🎯 What It Does
 
-This platform automatically analyzes trending GitHub repositories to identify startups with high potential **before they hit mainstream VC radar**. Using a sophisticated 50-point scoring algorithm, it finds companies 4-8 weeks earlier than traditional deal sourcing.
+This platform automatically analyzes trending GitHub repositories to identify startups with high potential **before they hit mainstream VC radar**. Using a focused 10-point scoring system, it finds companies 4-8 weeks earlier than traditional deal sourcing.
 
 ### 🚀 [**View Live Dashboard**](https://cdolik.github.io/early-stage-github-signals/)
 
 ## ✨ Key Features
 
-- **🔍 Automated Discovery**: Scans 1000+ repositories weekly
-- **📊 50-Point Scoring**: Evaluates repository + organization + community signals
-- **📈 Trend Analysis**: Identifies patterns in startup activity
+- **🔍 Multi-Source Discovery**: GitHub Trending + Product Hunt + Hacker News
+- **📊 10-Point Scoring**: Focused on meaningful momentum signals
+- **� Quality Threshold**: Only surfaces repos scoring 7+/10 points
 - **🤖 Weekly Automation**: GitHub Actions generates reports automatically
 - **💻 Professional Dashboard**: Clean, VC-friendly interface
 - **📱 Mobile Responsive**: Works on all devices
 
 ---
 
-## 🏆 Scoring Algorithm
+## 🏆 Focused 10-Point Scoring System
 
-Our algorithm evaluates three key areas:
+Our algorithm focuses exclusively on momentum signals that matter:
 
-### Repository Signals (20 points)
-- Recent creation, professional languages, CI/CD setup
-- Documentation quality, development activity
-- External website, startup keywords, accelerator mentions
-
-### Organization Signals (15 points)  
-- Team size, multiple repositories, professional profiles
-- Organization website, hiring indicators
-
-### Community Signals (15 points)
-- Star growth velocity, external contributors
-- Issue engagement, fork activity, social mentions
+1. **Commit Surge (3 pts)**: 10+ commits in 14 days, 3+ with "feat:" or "add"
+2. **Star Velocity (3 pts)**: 10+ stars gained in 14 days  
+3. **Team Traction (2 pts)**: 2-5 contributors with 5+ commits each in 30 days
+4. **Dev Ecosystem Fit (2 pts)**: Python/TypeScript/Rust OR topics like "devops", "cli", "sdk"
 
 ## 🚀 Quick Start
 
@@ -63,13 +55,11 @@ export GITHUB_TOKEN="your_github_token"
 ### Running the Platform
 
 ```bash
-# Full run (processes many repositories, can take 15+ minutes)
-python run.py
+# Generate this week's report
+./run_weekly_gems.sh
 
-# Quick test run (5 repositories, minimal API usage)
-./test_run.sh
-# or
-python run.py --debug --lite --max-repos 5 --skip-hackernews
+# Quick test run (minimal API usage)
+python weekly_gems_cli.py --debug --max-repos 5 --skip-hackernews
 ```
 
 ### Command Line Options
@@ -77,15 +67,11 @@ python run.py --debug --lite --max-repos 5 --skip-hackernews
 | Option | Description |
 |--------|-------------|
 | `--debug` | Enable debug logging |
-| `--lite` | Run in lite mode with minimal API calls |
 | `--max-repos N` | Limit analysis to N repositories |
+| `--min-stars N` | Minimum stars for consideration |
 | `--skip-hackernews` | Skip Hacker News data collection |
-| `--dry-run` | Run without API calls (sample data) |
-| `--force-refresh` | Force refresh cached data |
+| `--skip-producthunt` | Skip Product Hunt data collection |
 | `--skip-api` | Skip API file generation |
-| `--skip-html` | Skip HTML dashboard generation |
-| `--skip-reports` | Skip Markdown report generation |
-| `--date YYYY-MM-DD` | Set report date (defaults to today) |
 
 ### API Usage Optimization
 
@@ -97,7 +83,7 @@ The platform identifies startups like:
 
 | Repository | Score | Why Interesting |
 |------------|-------|-----------------|
-| ai-startup/platform | 42/50 | Ex-Google team, rapid growth, YC-backed |
+| ai-startup/platform | 9/10 | 14 commits in last week, 25+ stars gained, 3 active contributors |
 | fintech-co/api | 38/50 | Professional setup, active development |
 | saas-tool/app | 35/50 | Strong community, has product website |
 
