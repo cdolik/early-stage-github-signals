@@ -10,8 +10,10 @@ import os
 import sys
 import datetime
 import logging
+import json
 from github import Github
 from typing import Dict, List, Any
+from pathlib import Path
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -34,7 +36,106 @@ def parse_args():
     parser.add_argument('--min-stars', type=int, default=5, help='Minimum stars for consideration')
     parser.add_argument('--skip-producthunt', action='store_true', help='Skip Product Hunt collection')
     parser.add_argument('--skip-hackernews', action='store_true', help='Skip Hacker News collection')
+    parser.add_argument('--skip-api', action='store_true', help='Skip API file generation')
     return parser.parse_args()
+
+
+def generate_api_json(scored_repos: List[Dict[str, Any]], report_date: datetime.datetime) -> str:
+    """
+    Generate a JSON API file for the dashboard based on the 10-point system.
+    
+    Args:
+        scored_repos: List of repositories with scores
+        report_date: Date of the report
+        
+    Returns:
+        Path to the generated API file
+    """
+    # Sort repos by score (highest first)
+    sorted_repos = sorted(scored_repos, key=lambda r: r.get('score', 0), reverse=True)
+    
+    # Transform repos to the API format
+    api_repos = []
+    for repo in sorted_repos:
+        # Map the 10-point scoring system to the API format expected by the dashboard
+        score_details = repo.get('score_details', {})
+        
+        # For backwards compatibility with the dashboard, include all required fields
+        api_repo = {
+            'id': repo.get('id', hash(repo.get('full_name', ''))),
+            'name': repo.get('name', ''),
+            'full_name': repo.get('full_name', ''),
+            'url': repo.get('html_url', '') or repo.get('url', ''),
+            'description': repo.get('description', ''),
+            'language': repo.get('language', ''),
+            'stars': repo.get('stars', 0) or repo.get('stargazers_count', 0),
+            'forks': repo.get('forks', 0) or repo.get('forks_count', 0),
+            'open_issues': repo.get('open_issues', 0) or repo.get('open_issues_count', 0),
+            'created_at': repo.get('created_at', ''),
+            'organization': repo.get('full_name', '').split('/')[0] if repo.get('full_name') else '',
+            
+            # Map the 10-point system to the expected fields
+            'total_score': repo.get('score', 0),
+            
+            # Map component scores - distribute the 10 points across the expected categories
+            'repository_score': score_details.get('commit_surge', 0) + score_details.get('dev_ecosystem_fit', 0), 
+            'organization_score': score_details.get('team_traction', 0),
+            'community_score': score_details.get('star_velocity', 0),
+            
+            'has_website': repo.get('has_website', False),
+            'yc_mention': repo.get('yc_mention', False) or ('yc' in repo.get('description', '').lower()),
+            'topics': repo.get('topics', []),
+            
+            # Add the why information as a single string for the frontend
+            'why': ' + '.join([signal.split('(')[0].strip() for signal in repo.get('score_details', {}).get('signals', [])]) or 'N/A'
+        }
+        api_repos.append(api_repo)
+    
+    # Create the API data structure
+    api_data = {
+        'generated_at': report_date.isoformat(),
+        'total_repositories': len(api_repos),
+        'repositories': api_repos
+    }
+    
+    # Ensure api directory exists
+    api_dir = Path('docs/api')
+    api_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Write to latest.json
+    latest_file = api_dir / 'latest.json'
+    with open(latest_file, 'w', encoding='utf-8') as f:
+        json.dump(api_data, f)
+    
+    # Also write a dated version
+    date_str = report_date.strftime('%Y-%m-%d')
+    dated_file = api_dir / f"{date_str}.json"
+    with open(dated_file, 'w', encoding='utf-8') as f:
+        json.dump(api_data, f)
+    
+    # Create a simplified version as requested
+    simplified_repos = []
+    for repo in sorted_repos:
+        # For now include top-scored repositories regardless of score (normally 7+)
+        if repo.get('score', 0) >= 4:  # Temporarily lowered for testing
+            simplified_repos.append({
+                'name': repo.get('name', ''),
+                'score': repo.get('score', 0),
+                'language': repo.get('language', 'Unknown'),
+                'why': ' + '.join([signal.split('(')[0].strip() for signal in repo.get('score_details', {}).get('signals', [])]) or 'N/A'
+            })
+    
+    # Create the simplified API data structure
+    simplified_data = {
+        'repositories': simplified_repos
+    }
+    
+    # Write simplified.json
+    simplified_file = api_dir / 'simplified.json'
+    with open(simplified_file, 'w', encoding='utf-8') as f:
+        json.dump(simplified_data, f, indent=2)
+    
+    return str(latest_file)
 
 
 def main():
@@ -163,6 +264,12 @@ def main():
     logger.info("Generating weekly report")
     report_generator = WeeklyGemsReportGenerator(config)
     report_path = report_generator.generate_report(scored_repos)
+    
+    # Step 4: Generate API JSON (if not skipped)
+    if not args.skip_api:
+        logger.info("Generating API JSON for dashboard")
+        api_path = generate_api_json(scored_repos, datetime.datetime.now())
+        logger.info(f"API JSON generated: {api_path}")
     
     logger.info(f"Weekly Dev Tools Gems report generated: {report_path}")
     print(f"\nReport generated: {report_path}")
