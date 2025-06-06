@@ -27,9 +27,19 @@ jobs:
         
     - name: Generate weekly report
       run: |
+        chmod +x ./run_weekly_gems.sh
         ./run_weekly_gems.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Create snapshot copy
+      run: |
+        # Get current date
+        DATE=$(date +%F)
+        # Create data directory if it doesn't exist
+        mkdir -p docs/data
+        # Copy latest.json to a dated snapshot
+        cp docs/api/latest.json docs/data/${DATE}.json
         
     - name: Commit and push generated reports
       run: |
@@ -37,7 +47,7 @@ jobs:
         git config --local user.name "GitHub Actions"
         
         # Add generated files
-        git add reports/ docs/
+        git add reports/ docs/api/ docs/data/
         
         # Commit changes (if any)
         if git diff --staged --quiet; then

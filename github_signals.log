@@ -791,3 +791,80 @@ TypeError: can't subtract offset-naive and offset-aware datetimes
 2025-06-06 14:28:52,250 - github_signals - INFO - Generating API JSON for dashboard
 2025-06-06 14:28:52,255 - github_signals - INFO - API JSON generated: docs/api/latest.json
 2025-06-06 14:28:52,255 - github_signals - INFO - Weekly Dev Tools Gems report generated: /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-06.md
+2025-06-06 15:04:41,935 - github_signals - INFO - Starting Weekly Dev Tools Gems CLI
+2025-06-06 15:04:41,935 - github_signals - INFO - GitHub API client initialized
+2025-06-06 15:04:41,935 - github_signals - INFO - Collecting from GitHub Trending
+2025-06-06 15:04:41,955 - TrendingCollector - INFO - Collecting GitHub trending repositories...
+2025-06-06 15:04:42,956 - TrendingCollector - INFO - Age filtering requires API calls - skipping for MVP. Will require manual verification.
+2025-06-06 15:04:42,956 - TrendingCollector - INFO - Collected 5 trending repositories
+2025-06-06 15:04:42,956 - github_signals - INFO - Collected 5 trending repositories
+2025-06-06 15:04:42,956 - github_signals - INFO - Total unique repositories: 5
+2025-06-06 15:04:42,956 - github_signals - INFO - Scoring repositories
+2025-06-06 15:04:46,728 - github_signals - DEBUG - Scored aaPanel/BillionMail with 5/10
+2025-06-06 15:04:50,147 - github_signals - DEBUG - Scored donnemartin/system-design-primer with 2/10
+2025-06-06 15:04:53,425 - github_signals - DEBUG - Scored Fosowl/agenticSeek with 5/10
+2025-06-06 15:04:56,990 - github_signals - DEBUG - Scored livestorejs/livestore with 4/10
+2025-06-06 15:05:00,345 - github_signals - DEBUG - Scored gitroomhq/postiz-app with 4/10
+2025-06-06 15:05:00,345 - github_signals - INFO - Generating weekly report
+2025-06-06 15:05:00,366 - weekly_gems - INFO - Generating Weekly Dev Tools Gems report for 2025-06-06
+2025-06-06 15:05:00,379 - weekly_gems - INFO - Report saved to /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-06.md
+2025-06-06 15:05:00,390 - github_signals - INFO - Generating API JSON for dashboard
+2025-06-06 15:05:00,402 - github_signals - INFO - API JSON generated: docs/api/latest.json
+2025-06-06 15:05:00,402 - github_signals - INFO - Weekly Dev Tools Gems report generated: /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-06.md
+2025-06-06 15:35:03,067 - github_signals - INFO - Starting Weekly Dev Tools Gems CLI
+2025-06-06 15:35:03,067 - github_signals - INFO - GitHub API client initialized
+2025-06-06 15:35:03,067 - github_signals - INFO - Collecting from GitHub Trending
+2025-06-06 15:35:03,076 - TrendingCollector - INFO - Collecting GitHub trending repositories...
+2025-06-06 15:35:04,251 - TrendingCollector - INFO - Age filtering requires API calls - skipping for MVP. Will require manual verification.
+2025-06-06 15:35:04,251 - TrendingCollector - INFO - Collected 5 trending repositories
+2025-06-06 15:35:04,251 - github_signals - INFO - Collected 5 trending repositories
+2025-06-06 15:35:04,251 - github_signals - INFO - Total unique repositories: 5
+2025-06-06 15:35:04,251 - github_signals - INFO - Scoring repositories
+2025-06-06 15:35:07,845 - github_signals - DEBUG - Scored aaPanel/BillionMail with 5/10
+2025-06-06 15:35:11,402 - github_signals - DEBUG - Scored donnemartin/system-design-primer with 2/10
+2025-06-06 15:35:14,622 - github_signals - DEBUG - Scored Fosowl/agenticSeek with 5/10
+2025-06-06 15:35:17,902 - github_signals - DEBUG - Scored livestorejs/livestore with 4/10
+2025-06-06 15:35:21,120 - github_signals - DEBUG - Scored gitroomhq/postiz-app with 4/10
+2025-06-06 15:35:21,120 - github_signals - INFO - Generating weekly report
+2025-06-06 15:35:21,142 - weekly_gems - INFO - Generating Weekly Dev Tools Gems report for 2025-06-06
+2025-06-06 15:35:21,149 - weekly_gems - INFO - Report saved to /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-06.md
+2025-06-06 15:35:21,168 - github_signals - INFO - Generating API JSON for dashboard
+2025-06-06 15:35:21,181 - json_generator - INFO - Generating JSON files for 2025-06-06
+2025-06-06 15:35:21,196 - json_generator - INFO - Generated JSON files at docs/api/latest.json and docs/data/2025-06-06.json
+2025-06-06 15:35:21,196 - github_signals - INFO - API JSON files generated: docs/api/latest.json, docs/data/2025-06-06.json
+2025-06-06 15:35:21,196 - github_signals - INFO - Weekly Dev Tools Gems report generated: /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-06.md
+2025-06-06 15:46:33,969 - github_signals - INFO - Starting Weekly Dev Tools Gems CLI
+2025-06-06 15:46:33,970 - github_signals - INFO - GitHub API client initialized
+2025-06-06 15:46:33,970 - github_signals - INFO - Collecting from GitHub Trending
+2025-06-06 15:46:33,979 - TrendingCollector - INFO - Collecting GitHub trending repositories...
+2025-06-06 15:46:34,901 - TrendingCollector - INFO - Age filtering requires API calls - skipping for MVP. Will require manual verification.
+2025-06-06 15:46:34,901 - TrendingCollector - INFO - Collected 5 trending repositories
+2025-06-06 15:46:34,901 - github_signals - INFO - Collected 5 trending repositories
+2025-06-06 15:46:34,901 - github_signals - INFO - Total unique repositories: 5
+2025-06-06 15:46:34,901 - github_signals - INFO - Scoring repositories
+2025-06-06 15:46:38,176 - github_signals - DEBUG - Scored aaPanel/BillionMail with 5/10
+2025-06-06 15:46:41,661 - github_signals - DEBUG - Scored donnemartin/system-design-primer with 2/10
+2025-06-06 15:46:44,856 - github_signals - DEBUG - Scored Fosowl/agenticSeek with 5/10
+2025-06-06 15:46:48,159 - github_signals - DEBUG - Scored livestorejs/livestore with 4/10
+2025-06-06 15:46:51,459 - github_signals - DEBUG - Scored gitroomhq/postiz-app with 4/10
+2025-06-06 15:46:51,459 - github_signals - INFO - Generating weekly report
+2025-06-06 15:46:51,481 - weekly_gems - INFO - Generating Weekly Dev Tools Gems report for 2025-06-06
+2025-06-06 15:46:51,494 - weekly_gems - INFO - Report saved to /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-06.md
+2025-06-06 15:46:51,505 - github_signals - INFO - Generating API JSON for dashboard
+2025-06-06 15:46:51,515 - json_generator - INFO - Generating JSON files for 2025-06-06
+2025-06-06 15:46:51,517 - json_generator - INFO - Generated JSON files at docs/api/latest.json and docs/data/2025-06-06.json
+2025-06-06 15:46:51,517 - github_signals - INFO - API JSON files generated: docs/api/latest.json, docs/data/2025-06-06.json
+2025-06-06 15:46:51,517 - github_signals - INFO - Weekly Dev Tools Gems report generated: /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-06.md
+2025-06-06 16:02:23,667 - github_signals - INFO - Starting Weekly Dev Tools Gems CLI
+2025-06-06 16:02:23,667 - github_signals - INFO - GitHub API client initialized
+2025-06-06 16:02:23,668 - github_signals - INFO - Collecting from GitHub Trending
+2025-06-06 16:02:23,674 - TrendingCollector - INFO - Collecting GitHub trending repositories...
+2025-06-06 16:02:24,811 - TrendingCollector - INFO - Age filtering requires API calls - skipping for MVP. Will require manual verification.
+2025-06-06 16:02:24,811 - TrendingCollector - INFO - Collected 5 trending repositories
+2025-06-06 16:02:24,811 - github_signals - INFO - Collected 5 trending repositories
+2025-06-06 16:02:24,811 - github_signals - INFO - Total unique repositories: 5
+2025-06-06 16:02:24,811 - github_signals - INFO - Scoring repositories
+2025-06-06 16:02:28,457 - github_signals - DEBUG - Scored aaPanel/BillionMail with 5/10
+2025-06-06 16:02:32,188 - github_signals - DEBUG - Scored donnemartin/system-design-primer with 2/10
+2025-06-06 16:02:35,329 - github_signals - DEBUG - Scored Fosowl/agenticSeek with 5/10
+2025-06-06 16:02:38,534 - github_signals - DEBUG - Scored livestorejs/livestore with 4/10
