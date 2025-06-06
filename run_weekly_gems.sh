@@ -15,7 +15,7 @@ fi
 echo "🚀 Running Weekly Dev Tools Gems - $(date '+%Y-%m-%d')"
 
 # Run the weekly gems CLI
-python3 weekly_gems_cli.py --debug
+python3 ./weekly_gems_cli.py --debug
 
 # Check exit status
 if [ $? -eq 0 ]; then
