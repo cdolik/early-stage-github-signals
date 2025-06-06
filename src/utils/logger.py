@@ -6,14 +6,14 @@ import logging
 from typing import Optional
 
 
-def setup_logger(name: str = None, level: Optional[str] = None,
+def setup_logger(name: str = None, level = None,
                 log_file: Optional[str] = None) -> logging.Logger:
     """
     Set up and configure a logger.
     
     Args:
         name: The logger name (default is root logger)
-        level: The log level (default from config)
+        level: The log level (default from config), can be string or int
         log_file: The log file path (default from config)
         
     Returns:
@@ -31,8 +31,12 @@ def setup_logger(name: str = None, level: Optional[str] = None,
     if log_file is None:
         log_file = config.get('logging.file', 'github_signals.log')
         
-    # Convert string level to logging level
-    numeric_level = getattr(logging, level.upper(), logging.INFO)
+    # Convert string level to logging level if it's a string
+    if isinstance(level, str):
+        numeric_level = getattr(logging, level.upper(), logging.INFO)
+    else:
+        # Assume it's already a numeric level
+        numeric_level = level
     
     # Create logger
     logger = logging.getLogger(name)
