@@ -1,0 +1,140 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Repository",
+    "description": "Schema for a repository in the GitHub Signals API",
+    "type": "object",
+    "required": [
+        "name",
+        "full_name",
+        "repo_url",
+        "description",
+        "score",
+        "signals",
+        "ecosystem",
+        "language",
+        "stars",
+        "forks"
+    ],
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "Repository name"
+        },
+        "full_name": {
+            "type": "string",
+            "description": "Full repository name including owner"
+        },
+        "repo_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Repository URL"
+        },
+        "description": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "Repository description"
+        },
+        "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10,
+            "description": "Overall repository score"
+        },
+        "signals": {
+            "type": "object",
+            "description": "Signal scores breakdown",
+            "properties": {
+                "commit_surge": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 3,
+                    "description": "Commit activity signal"
+                },
+                "star_velocity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 3,
+                    "description": "Star growth velocity signal"
+                },
+                "team_traction": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 2,
+                    "description": "Team collaboration signal"
+                },
+                "dev_ecosystem_fit": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 2,
+                    "description": "Developer ecosystem fit signal"
+                }
+            }
+        },
+        "ecosystem": {
+            "type": "string",
+            "enum": [
+                "Frontend",
+                "Backend",
+                "DevOps",
+                "Data/AI",
+                "DevTools",
+                "Other"
+            ],
+            "description": "Ecosystem category"
+        },
+        "language": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "Primary programming language"
+        },
+        "stars": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of GitHub stars"
+        },
+        "forks": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of GitHub forks"
+        },
+        "why_matters": {
+            "type": "string",
+            "description": "Explanation of why this repository matters"
+        },
+        "created_at": {
+            "type": "string",
+            "description": "Repository creation date"
+        },
+        "topics": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "Repository topics/tags"
+        },
+        "score_change": {
+            "type": [
+                "number",
+                "null"
+            ],
+            "description": "Score change from previous week"
+        },
+        "trend": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "enum": [
+                "up",
+                "down",
+                "stable",
+                null
+            ],
+            "description": "Trend direction compared to previous week"
+        }
+    }
+}

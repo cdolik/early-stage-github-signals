@@ -17,10 +17,12 @@ Early Stage GitHub Signals is a powerful signal engine that identifies promising
 
 - **🔍 Multi-Source Discovery**: GitHub Trending + Product Hunt + Hacker News
 - **📊 10-Point Scoring**: Focused on meaningful momentum signals
-- **� Quality Threshold**: Only surfaces repos scoring 7+/10 points
+- **🎯 Quality Threshold**: Only surfaces repos scoring 7+/10 points
 - **🤖 Weekly Automation**: GitHub Actions generates reports automatically
 - **💻 Professional Dashboard**: Clean, VC-friendly interface
 - **📱 Mobile Responsive**: Works on all devices
+- **📄 [Project at a glance](PROJECT_STATUS.md)**: Current status and investor brief
+- **📄 [Codebase Status Report (June 2025)](docs/CODEBASE_STATUS.md)**: Technical health assessment
 
 ---
 

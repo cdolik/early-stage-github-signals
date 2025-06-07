@@ -1,0 +1,34 @@
+name: Update Weekly Metrics
+
+on:
+  schedule:
+    - cron: '0 10 * * 1'  # Runs every Monday at 10:00 UTC
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  update-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate metrics
+        run: |
+          python src/utils/generate_metrics.py
+          mv metrics_table.md docs/metrics.md
+
+      - name: Commit metrics
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update weekly metrics table"
+          file_pattern: 'docs/metrics.md'
