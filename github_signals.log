@@ -957,3 +957,41 @@ TypeError: can't subtract offset-naive and offset-aware datetimes
 2025-06-07 08:47:44,344 - json_generator - INFO - Generated JSON files at docs/api/latest.json and docs/data/2025-06-07.json
 2025-06-07 08:47:44,344 - github_signals - INFO - API JSON files generated: docs/api/latest.json, docs/data/2025-06-07.json
 2025-06-07 08:47:44,345 - github_signals - INFO - Weekly Dev Tools Gems report generated: /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-07.md
+2025-06-07 11:24:33,149 - github_signals - INFO - Starting Weekly Dev Tools Gems CLI
+2025-06-07 11:24:33,150 - github_signals - INFO - GitHub API client initialized
+2025-06-07 11:24:33,150 - github_signals - INFO - Collecting from GitHub Trending
+2025-06-07 11:24:33,154 - TrendingCollector - INFO - Collecting GitHub trending repositories...
+2025-06-07 11:24:34,265 - TrendingCollector - INFO - Age filtering requires API calls - skipping for MVP. Will require manual verification.
+2025-06-07 11:24:34,265 - TrendingCollector - INFO - Collected 9 trending repositories
+2025-06-07 11:24:34,265 - github_signals - INFO - Collected 9 trending repositories
+2025-06-07 11:24:34,265 - github_signals - INFO - Collecting from Product Hunt
+2025-06-07 11:24:34,280 - ProductHuntCollector - INFO - Collecting Product Hunt weekly trending products...
+2025-06-07 11:24:36,397 - ProductHuntCollector - ERROR - Could not find Product Hunt data in page
+2025-06-07 11:24:36,398 - ProductHuntCollector - INFO - Collected 0 Product Hunt products
+2025-06-07 11:24:36,398 - github_signals - INFO - Matched 0 Product Hunt products with GitHub repos
+2025-06-07 11:24:36,398 - github_signals - INFO - Collecting from Hacker News
+2025-06-07 11:24:36,408 - ShowHNCollector - INFO - Collecting Show HN posts...
+2025-06-07 11:24:53,096 - ShowHNCollector - INFO - Collected 4 Show HN posts
+2025-06-07 11:24:53,097 - github_signals - INFO - Matched 3 Hacker News stories with GitHub repos
+2025-06-07 11:24:53,097 - github_signals - INFO - Total unique repositories: 12
+2025-06-07 11:24:53,097 - github_signals - INFO - Scoring repositories
+2025-06-07 11:24:55,459 - github_signals - DEBUG - Scored frdel/agent-zero with 3/10
+2025-06-07 11:25:01,328 - github_signals - DEBUG - Scored nautechsystems/nautilus_trader with 4/10
+2025-06-07 11:25:04,764 - github_signals - DEBUG - Scored donnemartin/system-design-primer with 2/10
+2025-06-07 11:25:08,145 - github_signals - DEBUG - Scored gitroomhq/postiz-app with 4/10
+2025-06-07 11:25:11,364 - github_signals - DEBUG - Scored Fosowl/agenticSeek with 5/10
+2025-06-07 11:25:15,520 - github_signals - DEBUG - Scored netbirdio/netbird with 3/10
+2025-06-07 11:25:23,914 - github_signals - DEBUG - Scored MervinPraison/PraisonAI with 4/10
+2025-06-07 11:25:29,614 - github_signals - DEBUG - Scored block/goose with 4/10
+2025-06-07 11:25:38,292 - github_signals - DEBUG - Scored scrapy/scrapy with 4/10
+2025-06-07 11:25:41,470 - github_signals - DEBUG - Scored hyperdxio/hyperdx with 3/10
+2025-06-07 11:25:45,365 - github_signals - DEBUG - Scored lingodotdev/lingo.dev with 3/10
+2025-06-07 11:25:54,679 - github_signals - DEBUG - Scored agno-agi/agno with 4/10
+2025-06-07 11:25:54,679 - github_signals - INFO - Generating weekly report
+2025-06-07 11:25:54,698 - weekly_gems - INFO - Generating Weekly Dev Tools Gems report for 2025-06-07
+2025-06-07 11:25:54,708 - weekly_gems - INFO - Report saved to /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-07.md
+2025-06-07 11:25:54,721 - github_signals - INFO - Generating API JSON for dashboard
+2025-06-07 11:25:54,727 - json_generator - INFO - Generating JSON files for 2025-06-07
+2025-06-07 11:25:54,739 - json_generator - INFO - Generated JSON files at docs/api/latest.json and docs/data/2025-06-07.json
+2025-06-07 11:25:54,739 - github_signals - INFO - API JSON files generated: docs/api/latest.json, docs/data/2025-06-07.json
+2025-06-07 11:25:54,739 - github_signals - INFO - Weekly Dev Tools Gems report generated: /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-07.md

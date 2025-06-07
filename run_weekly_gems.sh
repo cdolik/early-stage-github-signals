@@ -6,6 +6,12 @@
 export PATH=$PATH:/usr/local/bin
 cd "$(dirname "$0")"
 
+# Load environment variables from .env file if it exists
+if [ -f ".env" ]; then
+    echo "Loading environment from .env file"
+    export $(grep -v '^#' .env | xargs)
+fi
+
 # Check if GitHub token is set
 if [ -z "$GITHUB_TOKEN" ]; then
     echo "⚠️ GITHUB_TOKEN not set. Some scoring features will be limited."
