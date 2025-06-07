@@ -162,3 +162,19 @@ cache:
 logging:
   level: "INFO"
   file: "github_signals.log"
+
+# Scoring system configuration
+scoring:
+  # Quality threshold (minimum score to be featured)
+  threshold: 7.0
+  
+  # Scoring weights (out of 10 total points)
+  weights:
+    commit_surge: 3.0
+    star_velocity: 3.0
+    team_traction: 2.0
+    ecosystem_fit: 2.0
+  
+  # Log repositories that narrowly miss the threshold
+  log_near_misses: true
+  near_miss_threshold: 6.0

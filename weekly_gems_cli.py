@@ -29,14 +29,28 @@ from src.utils.config import Config
 
 def parse_args():
     """Parse command line arguments."""
-    parser = argparse.ArgumentParser(description='Weekly Dev Tools Gems CLI')
-    parser.add_argument('--config', type=str, default='config.yaml', help='Path to config file')
-    parser.add_argument('--debug', action='store_true', help='Enable debug logging')
-    parser.add_argument('--max-repos', type=int, default=25, help='Maximum repositories to process')
-    parser.add_argument('--min-stars', type=int, default=5, help='Minimum stars for consideration')
-    parser.add_argument('--skip-producthunt', action='store_true', help='Skip Product Hunt collection')
-    parser.add_argument('--skip-hackernews', action='store_true', help='Skip Hacker News collection')
-    parser.add_argument('--skip-api', action='store_true', help='Skip API file generation')
+    parser = argparse.ArgumentParser(
+        description='Early Stage GitHub Signals - Weekly Dev Tools Gems CLI',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    parser.add_argument('--config', type=str, default='config.yaml', 
+                        help='Path to configuration file')
+    parser.add_argument('--debug', action='store_true', 
+                        help='Enable debug logging')
+    parser.add_argument('--max-repos', type=int, default=25, 
+                        help='Maximum repositories to process')
+    parser.add_argument('--min-stars', type=int, default=5, 
+                        help='Minimum stars for consideration')
+    parser.add_argument('--skip-producthunt', action='store_true', 
+                        help='Skip Product Hunt collection')
+    parser.add_argument('--skip-hackernews', action='store_true', 
+                        help='Skip Hacker News collection')
+    parser.add_argument('--skip-api', action='store_true', 
+                        help='Skip API file generation')
+    parser.add_argument('--force', action='store_true', 
+                        help='Skip cache and force refresh from all sources')
+    parser.add_argument('--threshold', type=float, 
+                        help='Override quality threshold score (default from config)')
     return parser.parse_args()
 
 

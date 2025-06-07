@@ -4,7 +4,7 @@ Generates standardized JSON output from repository data.
 """
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 import logging
 from typing import Dict, List, Any, Optional, Union
@@ -13,6 +13,13 @@ from ..utils.logger import setup_logger
 
 
 class JSONGenerator:
+    def _write_last_week_cache(self, formatted_repos: list[dict[str, Any]]):
+        """
+        Write last week's scores to disk for next run's delta tracking.
+        """
+        import json
+        with open("docs/data/_last_week_scores.json", "w") as fh:
+            json.dump({r["name"]: r["score"] for r in formatted_repos}, fh, indent=2)
     """
     Generates JSON files for the GitHub Signals dashboard.
     """
@@ -52,46 +59,82 @@ class JSONGenerator:
         date_str = report_date.strftime('%Y-%m-%d')
         self.logger.info(f"Generating JSON files for {date_str}")
         
-        # Format data for API
-        api_data = self._format_repos_for_api(scored_repos)
+        # Load previous week's data for delta tracking
+        previous_scores, previous_trends = self._load_previous_scores_and_trends(report_date)
+        # Format data for API with delta tracking
+        api_data = self._format_repos_for_api(scored_repos, previous_scores, previous_trends)
+        
+        # Add metadata including generation timestamp
+        api_data = {
+            "date": date_str,
+            "date_generated": datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'),
+            "repositories": api_data
+        }
+        
+        # Try to validate the API data if schema validator is available
+        try:
+            from ..validators.schema_validator import SchemaValidator
+            validator = SchemaValidator()
+            is_valid = validator.validate_api_output(api_data)
+            if not is_valid:
+                self.logger.warning("API data failed schema validation")
+                # Get detailed errors for debugging
+                errors = validator.get_validation_errors(api_data, "api")
+                for error in errors:
+                    self.logger.warning(f"Validation error: {error}")
+        except ImportError:
+            self.logger.debug("Schema validator not available, skipping validation")
         
         # Write latest.json for API
         latest_path = self.api_dir / 'latest.json'
         with open(latest_path, 'w', encoding='utf-8') as f:
             json.dump(api_data, f, indent=2)
-            
+
         # Write dated snapshot
         dated_path = self.data_dir / f"{date_str}.json"
         with open(dated_path, 'w', encoding='utf-8') as f:
             json.dump(api_data, f, indent=2)
-            
+
+        # Write last-week cache for next run
+        self._write_last_week_cache(api_data["repositories"])
+
         self.logger.info(f"Generated JSON files at {latest_path} and {dated_path}")
-        
+
         return {
             'latest': str(latest_path),
             'dated': str(dated_path)
         }
     
-    def _format_repos_for_api(self, repos: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _format_repos_for_api(self, repos: List[Dict[str, Any]], 
+                              previous_scores: Optional[dict[str, float]] = None,
+                              previous_trends: Optional[dict[str, list[float]]] = None) -> list[dict[str, Any]]:
         """
         Format repository data for API consumption.
         
         Args:
             repos: List of repository data
-            
+            previous_scores: Dict mapping repo names to previous scores
+            previous_trends: Dict mapping repo names to previous trend lists
         Returns:
             List of formatted repository data
         """
+        if previous_scores is None:
+            previous_scores = {}
+        if previous_trends is None:
+            previous_trends = {}
         # Sort by score descending
         sorted_repos = sorted(repos, key=lambda r: r.get('score', 0), reverse=True)
-        
-        formatted_repos = []
+        formatted_repos: list[dict[str, Any]] = []
         for repo in sorted_repos:
-            # Get score details
             score = repo.get('score', 0)
+            repo_name = repo.get('full_name', '') or repo.get('name', '')
+            prev_score = previous_scores.get(repo_name)
+            score_change: Optional[float] = round(score - prev_score, 2) if prev_score is not None else None
+            prev_trend: list[float] = previous_trends.get(repo_name, [])
+            trend: Optional[list[float]] = prev_trend + [score] if prev_trend else [score]
+            trend = trend[-3:]
+            # ...existing code...
             score_details = repo.get('score_details', {})
-            
-            # Extract signals
             signals = {}
             if 'commit_surge' in score_details:
                 signals['commit_surge'] = score_details['commit_surge']
@@ -101,15 +144,9 @@ class JSONGenerator:
                 signals['team_traction'] = score_details['team_traction']
             if 'dev_ecosystem_fit' in score_details:
                 signals['dev_ecosystem_fit'] = score_details['dev_ecosystem_fit']
-            
-            # Determine ecosystem category
             ecosystem = self._determine_ecosystem(repo)
-            
-            # Generate why_matters text
             why_matters = self._generate_why_matters_text(repo)
-            
-            # Format repository data
-            formatted_repo = {
+            formatted_repo: dict[str, Any] = {
                 "name": repo.get('name', ''),
                 "full_name": repo.get('full_name', ''),
                 "repo_url": repo.get('html_url', '') or repo.get('url', ''),
@@ -123,14 +160,10 @@ class JSONGenerator:
                 "why_matters": why_matters,
                 "created_at": repo.get('created_at', ''),
                 "topics": repo.get('topics', []),
+                "score_change": score_change,
+                "trend": trend
             }
-            
-            # Add trend data if available
-            if 'trend' in repo:
-                formatted_repo['trend'] = repo['trend']
-                
             formatted_repos.append(formatted_repo)
-        
         return formatted_repos
     
     def _determine_ecosystem(self, repo: Dict[str, Any]) -> str:
@@ -220,3 +253,39 @@ class JSONGenerator:
         
         # Fallback text
         return f"Trending {repo.get('language', '')} repository for developer tools"
+    
+    def _load_previous_scores_and_trends(self, report_date: datetime) -> (Dict[str, float], Dict[str, list]):
+        """
+        Load previous week's scores and trends for delta calculation.
+        Args:
+            report_date: Current report date
+        Returns:
+            Tuple of (previous_scores, previous_trends)
+        """
+        previous_date = report_date - timedelta(days=7)
+        previous_date_str = previous_date.strftime('%Y-%m-%d')
+        previous_file = self.data_dir / f"{previous_date_str}.json"
+        previous_scores = {}
+        previous_trends = {}
+        if not previous_file.exists():
+            self.logger.debug(f"No previous data found at {previous_file}")
+            return previous_scores, previous_trends
+        try:
+            with open(previous_file, 'r', encoding='utf-8') as f:
+                previous_data = json.load(f)
+            repositories = previous_data.get('repositories', [])
+            for repo in repositories:
+                name = repo.get('full_name', '') or repo.get('name', '')
+                score = repo.get('score', 0)
+                if name:
+                    previous_scores[name] = score
+                    # Use trend if present, else just previous score
+                    if 'trend' in repo and isinstance(repo['trend'], list):
+                        previous_trends[name] = repo['trend']
+                    else:
+                        previous_trends[name] = [score]
+            self.logger.info(f"Loaded {len(previous_scores)} previous scores from {previous_date_str}")
+            return previous_scores, previous_trends
+        except (json.JSONDecodeError, KeyError) as e:
+            self.logger.warning(f"Failed to load previous scores: {e}")
+            return previous_scores, previous_trends
