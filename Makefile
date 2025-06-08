@@ -1,6 +1,6 @@
 # Early-Stage GitHub Signals Platform Makefile
 
-.PHONY: all install run run-lite test test-coverage lint format metrics serve docs clean pre-commit-install
+.PHONY: all install run run-lite test test-coverage lint format metrics serve validate-schema open-dashboard docs clean pre-commit-install
 
 # Default target
 all: install test
@@ -26,6 +26,20 @@ metrics:
 
 serve:
 	cd docs && python3 -m http.server 8000
+
+validate-schema:
+	pip install jsonschema
+	python scripts/validate_schema.py
+
+validate-json: validate-schema
+
+serve-dashboard:
+	cd docs && python3 -m http.server 8000
+
+open-dashboard: serve-dashboard
+	open http://localhost:8000
+
+dashboard: validate-schema serve-dashboard
 
 docs: metrics
 
