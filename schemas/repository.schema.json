@@ -124,6 +124,13 @@
             "description": "Score change from previous week"
         },
         "trend": {
+            "type": "array",
+            "items": {
+                "type": "number"
+            },
+            "description": "Array of scores over time for trend visualization"
+        },
+        "trendDirection": {
             "type": [
                 "string",
                 "null"
