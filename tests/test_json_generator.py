@@ -61,12 +61,19 @@ class TestJSONGenerator:
         with open(self.api_dir / 'latest.json', 'r') as f:
             data = json.load(f)
         
-        # Check that it's a list of repositories
-        assert isinstance(data, list)
-        assert len(data) == len(SAMPLE_REPOS)
+        # Check that it's an API object with repositories
+        assert isinstance(data, dict)
+        assert 'repositories' in data
+        assert 'date' in data
+        assert 'name' in data
+        assert 'date_generated' in data
+        
+        repositories = data['repositories']
+        assert isinstance(repositories, list)
+        assert len(repositories) == len(SAMPLE_REPOS)
         
         # Check first repo structure
-        repo = data[0]
+        repo = repositories[0]
         assert 'name' in repo
         assert 'repo_url' in repo
         assert 'score' in repo
@@ -88,7 +95,8 @@ class TestJSONGenerator:
             data = json.load(f)
         
         # Check sorting
-        scores = [repo['score'] for repo in data]
+        repositories = data['repositories']
+        scores = [repo['score'] for repo in repositories]
         assert scores == sorted(scores, reverse=True)
     
     def test_why_matters_generation(self):
@@ -101,8 +109,9 @@ class TestJSONGenerator:
             data = json.load(f)
         
         # Check why_matters for first repo
-        assert data[0]['why_matters']
-        assert len(data[0]['why_matters']) <= 80  # Should be limited to 80 chars
+        repositories = data['repositories']
+        assert repositories[0]['why_matters']
+        assert len(repositories[0]['why_matters']) <= 80  # Should be limited to 80 chars
         
         # It should contain bullet points
-        assert '•' in data[0]['why_matters']
+        assert '•' in repositories[0]['why_matters']

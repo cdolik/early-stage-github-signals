@@ -4,6 +4,8 @@
 
 [![Dashboard](https://img.shields.io/badge/Dashboard-Live-brightgreen)](https://cdolik.github.io/early-stage-github-signals/)
 [![GitHub Actions](https://github.com/cdolik/early-stage-github-signals/workflows/Weekly%20GitHub%20Signals%20Report/badge.svg)](https://github.com/cdolik/early-stage-github-signals/actions)
+[![Tests](https://github.com/cdolik/early-stage-github-signals/workflows/Tests/badge.svg)](https://github.com/cdolik/early-stage-github-signals/actions)
+[![Schema Validation](https://github.com/cdolik/early-stage-github-signals/workflows/Validate%20Schema/badge.svg)](https://github.com/cdolik/early-stage-github-signals/actions)
 [![Last Updated](https://img.shields.io/badge/Last%20Updated-2025--06--07-blue)](https://cdolik.github.io/early-stage-github-signals/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 

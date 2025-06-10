@@ -995,3 +995,162 @@ TypeError: can't subtract offset-naive and offset-aware datetimes
 2025-06-07 11:25:54,739 - json_generator - INFO - Generated JSON files at docs/api/latest.json and docs/data/2025-06-07.json
 2025-06-07 11:25:54,739 - github_signals - INFO - API JSON files generated: docs/api/latest.json, docs/data/2025-06-07.json
 2025-06-07 11:25:54,739 - github_signals - INFO - Weekly Dev Tools Gems report generated: /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-07.md
+2025-06-10 18:04:26,717 - json_generator - INFO - Generating JSON files for 2025-06-06
+2025-06-10 18:04:26,984 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:04:27,078 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:04:27,176 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:05:36,438 - json_generator - INFO - Generating JSON files for 2025-06-06
+2025-06-10 18:05:36,513 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpwnassi8q/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpwnassi8q/docs/data/2025-06-06.json
+2025-06-10 18:05:45,572 - json_generator - INFO - Generating JSON files for 2025-06-06
+2025-06-10 18:05:45,641 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpheo2o5tf/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpheo2o5tf/docs/data/2025-06-06.json
+2025-06-10 18:05:45,658 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:05:45,663 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpmgxsz37z/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpmgxsz37z/docs/data/2025-06-10.json
+2025-06-10 18:05:45,716 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:05:45,721 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpv3mgfgn4/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpv3mgfgn4/docs/data/2025-06-10.json
+2025-06-10 18:05:45,736 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:05:45,740 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmppxf9mtkr/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmppxf9mtkr/docs/data/2025-06-10.json
+2025-06-10 18:06:27,770 - json_generator - INFO - Generating JSON files for 2025-06-06
+2025-06-10 18:06:27,831 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpkq7aet9j/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpkq7aet9j/docs/data/2025-06-06.json
+2025-06-10 18:06:27,850 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:06:27,854 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpgi78vhqt/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpgi78vhqt/docs/data/2025-06-10.json
+2025-06-10 18:06:27,876 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:06:27,880 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmph8irzizt/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmph8irzizt/docs/data/2025-06-10.json
+2025-06-10 18:06:27,915 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:06:27,919 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpq2yrvp5_/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpq2yrvp5_/docs/data/2025-06-10.json
+2025-06-10 18:08:37,206 - json_generator - INFO - Generating JSON files for 2025-06-06
+2025-06-10 18:08:37,272 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp97yqth0h/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp97yqth0h/docs/data/2025-06-06.json
+2025-06-10 18:08:37,292 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:08:37,297 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpzfas_ow7/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpzfas_ow7/docs/data/2025-06-10.json
+2025-06-10 18:08:37,317 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:08:37,321 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpv_ps8i5o/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpv_ps8i5o/docs/data/2025-06-10.json
+2025-06-10 18:08:37,331 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:08:37,334 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpglgrp3zz/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpglgrp3zz/docs/data/2025-06-10.json
+2025-06-10 18:08:43,686 - GitHubCollector - INFO - Collecting GitHub repositories...
+2025-06-10 18:08:43,687 - GitHubCollector - INFO - Collecting repositories for language: Python
+2025-06-10 18:08:43,687 - GitHubCollector - ERROR - Error collecting repositories: 'str' object has no attribute 'isoformat'
+2025-06-10 18:08:43,687 - GitHubCollector - INFO - Collecting repositories for language: TypeScript
+2025-06-10 18:08:43,687 - GitHubCollector - ERROR - Error collecting repositories: 'str' object has no attribute 'isoformat'
+2025-06-10 18:08:43,687 - GitHubCollector - INFO - Collecting repositories for language: JavaScript
+2025-06-10 18:08:43,687 - GitHubCollector - ERROR - Error collecting repositories: 'str' object has no attribute 'isoformat'
+2025-06-10 18:08:43,687 - GitHubCollector - INFO - Collecting repositories for language: Go
+2025-06-10 18:08:43,687 - GitHubCollector - ERROR - Error collecting repositories: 'str' object has no attribute 'isoformat'
+2025-06-10 18:08:43,687 - GitHubCollector - INFO - Collecting repositories for language: Rust
+2025-06-10 18:08:43,687 - GitHubCollector - ERROR - Error collecting repositories: 'str' object has no attribute 'isoformat'
+2025-06-10 18:08:43,687 - GitHubCollector - INFO - Collecting repositories for language: Java
+2025-06-10 18:08:43,687 - GitHubCollector - ERROR - Error collecting repositories: 'str' object has no attribute 'isoformat'
+2025-06-10 18:08:43,687 - GitHubCollector - INFO - Collected 0 repositories with 6 API calls
+2025-06-10 18:08:43,721 - StartupScorer - INFO - Scoring 1 repositories
+2025-06-10 18:08:43,765 - json_generator - INFO - Generating JSON files for 2025-06-06
+2025-06-10 18:08:43,825 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp_a_qtte9/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp_a_qtte9/docs/data/2025-06-06.json
+2025-06-10 18:08:43,842 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:08:43,847 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpkc2csabl/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpkc2csabl/docs/data/2025-06-10.json
+2025-06-10 18:08:43,871 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:08:43,875 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpkk5o3gtn/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpkk5o3gtn/docs/data/2025-06-10.json
+2025-06-10 18:08:43,883 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:08:43,887 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp1lt1ib2s/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp1lt1ib2s/docs/data/2025-06-10.json
+2025-06-10 18:09:01,042 - github_signals - INFO - Starting Weekly Dev Tools Gems CLI
+2025-06-10 18:09:01,042 - github_signals - INFO - GitHub API client initialized
+2025-06-10 18:09:01,042 - github_signals - INFO - Collecting from GitHub Trending
+2025-06-10 18:09:01,045 - TrendingCollector - INFO - Collecting GitHub trending repositories...
+2025-06-10 18:09:02,119 - TrendingCollector - INFO - Age filtering requires API calls - skipping for MVP. Will require manual verification.
+2025-06-10 18:09:02,119 - TrendingCollector - INFO - Collected 5 trending repositories
+2025-06-10 18:09:02,119 - github_signals - INFO - Collected 5 trending repositories
+2025-06-10 18:09:02,119 - github_signals - INFO - Total unique repositories: 5
+2025-06-10 18:09:02,119 - github_signals - INFO - Scoring repositories
+2025-06-10 18:09:07,087 - github_signals - DEBUG - Scored onlook-dev/onlook with 4/10
+2025-06-10 18:09:09,589 - github_signals - DEBUG - Scored frdel/agent-zero with 3/10
+2025-06-10 18:09:13,868 - github_signals - INFO - Starting Weekly Dev Tools Gems CLI
+2025-06-10 18:09:13,868 - github_signals - INFO - GitHub API client initialized
+2025-06-10 18:09:13,868 - github_signals - INFO - Collecting from GitHub Trending
+2025-06-10 18:09:13,878 - TrendingCollector - INFO - Collecting GitHub trending repositories...
+2025-06-10 18:09:14,112 - TrendingCollector - INFO - Age filtering requires API calls - skipping for MVP. Will require manual verification.
+2025-06-10 18:09:14,112 - TrendingCollector - INFO - Collected 2 trending repositories
+2025-06-10 18:09:14,112 - github_signals - INFO - Collected 2 trending repositories
+2025-06-10 18:09:14,112 - github_signals - INFO - Total unique repositories: 2
+2025-06-10 18:09:14,112 - github_signals - INFO - Scoring repositories
+2025-06-10 18:09:15,644 - github_signals - DEBUG - Scored nautechsystems/nautilus_trader with 4/10
+2025-06-10 18:09:18,728 - github_signals - DEBUG - Scored onlook-dev/onlook with 4/10
+2025-06-10 18:09:19,553 - github_signals - DEBUG - Scored tensorzero/tensorzero with 4/10
+2025-06-10 18:09:24,296 - github_signals - DEBUG - Scored netbirdio/netbird with 3/10
+2025-06-10 18:09:24,296 - github_signals - INFO - Generating weekly report
+2025-06-10 18:09:24,307 - weekly_gems - INFO - Generating Weekly Dev Tools Gems report for 2025-06-10
+2025-06-10 18:09:24,309 - weekly_gems - INFO - Report saved to /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-10.md
+2025-06-10 18:09:24,310 - github_signals - INFO - Generating API JSON for dashboard
+2025-06-10 18:09:24,318 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:09:24,368 - json_generator - INFO - Generated JSON files at docs/api/latest.json and docs/data/2025-06-10.json
+2025-06-10 18:09:24,368 - github_signals - INFO - API JSON files generated: docs/api/latest.json, docs/data/2025-06-10.json
+2025-06-10 18:09:24,368 - github_signals - INFO - Weekly Dev Tools Gems report generated: /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-10.md
+2025-06-10 18:09:27,320 - json_generator - INFO - Generating JSON files for 2025-06-06
+2025-06-10 18:09:27,384 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmptefh3iyb/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmptefh3iyb/docs/data/2025-06-06.json
+2025-06-10 18:09:27,406 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:09:27,411 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp81vml7nj/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp81vml7nj/docs/data/2025-06-10.json
+2025-06-10 18:09:27,435 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:09:27,438 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpnfwrse4c/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpnfwrse4c/docs/data/2025-06-10.json
+2025-06-10 18:09:27,446 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:09:27,450 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp8upj2z5e/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp8upj2z5e/docs/data/2025-06-10.json
+2025-06-10 18:12:25,145 - GitHubCollector - INFO - Collecting GitHub repositories...
+2025-06-10 18:12:25,145 - GitHubCollector - INFO - Collecting repositories for language: Python
+2025-06-10 18:12:25,145 - GitHubCollector - ERROR - Error collecting repositories: 'str' object has no attribute 'isoformat'
+2025-06-10 18:12:25,145 - GitHubCollector - INFO - Collecting repositories for language: TypeScript
+2025-06-10 18:12:25,145 - GitHubCollector - ERROR - Error collecting repositories: 'str' object has no attribute 'isoformat'
+2025-06-10 18:12:25,145 - GitHubCollector - INFO - Collecting repositories for language: JavaScript
+2025-06-10 18:12:25,145 - GitHubCollector - ERROR - Error collecting repositories: 'str' object has no attribute 'isoformat'
+2025-06-10 18:12:25,145 - GitHubCollector - INFO - Collecting repositories for language: Go
+2025-06-10 18:12:25,145 - GitHubCollector - ERROR - Error collecting repositories: 'str' object has no attribute 'isoformat'
+2025-06-10 18:12:25,145 - GitHubCollector - INFO - Collecting repositories for language: Rust
+2025-06-10 18:12:25,145 - GitHubCollector - ERROR - Error collecting repositories: 'str' object has no attribute 'isoformat'
+2025-06-10 18:12:25,145 - GitHubCollector - INFO - Collecting repositories for language: Java
+2025-06-10 18:12:25,145 - GitHubCollector - ERROR - Error collecting repositories: 'str' object has no attribute 'isoformat'
+2025-06-10 18:12:25,145 - GitHubCollector - INFO - Collected 0 repositories with 6 API calls
+2025-06-10 18:12:25,183 - StartupScorer - INFO - Scoring 1 repositories
+2025-06-10 18:12:25,225 - json_generator - INFO - Generating JSON files for 2025-06-06
+2025-06-10 18:12:25,290 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp526sgw2g/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp526sgw2g/docs/data/2025-06-06.json
+2025-06-10 18:12:25,309 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:12:25,312 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpr7hj50ef/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpr7hj50ef/docs/data/2025-06-10.json
+2025-06-10 18:12:25,325 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:12:25,330 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpb1_fn8pq/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpb1_fn8pq/docs/data/2025-06-10.json
+2025-06-10 18:12:25,341 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:12:25,345 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpr1i_gk8p/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpr1i_gk8p/docs/data/2025-06-10.json
+2025-06-10 18:14:17,998 - StartupScorer - INFO - Scoring 1 repositories
+2025-06-10 18:14:17,999 - StartupScorer - INFO - Scored 1 repositories
+2025-06-10 18:14:24,087 - GitHubCollector - INFO - Collecting GitHub repositories...
+2025-06-10 18:14:24,087 - GitHubCollector - INFO - Collecting repositories for language: Python
+2025-06-10 18:14:24,088 - GitHubCollector - INFO - Collected 1 repositories matching query: is:public language:Python stars:>=5
+2025-06-10 18:14:24,088 - GitHubCollector - INFO - Reached maximum repositories limit (1)
+2025-06-10 18:14:24,088 - GitHubCollector - ERROR - Error analyzing README: argument should be a bytes-like object or ASCII string, not 'MagicMock'
+2025-06-10 18:14:24,091 - GitHubCollector - ERROR - Error processing organization <MagicMock name='Github().get_repo().organization.login' id='4385857488'>: '<=' not supported between instances of 'MagicMock' and 'int'
+2025-06-10 18:14:24,091 - GitHubCollector - INFO - Collected 1 repositories with 6 API calls
+2025-06-10 18:16:04,200 - GitHubCollector - INFO - Collecting GitHub repositories...
+2025-06-10 18:16:04,200 - GitHubCollector - INFO - Collecting repositories for language: Python
+2025-06-10 18:16:04,201 - GitHubCollector - INFO - Collected 1 repositories matching query: is:public language:Python stars:>=5
+2025-06-10 18:16:04,201 - GitHubCollector - INFO - Reached maximum repositories limit (1)
+2025-06-10 18:16:04,201 - GitHubCollector - ERROR - Error analyzing README: argument should be a bytes-like object or ASCII string, not 'MagicMock'
+2025-06-10 18:16:04,204 - GitHubCollector - ERROR - Error processing organization <MagicMock name='Github().get_repo().organization.login' id='4361237376'>: '<=' not supported between instances of 'MagicMock' and 'int'
+2025-06-10 18:16:04,205 - GitHubCollector - INFO - Collected 1 repositories with 6 API calls
+2025-06-10 18:16:04,216 - StartupScorer - INFO - Scoring 1 repositories
+2025-06-10 18:16:04,216 - StartupScorer - INFO - Scored 1 repositories
+2025-06-10 18:16:04,230 - json_generator - INFO - Generating JSON files for 2025-06-06
+2025-06-10 18:16:04,287 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpejyhx17x/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpejyhx17x/docs/data/2025-06-06.json
+2025-06-10 18:16:04,301 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:16:04,304 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpn4spcrcs/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpn4spcrcs/docs/data/2025-06-10.json
+2025-06-10 18:16:04,318 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:16:04,322 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpaflooks3/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpaflooks3/docs/data/2025-06-10.json
+2025-06-10 18:16:04,329 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:16:04,333 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp4wj1reyl/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp4wj1reyl/docs/data/2025-06-10.json
+2025-06-10 18:23:25,751 - GitHubCollector - INFO - Collecting GitHub repositories...
+2025-06-10 18:23:25,751 - GitHubCollector - INFO - Collecting repositories for language: Python
+2025-06-10 18:23:25,752 - GitHubCollector - INFO - Collected 1 repositories matching query: is:public language:Python stars:>=5
+2025-06-10 18:23:25,752 - GitHubCollector - INFO - Reached maximum repositories limit (1)
+2025-06-10 18:23:25,753 - GitHubCollector - ERROR - Error analyzing README: argument should be a bytes-like object or ASCII string, not 'MagicMock'
+2025-06-10 18:23:25,756 - GitHubCollector - ERROR - Error processing organization <MagicMock name='Github().get_repo().organization.login' id='4355994496'>: '<=' not supported between instances of 'MagicMock' and 'int'
+2025-06-10 18:23:25,756 - GitHubCollector - INFO - Collected 1 repositories with 6 API calls
+2025-06-10 18:23:25,761 - StartupScorer - INFO - Scoring 1 repositories
+2025-06-10 18:23:25,761 - StartupScorer - INFO - Scored 1 repositories
+2025-06-10 18:23:25,769 - json_generator - INFO - Generating JSON files for 2025-06-06
+2025-06-10 18:23:25,835 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmptno8h7qj/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmptno8h7qj/docs/data/2025-06-06.json
+2025-06-10 18:23:25,852 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:23:25,857 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpnoabszuk/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpnoabszuk/docs/data/2025-06-10.json
+2025-06-10 18:23:25,869 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:23:25,874 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpsz9ve1eo/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpsz9ve1eo/docs/data/2025-06-10.json
+2025-06-10 18:23:25,884 - json_generator - INFO - Generating JSON files for 2025-06-10
+2025-06-10 18:23:25,888 - json_generator - INFO - Generated JSON files at /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp3v7igw6p/docs/api/latest.json and /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp3v7igw6p/docs/data/2025-06-10.json

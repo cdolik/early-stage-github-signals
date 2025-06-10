@@ -1,0 +1,35 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Simplified API Output",
+    "description": "Schema for the simplified GitHub Signals API output",
+    "type": "object",
+    "required": [
+        "date",
+        "name",
+        "date_generated",
+        "repositories"
+    ],
+    "properties": {
+        "date": {
+            "type": "string",
+            "format": "date",
+            "description": "Report date in YYYY-MM-DD format"
+        },
+        "name": {
+            "type": "string",
+            "description": "Human-readable report title"
+        },
+        "date_generated": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the report was generated"
+        },
+        "repositories": {
+            "type": "array",
+            "description": "Array of repository objects in simplified format",
+            "items": {
+                "$ref": "repository.schema.json"
+            }
+        }
+    }
+}

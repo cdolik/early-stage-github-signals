@@ -45,9 +45,9 @@ def test_calculate_metrics(sample_data):
     assert 'last_30d' in metrics
     assert 'all_time' in metrics
     
-    # In our sample data, we have 2 qualifying repos (≥7) in the last 30 days
-    # across 2 weeks, so average should be ~1.0
-    assert metrics['last_30d']['avg_qualifying'] == 1.0
+    # In our sample data, we have 3 qualifying repos (≥7) in the last 30 days
+    # across 2 weeks (2 + 1), so average should be 1.5
+    assert metrics['last_30d']['avg_qualifying'] == 1.5
     
     # All-time should have 4 qualifying repos across 3 weeks
     assert metrics['all_time']['avg_qualifying'] > 0

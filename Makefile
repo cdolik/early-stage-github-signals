@@ -10,26 +10,26 @@ install:
 	pip install -r requirements.txt
 
 run:
-	python weekly_gems_cli.py
+	python3 weekly_gems_cli.py
 
 run-lite:
-	python weekly_gems_cli.py --debug --max-repos 5 --skip-producthunt --skip-hackernews
+	python3 weekly_gems_cli.py --debug --max-repos 5 --skip-producthunt --skip-hackernews
 
 test: validate-schema
-	python -m pytest
+	python3 -m pytest
 
 test-coverage:
-	python -m pytest --cov=src --cov-report=term --cov-report=html
+	python3 -m pytest --cov=src --cov-report=term --cov-report=html
 
 metrics:
-	python src/utils/generate_metrics.py --write docs/metrics.md
+	python3 src/utils/generate_metrics.py --write docs/metrics.md
 
 serve:
 	cd docs && python3 -m http.server 8000
 
 validate-schema:
 	pip install jsonschema
-	python scripts/validate_schema.py
+	python3 scripts/validate_schema.py
 
 validate-json: validate-schema
 
@@ -45,7 +45,12 @@ docs: metrics
 
 # Install pre-commit hooks
 pre-commit-install:
+	pip install pre-commit
 	pre-commit install
+
+# Run pre-commit checks manually
+pre-commit:
+	pre-commit run --all-filespre-commit install
 	python src/generators/html_generator.py
 	
 lint:

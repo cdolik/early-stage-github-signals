@@ -28,6 +28,7 @@ HERE = Path(__file__).parent
 PROJECT_ROOT = HERE.parent
 REPO_SCHEMA = PROJECT_ROOT / "schemas" / "repository.schema.json"
 API_SCHEMA = PROJECT_ROOT / "schemas" / "api.schema.json"
+SIMPLIFIED_SCHEMA = PROJECT_ROOT / "schemas" / "simplified.schema.json"
 WEEKLY_GEMS_SCHEMA = PROJECT_ROOT / "schemas" / "weekly_gems.schema.json"
 
 def validate_json(json_path: Path, schema_path: Path):
@@ -50,9 +51,17 @@ def validate_json(json_path: Path, schema_path: Path):
         
         # Create a resolver for schema references
         schema_dir = schema_path.parent
+        
+        # Load all schema files in the directory for resolution
+        store = {}
+        for schema_file in schema_dir.glob("*.schema.json"):
+            with schema_file.open() as f:
+                store[schema_file.name] = json.load(f)
+        
         resolver = RefResolver(
-            base_uri=f"file://{schema_dir}/",
-            referrer=schema
+            base_uri=schema_dir.as_uri() + "/",
+            referrer=schema,
+            store=store
         )
         
         validate(instance=data, schema=schema, resolver=resolver)
@@ -89,18 +98,22 @@ def main():
     # Track validation success
     success = True
     
-    # Validate API files against API schema
-    logger.info("Validating API files against API schema...")
-    api_files = [
-        PROJECT_ROOT / "docs" / "api" / "latest.json",
-        PROJECT_ROOT / "docs" / "api" / "simplified.json",
-    ]
+    # Validate API files against their respective schemas
+    logger.info("Validating API files against their schemas...")
     
-    for api_file in api_files:
-        if api_file.exists():
-            success = validate_json_against_schema(str(api_file), str(API_SCHEMA)) and success
-        else:
-            logger.warning(f"⚠️ File not found: {api_file}")
+    # Validate latest.json against API schema
+    latest_file = PROJECT_ROOT / "docs" / "api" / "latest.json"
+    if latest_file.exists():
+        success = validate_json_against_schema(str(latest_file), str(API_SCHEMA)) and success
+    else:
+        logger.warning(f"⚠️ File not found: {latest_file}")
+    
+    # Validate simplified.json against simplified schema
+    simplified_file = PROJECT_ROOT / "docs" / "api" / "simplified.json"
+    if simplified_file.exists():
+        success = validate_json_against_schema(str(simplified_file), str(SIMPLIFIED_SCHEMA)) and success
+    else:
+        logger.warning(f"⚠️ File not found: {simplified_file}")
     
     # Validate data files against API schema
     logger.info("Validating data files against API schema...")

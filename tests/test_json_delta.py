@@ -21,4 +21,4 @@ def test_score_delta_and_trend():
     gen = JSONGenerator()
     formatted = gen._format_repos_for_api([repo], previous_scores, previous_trends)
     assert formatted[0]["score_change"] == 1.1
-    assert formatted[0]["trend"] == [7.0, 8.1]
+    assert formatted[0]["trend"] == [6.8, 7.0, 8.1]  # Full trend history (up to 3 values)

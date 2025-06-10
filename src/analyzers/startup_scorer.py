@@ -116,7 +116,8 @@ class StartupScorer:
         recent_creation_score = 0
         if repo.get('created_at'):
             created_at = datetime.datetime.fromisoformat(repo.get('created_at').replace('Z', '+00:00'))
-            days_since_creation = (datetime.datetime.now() - created_at).days
+            now = datetime.datetime.now(datetime.timezone.utc)
+            days_since_creation = (now - created_at).days
             
             if days_since_creation <= 30:
                 recent_creation_score = 3  # Very recent
