@@ -11,7 +11,7 @@ import logging
 from pathlib import Path
 
 try:
-    import jsonschema
+    from jsonschema import validate, ValidationError, RefResolver
 except ImportError:
     print("Error: jsonschema package not found. Please install with 'pip install jsonschema'")
     sys.exit(1)
@@ -23,57 +23,62 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-def validate_json_against_schema(json_file, schema_file):
+# Set paths relative to project root
+HERE = Path(__file__).parent
+PROJECT_ROOT = HERE.parent
+REPO_SCHEMA = PROJECT_ROOT / "schemas" / "repository.schema.json"
+API_SCHEMA = PROJECT_ROOT / "schemas" / "api.schema.json"
+WEEKLY_GEMS_SCHEMA = PROJECT_ROOT / "schemas" / "weekly_gems.schema.json"
+
+def validate_json(json_path: Path, schema_path: Path):
     """
-    Validates a JSON file against a JSON schema
+    Validate a JSON file against a schema.
     
     Args:
-        json_file (str): Path to the JSON file to validate
-        schema_file (str): Path to the JSON schema file
-    
-    Returns:
-        bool: True if validation succeeds, False otherwise
+        json_path: Path to the JSON file to validate
+        schema_path: Path to the schema file
+        
+    Raises:
+        ValueError: If validation fails
     """
     try:
-        # Load JSON data
-        with open(json_file, 'r') as f:
+        with json_path.open() as f:
             data = json.load(f)
         
-        # Load schema
-        with open(schema_file, 'r') as f:
+        with schema_path.open() as f:
             schema = json.load(f)
         
-        # Validate
-        jsonschema.validate(instance=data, schema=schema)
-        logger.info(f"✅ {json_file} successfully validated against {schema_file}")
-        return True
-    
-    except FileNotFoundError as e:
-        logger.error(f"❌ File not found: {e}")
-        return False
-    
-    except json.JSONDecodeError as e:
-        logger.error(f"❌ Invalid JSON in {json_file}: {e}")
-        logger.error(f"   Error at line {e.lineno}, column {e.colno}: {e.msg}")
-        return False
-    
-    except jsonschema.exceptions.ValidationError as e:
-        logger.error(f"❌ Validation error in {json_file}: {e.message}")
-        # Get more detailed path information 
-        path = " → ".join([str(p) for p in e.path]) if e.path else "root"
-        logger.error(f"   Path to error: {path}")
-        logger.error(f"   Schema path: {e.schema_path}")
+        # Create a resolver for schema references
+        schema_dir = schema_path.parent
+        resolver = RefResolver(
+            base_uri=f"file://{schema_dir}/",
+            referrer=schema
+        )
         
-        # Print the instance that failed validation
-        if e.instance:
-            if isinstance(e.instance, dict):
-                logger.error(f"   Invalid object: {json.dumps(e.instance, indent=2)[:200]}...")
-            else:
-                logger.error(f"   Invalid value: {e.instance}")
+        validate(instance=data, schema=schema, resolver=resolver)
+        logger.info(f"✅ {json_path.name} successfully validated")
+        
+    except ValidationError as e:
+        raise ValueError(f"{json_path.name}: {e.message}")
+    except FileNotFoundError as e:
+        raise ValueError(f"File not found: {e}")
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Invalid JSON in {json_path.name}: {e}")
+
+def validate_json_against_schema(json_file, schema_file):
+    """
+    Legacy function for backward compatibility
+    """
+    try:
+        json_path = Path(json_file)
+        schema_path = Path(schema_file)
+        validate_json(json_path, schema_path)
+        return True
+    except ValueError as e:
+        logger.error(f"❌ {e}")
         return False
-    
     except Exception as e:
-        logger.error(f"❌ Unexpected error validating {json_file}: {e}")
+        logger.error(f"❌ Unexpected error: {e}")
         return False
 
 def main():
@@ -81,34 +86,37 @@ def main():
     project_root = Path(__file__).parent.parent
     os.chdir(project_root)
     
-    # Files to validate
-    api_schema = "schemas/api.schema.json"
-    repo_schema = "schemas/repo.schema.json"
-    repository_schema = "schemas/repository.schema.json"
-    latest_api = "docs/api/latest.json"
-    simplified_api = "docs/api/simplified.json"
-    
     # Track validation success
     success = True
     
-    # Validate API files
+    # Validate API files against API schema
     logger.info("Validating API files against API schema...")
-    if os.path.exists(latest_api):
-        success = validate_json_against_schema(latest_api, api_schema) and success
-    else:
-        logger.warning(f"⚠️ File not found: {latest_api}")
+    api_files = [
+        PROJECT_ROOT / "docs" / "api" / "latest.json",
+        PROJECT_ROOT / "docs" / "api" / "simplified.json",
+    ]
     
-    if os.path.exists(simplified_api):
-        success = validate_json_against_schema(simplified_api, api_schema) and success
+    for api_file in api_files:
+        if api_file.exists():
+            success = validate_json_against_schema(str(api_file), str(API_SCHEMA)) and success
+        else:
+            logger.warning(f"⚠️ File not found: {api_file}")
     
-    # Validate latest reports against repo schema
-    logger.info("Validating reports against repo schema...")
-    reports_dir = os.path.join(project_root, "reports")
-    if os.path.exists(reports_dir):
-        json_reports = [f for f in os.listdir(reports_dir) if f.endswith('.json')]
+    # Validate data files against API schema
+    logger.info("Validating data files against API schema...")
+    data_dir = PROJECT_ROOT / "docs" / "data"
+    if data_dir.exists():
+        json_files = [f for f in data_dir.iterdir() if f.suffix == '.json' and not f.name.startswith('_')]
+        for data_file in json_files[:2]:  # Validate the most recent 2 files
+            success = validate_json_against_schema(str(data_file), str(API_SCHEMA)) and success
+    
+    # Validate weekly reports against weekly gems schema  
+    logger.info("Validating weekly reports against weekly gems schema...")
+    reports_dir = PROJECT_ROOT / "reports"
+    if reports_dir.exists():
+        json_reports = [f for f in reports_dir.iterdir() if f.suffix == '.json']
         for report in json_reports[:2]:  # Validate the most recent 2 reports
-            report_path = os.path.join(reports_dir, report)
-            success = validate_json_against_schema(report_path, repo_schema) and success
+            success = validate_json_against_schema(str(report), str(WEEKLY_GEMS_SCHEMA)) and success
     
     # Exit with appropriate code
     if not success:

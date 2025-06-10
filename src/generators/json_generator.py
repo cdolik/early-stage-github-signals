@@ -67,6 +67,7 @@ class JSONGenerator:
         # Add metadata including generation timestamp
         api_data = {
             "date": date_str,
+            "name": f"Weekly GitHub Signals Report — {date_str}",
             "date_generated": datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'),
             "repositories": api_data
         }
@@ -254,7 +255,7 @@ class JSONGenerator:
         # Fallback text
         return f"Trending {repo.get('language', '')} repository for developer tools"
     
-    def _load_previous_scores_and_trends(self, report_date: datetime) -> (Dict[str, float], Dict[str, list]):
+    def _load_previous_scores_and_trends(self, report_date: datetime) -> tuple[Dict[str, float], Dict[str, list]]:
         """
         Load previous week's scores and trends for delta calculation.
         Args:

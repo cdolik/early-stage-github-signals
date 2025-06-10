@@ -73,6 +73,7 @@ class WeeklyGemsReportGenerator:
         with open(json_file, 'w', encoding='utf-8') as f:
             json.dump({
                 'date': date_str,
+                'name': f'Weekly Gems Report — {date_str}',
                 'repos': quality_repos,
                 'threshold': self.quality_threshold
             }, f, indent=2)

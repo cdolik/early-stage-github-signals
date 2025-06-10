@@ -1,0 +1,44 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Weekly Gems Report",
+    "description": "Schema for weekly gems report JSON files",
+    "type": "object",
+    "required": [
+        "date",
+        "name",
+        "repos",
+        "threshold"
+    ],
+    "properties": {
+        "date": {
+            "type": "string",
+            "format": "date",
+            "description": "Report date in YYYY-MM-DD format"
+        },
+        "name": {
+            "type": "string",
+            "description": "Human-readable report title"
+        },
+        "repos": {
+            "type": "array",
+            "description": "Array of repositories that met the quality threshold",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": { "type": "string" },
+                    "full_name": { "type": "string" },
+                    "html_url": { "type": "string", "format": "uri" },
+                    "url": { "type": "string", "format": "uri" },
+                    "score": { "type": "number" },
+                    "description": { "type": ["string", "null"] }
+                }
+            }
+        },
+        "threshold": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10,
+            "description": "Quality threshold used for this report"
+        }
+    }
+}

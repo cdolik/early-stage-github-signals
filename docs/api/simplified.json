@@ -1,27 +1,78 @@
 {
+  "date": "2025-06-07",
+  "name": "Weekly GitHub Signals Report — 2025-06-07",
+  "date_generated": "2025-06-07T11:25:54Z",
   "repositories": [
     {
       "name": "BillionMail",
+      "full_name": "aaPanel/BillionMail",
+      "repo_url": "https://github.com/aaPanel/BillionMail",
+      "description": "BillionMail gives you open-source MailServer, NewsLetter, Email Marketing",
       "score": 5,
+      "signals": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 2,
+        "dev_ecosystem_fit": 0
+      },
+      "ecosystem": "Backend",
       "language": "Go",
+      "stars": 4682,
+      "forks": 327,
       "why": "91 commits in last 14 days + 4 active contributors"
     },
     {
       "name": "agenticSeek",
+      "full_name": "Fosowl/agenticSeek",
+      "repo_url": "https://github.com/Fosowl/agenticSeek",
+      "description": "Fully Local AI agent",
       "score": 5,
+      "signals": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 1,
+        "dev_ecosystem_fit": 1
+      },
+      "ecosystem": "Backend",
       "language": "Python",
+      "stars": 17017,
+      "forks": 1589,
       "why": "88 commits in last 14 days + 4 active contributors out of 17 total + python language"
     },
     {
       "name": "livestore",
+      "full_name": "livestorejs/livestore",
+      "repo_url": "https://github.com/livestorejs/livestore",
+      "description": "Next-generation state management framework",
       "score": 4,
+      "signals": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 1
+      },
+      "ecosystem": "Frontend",
       "language": "TypeScript",
+      "stars": 2255,
+      "forks": 50,
       "why": "61 commits in last 14 days + typescript language"
     },
     {
       "name": "postiz-app",
+      "full_name": "gitroomhq/postiz-app",
+      "repo_url": "https://github.com/gitroomhq/postiz-app",
+      "description": "Social media scheduling tool with AI",
       "score": 4,
+      "signals": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 1
+      },
+      "ecosystem": "Frontend",
       "language": "TypeScript",
+      "stars": 21169,
+      "forks": 3321,
       "why": "51 commits in last 14 days + typescript language"
     }
   ]
