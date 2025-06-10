@@ -16,15 +16,16 @@ class HackerNewsCollector(BaseCollector):
     Collector for Hacker News data related to GitHub repositories.
     """
     
-    def __init__(self, config=None, cache=None):
+    def __init__(self, config=None, cache=None, logger=None):
         """
         Initialize the Hacker News collector.
         
         Args:
             config: Configuration manager (optional)
             cache: Cache manager (optional)
+            logger: Logger instance (optional)
         """
-        super().__init__(config, cache)
+        super().__init__(config, cache, logger)
         self.base_url = self.config.get('hackernews.base_url',
                                       "https://hacker-news.firebaseio.com/v0")
         self.session = requests.Session()

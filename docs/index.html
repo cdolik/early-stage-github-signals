@@ -17,28 +17,24 @@
 </head>
 
 <body>
+    <!-- Hero Section with Title -->
     <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo-area">
-                    <h1>Early-Stage OSS DevTools — Real-Time Momentum Signals</h1>
-                    <p class="subtitle">Track the fastest-growing open-source projects 4-8 weeks before they reach
-                        mainstream VC radar</p>
-                </div>
-                <div class="header-actions">
-                    <span class="last-updated">Last updated: <span id="lastUpdated">Loading...</span></span>
-                    <button id="vcModeToggle" class="btn-vc-mode" title="Only show repositories with score ≥ 8">
-                        <i class="fas fa-chart-line"></i> VC Mode
-                    </button>
+                    <h1 class="headline">🚀 OSS Momentum Signals</h1>
+                    <p class="subhead">Track breakout open-source devtools 4–8 weeks before they hit VC radar.</p>
+                    <span class="meta">Last updated: <span id="lastUpdated">Loading...</span></span>
                 </div>
             </div>
         </div>
     </header>
 
     <main class="container">
-        <section class="metrics-panel">
+        <!-- Compact Metrics Bar -->
+        <section class="metrics-panel compact">
             <div class="metric-card">
-                <i class="fas fa-chart-line metric-icon"></i>
+                <i class="fas fa-brain metric-icon"></i>
                 <div class="metric-content">
                     <span class="metric-label">Qualified Repos</span>
                     <span class="metric-value" id="qualifiedRepos">-</span>
@@ -54,64 +50,126 @@
             <div class="metric-card">
                 <i class="fas fa-arrow-trend-up metric-icon"></i>
                 <div class="metric-content">
-                    <span class="metric-label">Highest Δ This Week</span>
+                    <span class="metric-label">Top Δ</span>
                     <span class="metric-value" id="highestDelta">-</span>
                 </div>
             </div>
-            <div class="metric-card showcase">
-                <i class="fas fa-trophy metric-icon"></i>
-                <div class="metric-content">
-                    <span class="metric-label">Success Story</span>
-                    <span class="metric-value">Supabase: 6 wks pre-Series A</span>
+        </section>
+
+        <!-- Top Movers Section (Always Shown) -->
+        <section class="top-movers highlighted-section">
+            <h2>🔥 Top Movers This Week</h2>
+            <div class="top-movers-scroll" id="topMoversContainer">
+                <div class="top-movers-grid" id="topMoversGrid">
+                    <!-- Top movers will be inserted here -->
+                    <div class="loading" id="topMoversLoading">
+                        <div class="spinner"></div>
+                        <p>Finding this week's breakout projects...</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="top-movers">
-            <h2>Top Movers This Week</h2>
-            <div class="top-movers-grid" id="topMoversGrid">
-                <!-- Top movers will be inserted here -->
-            </div>
-        </section>
-
-        <section class="main-content">
-            <div class="filters">
-                <div class="filter-group">
-                    <label>Ecosystem:</label>
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="DevTools">DevTools</button>
-                    <button class="filter-btn" data-filter="Frontend">Frontend</button>
-                    <button class="filter-btn" data-filter="Backend">Backend</button>
-                    <button class="filter-btn" data-filter="Data/AI">Data/AI</button>
-                    <button class="filter-btn" data-filter="DevOps">DevOps</button>
+        <!-- Interactive Filters -->
+        <section class="interactive-filters">
+            <div class="filters-container">
+                <div class="filter-row">
+                    <div class="filter-chips" id="filterChips">
+                        <button class="filter-chip active" data-ecosystem="all">
+                            <span class="chip-icon"><i class="fas fa-globe"></i></span>
+                            <span class="chip-text">All Ecosystems</span>
+                        </button>
+                        <button class="filter-chip" data-ecosystem="DevTools">
+                            <span class="chip-icon"><i class="fas fa-tools"></i></span>
+                            <span class="chip-text">DevTools</span>
+                        </button>
+                        <button class="filter-chip" data-ecosystem="Frontend">
+                            <span class="chip-icon"><i class="fas fa-palette"></i></span>
+                            <span class="chip-text">Frontend</span>
+                        </button>
+                        <button class="filter-chip" data-ecosystem="Backend">
+                            <span class="chip-icon"><i class="fas fa-server"></i></span>
+                            <span class="chip-text">Backend</span>
+                        </button>
+                        <button class="filter-chip" data-ecosystem="Data/AI">
+                            <span class="chip-icon"><i class="fas fa-brain"></i></span>
+                            <span class="chip-text">Data/AI</span>
+                        </button>
+                        <button class="filter-chip" data-ecosystem="DevOps">
+                            <span class="chip-icon"><i class="fas fa-rocket"></i></span>
+                            <span class="chip-text">DevOps</span>
+                        </button>
+                    </div>
                 </div>
-                <div class="filter-controls">
+
+                <div class="filter-row">
                     <div class="score-filter">
-                        <label>Min Score: <span id="scoreValue">7</span></label>
-                        <input type="range" id="scoreSlider" min="0" max="10" value="7" step="0.5">
+                        <div class="score-slider-container">
+                            <label>Min Score:</label>
+                            <div class="score-circles" id="scoreCircles">
+                                <span class="score-circle" data-value="0">0</span>
+                                <span class="score-circle" data-value="2">2</span>
+                                <span class="score-circle" data-value="4">4</span>
+                                <span class="score-circle" data-value="6">6</span>
+                                <span class="score-circle active" data-value="7">7</span>
+                                <span class="score-circle" data-value="8">8</span>
+                                <span class="score-circle" data-value="9">9</span>
+                                <span class="score-circle" data-value="10">10</span>
+                            </div>
+                            <input type="hidden" id="scoreSlider" value="7">
+                        </div>
                     </div>
-                    <div class="sort-group">
-                        <label>Sort by:</label>
-                        <select id="sortSelect">
-                            <option value="score">Score</option>
-                            <option value="score_change">Δ Score</option>
-                            <option value="stars">Stars (30d)</option>
-                            <option value="newest">Newest</option>
-                        </select>
+
+                    <div class="filter-controls">
+                        <button id="vcModeToggle" class="mode-toggle" title="Only show repositories with score ≥ 8">
+                            <i class="fas fa-chart-line"></i> VC Mode
+                        </button>
+
+                        <div class="toggle-filter">
+                            <input type="checkbox" id="newThisWeek" class="toggle-input">
+                            <label for="newThisWeek" class="toggle-label">
+                                <span class="toggle-text">New This Week</span>
+                            </label>
+                        </div>
                     </div>
-                    <div class="toggle-filter">
-                        <input type="checkbox" id="newThisWeek">
-                        <label for="newThisWeek">New This Week</label>
-                    </div>
+                </div>
+
+                <!-- Active filters pills will appear here -->
+                <div class="active-filters" id="activeFilters">
+                    <!-- Example: <div class="filter-pill"><span class="filter-pill-icon">🧩</span> DevTools <span class="filter-pill-close">×</span></div> -->
                 </div>
             </div>
 
+            <div class="search-sort-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search repositories...">
+                <div class="sort-group">
+                    <select id="sortSelect" class="sort-select">
+                        <option value="score">Score</option>
+                        <option value="score_change">Δ Score</option>
+                        <option value="stars">Stars (30d)</option>
+                        <option value="newest">Newest</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Repository List -->
+        <section class="repository-section">
             <div class="loading" id="loadingIndicator">
                 <div class="spinner"></div>
                 <p>Loading repositories...</p>
             </div>
 
-            <div class="table-container">
+            <div class="view-toggle">
+                <button id="cardViewBtn" class="view-btn active">Card View</button>
+                <button id="tableViewBtn" class="view-btn">Table View</button>
+            </div>
+
+            <div id="repositoriesGrid" class="repositories-grid">
+                <!-- Repository cards will be inserted here -->
+            </div>
+
+            <div class="table-container hidden">
                 <table id="repositoriesTable" class="repositories-table">
                     <thead>
                         <tr>
@@ -130,32 +188,31 @@
                 </table>
             </div>
 
-            <div id="repositoriesGrid" class="repositories-grid hidden">
-                <!-- Repository cards will be inserted here -->
-            </div>
-
             <div id="noResults" class="empty-state hidden">
-                <h3>No standout repos this week</h3>
-                <p>We track early momentum—but only highlight what meets a high threshold. If nothing's shown, it means
-                    the signal isn't strong enough yet.</p>
-            </div>
-
-            <div class="view-toggle">
-                <button id="tableViewBtn" class="view-btn active">Table View</button>
-                <button id="cardViewBtn" class="view-btn">Card View</button>
+                <i class="fas fa-chart-line fa-3x"
+                    style="color: var(--text-secondary); margin-bottom: var(--spacing-md);"></i>
+                <h3>📉 No breakout projects match these filters</h3>
+                <p>Try adjusting your score, toggles, or check back next week.</p>
+                <button id="clearFiltersBtn" class="btn-reset">Reset Filters</button>
+                <div class="previous-pick">
+                    <span class="previous-pick-label">📅 Last week's pick</span>
+                    <div class="previous-pick-card" id="lastWeekPick">
+                        <!-- Last week's top pick will be inserted here -->
+                    </div>
+                </div>
             </div>
         </section>
 
-        <div class="github-cta">
-            <div class="github-cta-content">
-                <p><i class="fab fa-github"></i> Want updates? <a
-                        href="https://github.com/cdolik/early-stage-github-signals" target="_blank">⭐️ Star</a> or <a
-                        href="https://github.com/cdolik/early-stage-github-signals/subscription" target="_blank">👀
-                        Watch</a> the GitHub repo to follow weekly signals.</p>
-            </div>
+        <!-- Sticky GitHub CTA Footer -->
+        <div class="sticky-footer">
+            ⭐️ Star or 👀 Watch the repo for weekly momentum drops
+            <a href="https://github.com/cdolik/early-stage-github-signals" target="_blank" class="cta-btn">
+                <i class="fab fa-github"></i> View on GitHub
+            </a>
         </div>
     </main>
 
+    <!-- Repository Detail Modal -->
     <div id="repoModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -166,12 +223,17 @@
                 <!-- Repository details will be inserted here -->
             </div>
             <div class="modal-footer">
-                <button class="btn-request-intro" id="requestIntroBtn">Request Intro</button>
-                <button class="btn-export" id="exportBtn">Export Report</button>
+                <a id="viewOnGithub" href="#" target="_blank" class="btn-primary">
+                    <i class="fab fa-github"></i> View on GitHub
+                </a>
+                <button class="btn-secondary" id="exportBtn">
+                    <i class="fas fa-file-export"></i> Export Report
+                </button>
             </div>
         </div>
     </div>
 
+    <!-- Implementation Guide (Hidden) -->
     <div id="implementationGuide" class="hidden">
         <div class="container">
             <div class="implementation-guide">
@@ -249,6 +311,103 @@ make serve
         // Initialize Lucide icons
         lucide.createIcons();
     </script>
+</body>
+
+</html>
+
+<div id="repoModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modalRepoName"></h2>
+            <span class="modal-close">&times;</span>
+        </div>
+        <div class="modal-body" id="modalBody">
+            <!-- Repository details will be inserted here -->
+        </div>
+        <div class="modal-footer">
+            <button class="btn-request-intro" id="requestIntroBtn">Request Intro</button>
+            <button class="btn-export" id="exportBtn">Export Report</button>
+        </div>
+    </div>
+</div>
+
+<div id="implementationGuide" class="hidden">
+    <div class="container">
+        <div class="implementation-guide">
+            <h2>Implementation Checklist</h2>
+            <p>This fulfills Sections 1-6 of our redesign blueprint</p>
+
+            <h3>Completed Features</h3>
+            <ul>
+                <li>✅ Dashboard framework with responsive design</li>
+                <li>✅ Top Movers section with sparklines</li>
+                <li>✅ Main repository table with delta scores</li>
+                <li>✅ VC Mode toggle and filtering</li>
+                <li>✅ Metrics panel with key stats</li>
+                <li>✅ Modal with detailed repository view</li>
+            </ul>
+
+            <h3>Remaining Tasks</h3>
+            <ul>
+                <li>⬜ Backtest showcase stories</li>
+                <li>⬜ Export to PDF functionality</li>
+                <li>⬜ OG Image sharing cards</li>
+                <li>⬜ GitHub Actions integration for CI/CD</li>
+                <li>⬜ Mobile optimizations for Top Movers</li>
+            </ul>
+
+            <h3>Suggested Commit Structure</h3>
+            <pre><code>git add .
+git commit -m "feat: implement Top Movers UI with sparklines and delta scores"
+git commit -m "feat: add VC Mode toggle and filtering logic"
+git commit -m "fix: update repository schema for trend visualization"
+git commit -m "style: optimize mobile responsiveness"</code></pre>
+
+            <h3>Test Instructions</h3>
+            <pre><code># Run dashboard locally
+make serve
+
+# Manual test checklist:
+# [x] Repos load from latest.json
+# [x] VC Mode filter works
+# [x] Score delta appears with correct color
+# [x] Modal opens with project info
+# [x] Sparklines render correctly</code></pre>
+
+            <h3>Suggested LLM Prompts for Enhancements</h3>
+            <ul>
+                <li>"Add backtest overlay view for top-performing repos"</li>
+                <li>"Integrate GitHub Actions badge for test + coverage"</li>
+                <li>"Refactor dashboard.js for modular component logic"</li>
+                <li>"Implement PDF report generation for repositories"</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="about.html">About</a>
+                <a href="about.html#methodology">Methodology</a>
+                <a href="about.html#data-sources">Data Sources</a>
+                <a href="https://github.com/cdolik/early-stage-github-signals">GitHub</a>
+                <a href="mailto:contact@example.com">Contact</a>
+            </div>
+            <p class="copyright">
+                &copy; 2025 Early Stage GitHub Signals
+            </p>
+        </div>
+    </div>
+</footer>
+
+<script src="history.js"></script>
+<script src="dashboard.js"></script>
+<script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+</script>
 </body>
 
 </html>

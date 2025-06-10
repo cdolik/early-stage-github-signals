@@ -17,9 +17,16 @@ class ShowHNCollector(BaseCollector):
     Uses the official Hacker News API which doesn't have rate limits.
     """
     
-    def __init__(self, config=None, cache=None):
-        """Initialize the Show HN collector."""
-        super().__init__(config, cache)
+    def __init__(self, config=None, cache=None, logger=None):
+        """
+        Initialize the Show HN collector.
+        
+        Args:
+            config: Configuration manager (optional)
+            cache: Cache manager (optional)
+            logger: Logger instance (optional)
+        """
+        super().__init__(config, cache, logger)
         self.base_url = "https://hacker-news.firebaseio.com/v0"
         self.session = requests.Session()
         
