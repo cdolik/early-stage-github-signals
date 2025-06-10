@@ -1,14 +1,7 @@
 {
-  "agenticSeek": 5,
-  "nautilus_trader": 4,
-  "postiz-app": 4,
-  "PraisonAI": 4,
-  "goose": 4,
-  "scrapy": 4,
-  "agno": 4,
-  "agent-zero": 3,
-  "netbird": 3,
-  "hyperdx": 3,
-  "lingo.dev": 3,
-  "system-design-primer": 2
+  "devtoolkit": 9,
+  "fastapi-starter": 8,
+  "rust-analyzer-pro": 7,
+  "devops-assistant": 6,
+  "js-test-runner": 5
 }

@@ -7,6 +7,7 @@ import os
 import sys
 import unittest
 from unittest.mock import patch, MagicMock
+from datetime import datetime, timezone
 
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -47,9 +48,9 @@ class TestIntegration(unittest.TestCase):
         mock_repo.owner.html_url = "https://github.com/test"
         mock_repo.html_url = "https://github.com/test/repo"
         mock_repo.description = "Test repository"
-        mock_repo.created_at = "2023-01-01T00:00:00Z"
-        mock_repo.updated_at = "2023-01-02T00:00:00Z"
-        mock_repo.pushed_at = "2023-01-02T00:00:00Z"
+        mock_repo.created_at = datetime(2023, 1, 1, tzinfo=timezone.utc)
+        mock_repo.updated_at = datetime(2023, 1, 2, tzinfo=timezone.utc)
+        mock_repo.pushed_at = datetime(2023, 1, 2, tzinfo=timezone.utc)
         mock_repo.language = "Python"
         mock_repo.stargazers_count = 100
         mock_repo.watchers_count = 50

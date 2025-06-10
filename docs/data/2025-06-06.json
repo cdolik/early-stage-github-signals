@@ -3,105 +3,105 @@
   "name": "Weekly GitHub Signals Report — 2025-06-06",
   "date_generated": "2025-06-06T11:25:54Z",
   "repositories": [
-  {
-    "name": "BillionMail",
-    "full_name": "aaPanel/BillionMail",
-    "repo_url": "https://github.com/aaPanel/BillionMail",
-    "description": "BillionMail gives you open-source MailServer, NewsLetter, Email Marketing \u2014 fully self-hosted, dev-friendly, and free from monthly fees. Join the discord:https://discord.gg/asfXzBUhZr",
-    "score": 5,
-    "signals": {
-      "commit_surge": 3,
-      "star_velocity": 0,
-      "team_traction": 2,
-      "dev_ecosystem_fit": 0
+    {
+      "name": "BillionMail",
+      "full_name": "aaPanel/BillionMail",
+      "repo_url": "https://github.com/aaPanel/BillionMail",
+      "description": "BillionMail gives you open-source MailServer, NewsLetter, Email Marketing \u2014 fully self-hosted, dev-friendly, and free from monthly fees. Join the discord:https://discord.gg/asfXzBUhZr",
+      "score": 5,
+      "signals": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 2,
+        "dev_ecosystem_fit": 0
+      },
+      "ecosystem": "Backend",
+      "language": "Go",
+      "stars": 4682,
+      "forks": 327,
+      "why_matters": "91 commits \u2022 4 active contributors",
+      "created_at": "",
+      "topics": []
     },
-    "ecosystem": "Backend",
-    "language": "Go",
-    "stars": 4682,
-    "forks": 327,
-    "why_matters": "91 commits \u2022 4 active contributors",
-    "created_at": "",
-    "topics": []
-  },
-  {
-    "name": "agenticSeek",
-    "full_name": "Fosowl/agenticSeek",
-    "repo_url": "https://github.com/Fosowl/agenticSeek",
-    "description": "Fully Local Manus AI. No APIs, No $200 monthly bills. Enjoy an autonomous agent that thinks, browses the web, and code for the sole cost of electricity. \ud83d\udd14 Official updates only via twitter @Martin993886460. Any other account is fake.",
-    "score": 5,
-    "signals": {
-      "commit_surge": 3,
-      "star_velocity": 0,
-      "team_traction": 1,
-      "dev_ecosystem_fit": 1
+    {
+      "name": "agenticSeek",
+      "full_name": "Fosowl/agenticSeek",
+      "repo_url": "https://github.com/Fosowl/agenticSeek",
+      "description": "Fully Local Manus AI. No APIs, No $200 monthly bills. Enjoy an autonomous agent that thinks, browses the web, and code for the sole cost of electricity. \ud83d\udd14 Official updates only via twitter @Martin993886460. Any other account is fake.",
+      "score": 5,
+      "signals": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 1,
+        "dev_ecosystem_fit": 1
+      },
+      "ecosystem": "Backend",
+      "language": "Python",
+      "stars": 17017,
+      "forks": 1589,
+      "why_matters": "88 commits \u2022 4 contributors from 17 total \u2022 python language",
+      "created_at": "",
+      "topics": []
     },
-    "ecosystem": "Backend",
-    "language": "Python",
-    "stars": 17017,
-    "forks": 1589,
-    "why_matters": "88 commits \u2022 4 contributors from 17 total \u2022 python language",
-    "created_at": "",
-    "topics": []
-  },
-  {
-    "name": "livestore",
-    "full_name": "livestorejs/livestore",
-    "repo_url": "https://github.com/livestorejs/livestore",
-    "description": "LiveStore is a next-generation state management framework based on reactive SQLite and built-in sync engine.",
-    "score": 4,
-    "signals": {
-      "commit_surge": 3,
-      "star_velocity": 0,
-      "team_traction": 0,
-      "dev_ecosystem_fit": 1
+    {
+      "name": "livestore",
+      "full_name": "livestorejs/livestore",
+      "repo_url": "https://github.com/livestorejs/livestore",
+      "description": "LiveStore is a next-generation state management framework based on reactive SQLite and built-in sync engine.",
+      "score": 4,
+      "signals": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 1
+      },
+      "ecosystem": "Frontend",
+      "language": "TypeScript",
+      "stars": 2255,
+      "forks": 50,
+      "why_matters": "61 commits \u2022 typescript language",
+      "created_at": "",
+      "topics": []
     },
-    "ecosystem": "Frontend",
-    "language": "TypeScript",
-    "stars": 2255,
-    "forks": 50,
-    "why_matters": "61 commits \u2022 typescript language",
-    "created_at": "",
-    "topics": []
-  },
-  {
-    "name": "postiz-app",
-    "full_name": "gitroomhq/postiz-app",
-    "repo_url": "https://github.com/gitroomhq/postiz-app",
-    "description": "\ud83d\udce8 The ultimate social media scheduling tool, with a bunch of AI \ud83e\udd16",
-    "score": 4,
-    "signals": {
-      "commit_surge": 3,
-      "star_velocity": 0,
-      "team_traction": 0,
-      "dev_ecosystem_fit": 1
+    {
+      "name": "postiz-app",
+      "full_name": "gitroomhq/postiz-app",
+      "repo_url": "https://github.com/gitroomhq/postiz-app",
+      "description": "\ud83d\udce8 The ultimate social media scheduling tool, with a bunch of AI \ud83e\udd16",
+      "score": 4,
+      "signals": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 1
+      },
+      "ecosystem": "Frontend",
+      "language": "TypeScript",
+      "stars": 21169,
+      "forks": 3321,
+      "why_matters": "51 commits \u2022 typescript language",
+      "created_at": "",
+      "topics": []
     },
-    "ecosystem": "Frontend",
-    "language": "TypeScript",
-    "stars": 21169,
-    "forks": 3321,
-    "why_matters": "51 commits \u2022 typescript language",
-    "created_at": "",
-    "topics": []
-  },
-  {
-    "name": "system-design-primer",
-    "full_name": "donnemartin/system-design-primer",
-    "repo_url": "https://github.com/donnemartin/system-design-primer",
-    "description": "Learn how to design large-scale systems. Prep for the system design interview. Includes Anki flashcards.",
-    "score": 2,
-    "signals": {
-      "commit_surge": 0,
-      "star_velocity": 0,
-      "team_traction": 1,
-      "dev_ecosystem_fit": 1
-    },
-    "ecosystem": "Other",
-    "language": "Python",
-    "stars": 304515,
-    "forks": 50377,
-    "why_matters": "3 contributors from 113 total \u2022 python language",
-    "created_at": "",
-    "topics": []
-  }
-]
+    {
+      "name": "system-design-primer",
+      "full_name": "donnemartin/system-design-primer",
+      "repo_url": "https://github.com/donnemartin/system-design-primer",
+      "description": "Learn how to design large-scale systems. Prep for the system design interview. Includes Anki flashcards.",
+      "score": 2,
+      "signals": {
+        "commit_surge": 0,
+        "star_velocity": 0,
+        "team_traction": 1,
+        "dev_ecosystem_fit": 1
+      },
+      "ecosystem": "Other",
+      "language": "Python",
+      "stars": 304515,
+      "forks": 50377,
+      "why_matters": "3 contributors from 113 total \u2022 python language",
+      "created_at": "",
+      "topics": []
+    }
+  ]
 }

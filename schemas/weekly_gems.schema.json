@@ -25,12 +25,29 @@
             "items": {
                 "type": "object",
                 "properties": {
-                    "name": { "type": "string" },
-                    "full_name": { "type": "string" },
-                    "html_url": { "type": "string", "format": "uri" },
-                    "url": { "type": "string", "format": "uri" },
-                    "score": { "type": "number" },
-                    "description": { "type": ["string", "null"] }
+                    "name": {
+                        "type": "string"
+                    },
+                    "full_name": {
+                        "type": "string"
+                    },
+                    "html_url": {
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "url": {
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "score": {
+                        "type": "number"
+                    },
+                    "description": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    }
                 }
             }
         },

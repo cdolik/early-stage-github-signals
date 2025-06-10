@@ -85,7 +85,8 @@ class SchemaValidator:
         
         try:
             schema = self._load_schema("repository")
-            self.validate(instance=repo, schema=schema)
+            resolver = self._create_resolver(schema)
+            self.validate(instance=repo, schema=schema, resolver=resolver)
             return True
         except (self.ValidationError, FileNotFoundError) as e:
             logger.error(f"Repository validation error: {e}")
@@ -106,11 +107,34 @@ class SchemaValidator:
         
         try:
             schema = self._load_schema("api")
-            self.validate(instance=data, schema=schema)
+            resolver = self._create_resolver(schema)
+            self.validate(instance=data, schema=schema, resolver=resolver)
             return True
         except (self.ValidationError, FileNotFoundError) as e:
             logger.error(f"API output validation error: {e}")
             return False
+
+    def _create_resolver(self, schema: Dict[str, Any]):
+        """
+        Create a resolver for schema references.
+        
+        Args:
+            schema: The main schema
+            
+        Returns:
+            RefResolver instance
+        """
+        # Load all schema files in the directory for resolution
+        store = {}
+        for schema_file in self.schema_dir.glob("*.schema.json"):
+            with schema_file.open() as f:
+                store[schema_file.name] = json.load(f)
+        
+        return self.RefResolver(
+            base_uri=self.schema_dir.as_uri() + "/",
+            referrer=schema,
+            store=store
+        )
     
     def get_validation_errors(self, data: Dict[str, Any], schema_name: str) -> List[str]:
         """
@@ -128,7 +152,8 @@ class SchemaValidator:
         
         try:
             schema = self._load_schema(schema_name)
-            self.validate(instance=data, schema=schema)
+            resolver = self._create_resolver(schema)
+            self.validate(instance=data, schema=schema, resolver=resolver)
             return []
         except self.ValidationError as e:
             return [str(e)]
