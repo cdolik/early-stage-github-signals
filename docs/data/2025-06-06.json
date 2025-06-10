@@ -1,4 +1,8 @@
-[
+{
+  "date": "2025-06-06",
+  "name": "Weekly GitHub Signals Report — 2025-06-06",
+  "date_generated": "2025-06-06T11:25:54Z",
+  "repositories": [
   {
     "name": "BillionMail",
     "full_name": "aaPanel/BillionMail",
@@ -100,3 +104,4 @@
     "topics": []
   }
 ]
+}
