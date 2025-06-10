@@ -50,7 +50,7 @@
             "required": [
                 "commit_surge",
                 "star_velocity",
-                "new_contributors"
+                "team_traction"
             ],
             "properties": {
                 "commit_surge": {
@@ -59,7 +59,7 @@
                 "star_velocity": {
                     "type": "integer"
                 },
-                "new_contributors": {
+                "team_traction": {
                     "type": "integer"
                 }
             }

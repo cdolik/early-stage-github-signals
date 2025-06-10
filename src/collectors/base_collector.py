@@ -15,17 +15,18 @@ class BaseCollector(ABC):
     and provides common functionality like configuration access, caching, and logging.
     """
     
-    def __init__(self, config=None, cache=None):
+    def __init__(self, config=None, cache=None, logger=None):
         """
         Initialize the collector with configuration, cache and logger.
         
         Args:
             config: Configuration manager (optional)
             cache: Cache manager (optional)
+            logger: Logger instance (optional)
         """
         self.config = config if config is not None else Config()
         self.cache = cache if cache is not None else Cache()
-        self.logger = setup_logger(self.__class__.__name__)
+        self.logger = logger if logger is not None else setup_logger(self.__class__.__name__)
         
     @abstractmethod
     def collect(self, **kwargs: Any) -> List[Dict[str, Any]]:

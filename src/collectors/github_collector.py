@@ -26,15 +26,16 @@ class GitHubCollector(BaseCollector):
     Collector for GitHub repository data.
     """
     
-    def __init__(self, config=None, cache=None):
+    def __init__(self, config=None, cache=None, logger=None):
         """
         Initialize the GitHub collector.
         
         Args:
             config: Configuration manager (optional)
             cache: Cache manager (optional)
+            logger: Logger instance (optional)
         """
-        super().__init__(config, cache)
+        super().__init__(config, cache, logger)
         
         # Get GitHub configuration
         self.base_url = self.config.get('github.base_url', 'https://api.github.com')

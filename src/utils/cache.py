@@ -12,18 +12,23 @@ class Cache:
     """
     Simple file-based caching system to reduce API calls.
     """
-    def __init__(self, cache_dir: str = None, ttl: int = 86400):
+    def __init__(self, cache_dir: str = None, ttl: int = 86400, enabled: bool = None):
         """
         Initialize the cache system.
         
         Args:
             cache_dir: Directory to store cache files. If None, uses config.
             ttl: Time to live in seconds for cache entries (default: 24 hours)
+            enabled: Whether caching is enabled (default: True or from config)
         """
         from .config import Config
         config = Config()
         
-        self.cache_enabled = config.get('cache.enabled', True)
+        # Allow explicitly setting enabled status through parameter
+        if enabled is not None:
+            self.cache_enabled = enabled
+        else:
+            self.cache_enabled = config.get('cache.enabled', True)
         
         if cache_dir is None:
             # Get cache directory from config

@@ -15,7 +15,7 @@ run:
 run-lite:
 	python weekly_gems_cli.py --debug --max-repos 5 --skip-producthunt --skip-hackernews
 
-test:
+test: validate-schema
 	python -m pytest
 
 test-coverage:

@@ -17,9 +17,16 @@ class TrendingCollector(BaseCollector):
     Collector for GitHub Trending repositories without using API calls.
     """
     
-    def __init__(self, config=None, cache=None):
-        """Initialize the trending collector."""
-        super().__init__(config, cache)
+    def __init__(self, config=None, cache=None, logger=None):
+        """
+        Initialize the trending collector.
+        
+        Args:
+            config: Configuration manager (optional)
+            cache: Cache manager (optional)
+            logger: Logger instance (optional)
+        """
+        super().__init__(config, cache, logger)
         self.base_url = "https://github.com/trending"
         self.session = requests.Session()
         self.dev_tool_topics = [

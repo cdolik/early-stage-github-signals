@@ -1,7 +1,7 @@
 /**
  * Early Stage GitHub Signals Dashboard
  * Investor-Grade Dashboard for displaying promising early-stage repositories
- * Version 2.0
+ * Version 2.1 - UX Optimized
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,9 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
             ecosystem: 'all',
             sort: 'score',
             minScore: 7,
-            newThisWeek: false
+            newThisWeek: false,
+            searchText: ''
         },
-        viewMode: 'table', // 'table' or 'card'
+        viewMode: 'card', // 'table' or 'card'
         vcMode: false,
         history: null,
 
@@ -31,8 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.renderRepositories();
                 this.updateLastUpdated();
                 this.updateMetricsPanel();
-                this.showAlertBanner();
+
+                // Hide loading indicators
                 document.getElementById('loadingIndicator').classList.add('hidden');
+                document.getElementById('topMoversLoading').classList.add('hidden');
             } catch (error) {
                 console.error('Error initializing dashboard:', error);
                 this.showError('Failed to load repository data');
@@ -65,21 +68,50 @@ document.addEventListener('DOMContentLoaded', () => {
                     const previousScore = repo.trend[repo.trend.length - 2];
                     repo.score_change = currentScore - previousScore;
                 }
+
+                // Make sure ecosystem is set for filtering
+                if (!repo.ecosystem) {
+                    repo.ecosystem = 'Other';
+                }
             });
         },
 
         setupEventListeners() {
-            // Ecosystem filter buttons
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    // Update active button
-                    document.querySelectorAll('.filter-btn').forEach(b =>
-                        b.classList.remove('active'));
-                    e.target.classList.add('active');
+            // Ecosystem filter chips
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.addEventListener('click', (e) => {
+                    // Update active chip
+                    document.querySelectorAll('.filter-chip').forEach(c =>
+                        c.classList.remove('active'));
+                    chip.classList.add('active');
 
                     // Apply filter
-                    this.filters.ecosystem = e.target.dataset.filter;
+                    this.filters.ecosystem = chip.dataset.ecosystem;
                     this.renderRepositories();
+                    this.updateActiveFilters();
+                });
+            });
+
+            // Score circles
+            document.querySelectorAll('.score-circle').forEach(circle => {
+                circle.addEventListener('click', () => {
+                    // Update active circle
+                    document.querySelectorAll('.score-circle').forEach(c =>
+                        c.classList.remove('active'));
+                    circle.classList.add('active');
+
+                    // Apply filter
+                    const value = parseInt(circle.dataset.value);
+                    this.filters.minScore = value;
+
+                    // Update hidden slider value for consistency
+                    const scoreSlider = document.getElementById('scoreSlider');
+                    if (scoreSlider) {
+                        scoreSlider.value = value;
+                    }
+
+                    this.renderRepositories();
+                    this.updateActiveFilters();
                 });
             });
 
@@ -89,14 +121,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.renderRepositories();
             });
 
-            // Score slider
-            const scoreSlider = document.getElementById('scoreSlider');
-            const scoreValue = document.getElementById('scoreValue');
-            if (scoreSlider && scoreValue) {
-                scoreSlider.addEventListener('input', (e) => {
-                    const value = e.target.value;
-                    scoreValue.textContent = value;
-                    this.filters.minScore = parseFloat(value);
+            // Search input
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    this.filters.searchText = e.target.value.toLowerCase();
                     this.renderRepositories();
                 });
             }
@@ -107,6 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 newThisWeek.addEventListener('change', (e) => {
                     this.filters.newThisWeek = e.target.checked;
                     this.renderRepositories();
+                    this.updateActiveFilters();
                 });
             }
 
@@ -116,22 +146,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 vcModeToggle.addEventListener('click', () => {
                     this.vcMode = !this.vcMode;
                     vcModeToggle.classList.toggle('active', this.vcMode);
-                    this.filters.minScore = this.vcMode ? 8 : 7;
 
-                    // Update UI for VC mode
-                    if (scoreSlider && scoreValue) {
-                        scoreSlider.value = this.filters.minScore;
-                        scoreValue.textContent = this.filters.minScore;
+                    // Update score minimum and UI for VC mode
+                    const minScore = this.vcMode ? 8 : 7;
+                    this.filters.minScore = minScore;
+
+                    // Update score circle UI
+                    document.querySelectorAll('.score-circle').forEach(circle => {
+                        circle.classList.remove('active');
+                        if (parseInt(circle.dataset.value) === minScore) {
+                            circle.classList.add('active');
+                        }
+                    });
+
+                    // Update hidden slider
+                    const scoreSlider = document.getElementById('scoreSlider');
+                    if (scoreSlider) {
+                        scoreSlider.value = minScore;
                     }
 
                     this.renderRepositories();
+                    this.updateActiveFilters();
                 });
             }
 
             // View toggle
             const tableViewBtn = document.getElementById('tableViewBtn');
             const cardViewBtn = document.getElementById('cardViewBtn');
-            const reposTable = document.getElementById('repositoriesTable');
+            const tableContainer = document.querySelector('.table-container');
             const reposGrid = document.getElementById('repositoriesGrid');
 
             if (tableViewBtn && cardViewBtn) {
@@ -140,8 +182,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     tableViewBtn.classList.add('active');
                     cardViewBtn.classList.remove('active');
 
-                    if (reposTable && reposGrid) {
-                        reposTable.closest('.table-container').classList.remove('hidden');
+                    if (tableContainer && reposGrid) {
+                        tableContainer.classList.remove('hidden');
                         reposGrid.classList.add('hidden');
                     }
                 });
@@ -151,10 +193,57 @@ document.addEventListener('DOMContentLoaded', () => {
                     cardViewBtn.classList.add('active');
                     tableViewBtn.classList.remove('active');
 
-                    if (reposTable && reposGrid) {
-                        reposTable.closest('.table-container').classList.add('hidden');
+                    if (tableContainer && reposGrid) {
+                        tableContainer.classList.add('hidden');
                         reposGrid.classList.remove('hidden');
                     }
+                });
+            }
+
+            // Clear filters button
+            const clearFiltersBtn = document.getElementById('clearFiltersBtn');
+            if (clearFiltersBtn) {
+                clearFiltersBtn.addEventListener('click', () => {
+                    // Reset all filters to defaults
+                    this.filters = {
+                        ecosystem: 'all',
+                        sort: 'score',
+                        minScore: 7,
+                        newThisWeek: false,
+                        searchText: ''
+                    };
+                    this.vcMode = false;
+
+                    // Reset UI state
+                    document.querySelectorAll('.filter-chip').forEach(chip => {
+                        chip.classList.remove('active');
+                        if (chip.dataset.ecosystem === 'all') {
+                            chip.classList.add('active');
+                        }
+                    });
+
+                    document.querySelectorAll('.score-circle').forEach(circle => {
+                        circle.classList.remove('active');
+                        if (parseInt(circle.dataset.value) === 7) {
+                            circle.classList.add('active');
+                        }
+                    });
+
+                    // Reset toggle switches
+                    if (newThisWeek) newThisWeek.checked = false;
+                    if (vcModeToggle) vcModeToggle.classList.remove('active');
+
+                    // Clear search field
+                    const searchInput = document.getElementById('searchInput');
+                    if (searchInput) searchInput.value = '';
+
+                    // Reset sort dropdown
+                    const sortSelect = document.getElementById('sortSelect');
+                    if (sortSelect) sortSelect.value = 'score';
+
+                    // Re-render with updated filters
+                    this.renderRepositories();
+                    this.updateActiveFilters();
                 });
             }
 
@@ -172,8 +261,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             }
-
-            // GitHub CTA links already use standard <a> tags, no extra JS needed
         },
 
         updateLastUpdated() {
@@ -238,11 +325,26 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML = '';
 
             if (repos.length === 0) {
-                container.innerHTML = `
-                <div class="empty-state">
-                    <h3>No standout movers this week</h3>
-                    <p>We track early momentum changes—but only highlight repositories that show significant positive movement.</p>
-                </div>`;
+                // Add placeholder cards instead of empty state
+                const placeholderCard = document.createElement('div');
+                placeholderCard.className = 'top-movers-card placeholder';
+                placeholderCard.innerHTML = `
+                    <div class="fake-logo shimmer"></div>
+                    <p class="placeholder-title">No breakout repos this week</p>
+                    <p class="placeholder-sub">Momentum data updates every Monday.</p>
+                `;
+                container.appendChild(placeholderCard);
+
+                // Add a second placeholder with different messaging
+                const placeholderCard2 = document.createElement('div');
+                placeholderCard2.className = 'top-movers-card placeholder';
+                placeholderCard2.innerHTML = `
+                    <div class="fake-logo shimmer"></div>
+                    <p class="placeholder-title">Check back soon</p>
+                    <p class="placeholder-sub">Our algorithm monitors GitHub activity in real-time.</p>
+                `;
+                container.appendChild(placeholderCard2);
+
                 return;
             }
 
@@ -715,6 +817,158 @@ document.addEventListener('DOMContentLoaded', () => {
             if (devGuide) {
                 devGuide.classList.toggle('hidden');
             }
+        },
+
+        /**
+         * Updates the active filters UI display with pills/chips
+         * Called after any filter changes to reflect current state
+         */
+        updateActiveFilters() {
+            const container = document.getElementById('activeFilters');
+            if (!container) return;
+
+            // Clear existing pills
+            container.innerHTML = '';
+
+            const addPill = (label, icon, removeAction) => {
+                const pill = document.createElement('div');
+                pill.className = 'filter-pill';
+
+                if (icon) {
+                    const iconSpan = document.createElement('span');
+                    iconSpan.className = 'filter-pill-icon';
+                    iconSpan.innerHTML = icon;
+                    pill.appendChild(iconSpan);
+                }
+
+                const textSpan = document.createElement('span');
+                textSpan.textContent = label;
+                pill.appendChild(textSpan);
+
+                const close = document.createElement('span');
+                close.className = 'filter-pill-close';
+                close.innerHTML = '×';
+                close.addEventListener('click', removeAction);
+                pill.appendChild(close);
+
+                container.appendChild(pill);
+            };
+
+            // Add ecosystem pill (if not "all")
+            if (this.filters.ecosystem !== 'all') {
+                let icon = '';
+                // Choose appropriate icon based on ecosystem
+                switch (this.filters.ecosystem) {
+                    case 'DevTools': icon = '<i class="fas fa-tools"></i>'; break;
+                    case 'Frontend': icon = '<i class="fas fa-palette"></i>'; break;
+                    case 'Backend': icon = '<i class="fas fa-server"></i>'; break;
+                    case 'Data/AI': icon = '<i class="fas fa-brain"></i>'; break;
+                    case 'DevOps': icon = '<i class="fas fa-rocket"></i>'; break;
+                    default: icon = '<i class="fas fa-cube"></i>';
+                }
+
+                addPill(this.filters.ecosystem, icon, () => {
+                    this.filters.ecosystem = 'all';
+
+                    // Update UI - deselect current ecosystem chip and select "all"
+                    document.querySelectorAll('.filter-chip').forEach(chip => {
+                        chip.classList.remove('active');
+                        if (chip.dataset.ecosystem === 'all') {
+                            chip.classList.add('active');
+                        }
+                    });
+
+                    this.renderRepositories();
+                    this.updateActiveFilters();
+                });
+            }
+
+            // Add min score pill if not default (7)
+            if (this.filters.minScore !== 7) {
+                addPill(`Score ≥ ${this.filters.minScore}`, '<i class="fas fa-star"></i>', () => {
+                    this.filters.minScore = 7;
+                    this.vcMode = false;
+
+                    // Update UI - select default score circle
+                    document.querySelectorAll('.score-circle').forEach(circle => {
+                        circle.classList.remove('active');
+                        if (parseInt(circle.dataset.value) === 7) {
+                            circle.classList.add('active');
+                        }
+                    });
+
+                    // Update VC mode toggle
+                    const vcModeToggle = document.getElementById('vcModeToggle');
+                    if (vcModeToggle) {
+                        vcModeToggle.classList.remove('active');
+                    }
+
+                    this.renderRepositories();
+                    this.updateActiveFilters();
+                });
+            }
+
+            // Add VC Mode pill if active
+            if (this.vcMode) {
+                addPill('VC Mode', '<i class="fas fa-chart-line"></i>', () => {
+                    this.vcMode = false;
+
+                    // Update VC mode toggle
+                    const vcModeToggle = document.getElementById('vcModeToggle');
+                    if (vcModeToggle) {
+                        vcModeToggle.classList.remove('active');
+                    }
+
+                    // Reset score to default
+                    this.filters.minScore = 7;
+
+                    // Update score circles
+                    document.querySelectorAll('.score-circle').forEach(circle => {
+                        circle.classList.remove('active');
+                        if (parseInt(circle.dataset.value) === 7) {
+                            circle.classList.add('active');
+                        }
+                    });
+
+                    this.renderRepositories();
+                    this.updateActiveFilters();
+                });
+            }
+
+            // Add "New This Week" pill if active
+            if (this.filters.newThisWeek) {
+                addPill('New This Week', '<i class="fas fa-fire"></i>', () => {
+                    this.filters.newThisWeek = false;
+
+                    // Update UI - uncheck "newThisWeek" toggle
+                    const newThisWeek = document.getElementById('newThisWeek');
+                    if (newThisWeek) {
+                        newThisWeek.checked = false;
+                    }
+
+                    this.renderRepositories();
+                    this.updateActiveFilters();
+                });
+            }
+
+            // Add search text pill if active
+            if (this.filters.searchText) {
+                addPill(`"${this.filters.searchText}"`, '<i class="fas fa-search"></i>', () => {
+                    this.filters.searchText = '';
+
+                    // Update search input
+                    const searchInput = document.getElementById('searchInput');
+                    if (searchInput) {
+                        searchInput.value = '';
+                    }
+
+                    this.renderRepositories();
+                    this.updateActiveFilters();
+                });
+            }
+
+            // Show or hide the active filters container based on content
+            container.style.display = container.children.length > 0 ? 'flex' : 'none';
         }
     };
 

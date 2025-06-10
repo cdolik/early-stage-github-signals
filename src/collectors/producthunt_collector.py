@@ -18,9 +18,16 @@ class ProductHuntCollector(BaseCollector):
     Collector for Product Hunt trending products without using API calls.
     """
     
-    def __init__(self, config=None, cache=None):
-        """Initialize the Product Hunt collector."""
-        super().__init__(config, cache)
+    def __init__(self, config=None, cache=None, logger=None):
+        """
+        Initialize the Product Hunt collector.
+        
+        Args:
+            config: Configuration manager (optional)
+            cache: Cache manager (optional)
+            logger: Logger instance (optional)
+        """
+        super().__init__(config, cache, logger)
         self.base_url = "https://www.producthunt.com"
         self.session = requests.Session()
         self.session.headers.update({
