@@ -1,11 +1,10 @@
 {
-  "name": "Venture-Grade OSS Signals Report \u2014 2025-06-11",
   "repositories": [
     {
-      "name": "tensorzero",
-      "full_name": "tensorzero/tensorzero",
+      "name": "onlook",
+      "full_name": "onlook-dev/onlook",
       "url": null,
-      "description": "TensorZero creates a feedback loop for optimizing LLM applications \u2014 turning production data into smarter, faster, and cheaper models.",
+      "description": "The Cursor for Designers \u2022 An Open-Source Visual Vibecoding Editor \u2022 Visually build, style, and edit your React App with AI",
       "score": 0.0,
       "signals": {
         "star_velocity": 0.0,
@@ -27,13 +26,7 @@
         "contributors_30d": 0,
         "avg_issue_resolution_days": 30
       },
-      "date_analyzed": "2025-06-11T20:08:20Z",
-      "why_matters": "0.0 0.0 0.0 0.20689655172413793 0.0 0.0 0.0 0.0",
-      "repo_url": "https://github.com/tensorzero/tensorzero",
-      "ecosystem": "Other",
-      "language": "N/A",
-      "stars": 0,
-      "forks": 0
+      "date_analyzed": "2025-06-10T23:02:22Z"
     },
     {
       "name": "agent-zero",
@@ -61,47 +54,7 @@
         "contributors_30d": 0,
         "avg_issue_resolution_days": 30
       },
-      "date_analyzed": "2025-06-11T20:08:20Z",
-      "why_matters": "0.0 0.0 0.0 0.20689655172413793 0.0 0.0 0.0 0.0",
-      "repo_url": "https://github.com/frdel/agent-zero",
-      "ecosystem": "Other",
-      "language": "N/A",
-      "stars": 0,
-      "forks": 0
-    },
-    {
-      "name": "onlook",
-      "full_name": "onlook-dev/onlook",
-      "url": null,
-      "description": "The Cursor for Designers \u2022 An Open-Source Visual Vibecoding Editor \u2022 Visually build, style, and edit your React App with AI",
-      "score": 0.0,
-      "signals": {
-        "star_velocity": 0.0,
-        "fork_velocity": 0.0,
-        "contributor_growth": 0.0,
-        "issue_resolution_rate": 0.20689655172413793,
-        "commit_frequency": 0.0,
-        "novelty_signal": 0.0,
-        "founder_signal": 0.0,
-        "documentation_quality": 0.0
-      },
-      "justification": [],
-      "metrics": {
-        "stars": 0,
-        "stars_gained_14d": 0,
-        "forks": 0,
-        "forks_gained_14d": 0,
-        "commits_14d": 0,
-        "contributors_30d": 0,
-        "avg_issue_resolution_days": 30
-      },
-      "date_analyzed": "2025-06-11T20:08:20Z",
-      "why_matters": "0.0 0.0 0.0 0.20689655172413793 0.0 0.0 0.0 0.0",
-      "repo_url": "https://github.com/onlook-dev/onlook",
-      "ecosystem": "Other",
-      "language": "N/A",
-      "stars": 0,
-      "forks": 0
+      "date_analyzed": "2025-06-10T23:02:22Z"
     },
     {
       "name": "nautilus_trader",
@@ -129,13 +82,35 @@
         "contributors_30d": 0,
         "avg_issue_resolution_days": 30
       },
-      "date_analyzed": "2025-06-11T20:08:20Z",
-      "why_matters": "0.0 0.0 0.0 0.20689655172413793 0.0 0.0 0.0 0.0",
-      "repo_url": "https://github.com/nautechsystems/nautilus_trader",
-      "ecosystem": "Other",
-      "language": "N/A",
-      "stars": 0,
-      "forks": 0
+      "date_analyzed": "2025-06-10T23:02:22Z"
+    },
+    {
+      "name": "tensorzero",
+      "full_name": "tensorzero/tensorzero",
+      "url": null,
+      "description": "TensorZero creates a feedback loop for optimizing LLM applications \u2014 turning production data into smarter, faster, and cheaper models.",
+      "score": 0.0,
+      "signals": {
+        "star_velocity": 0.0,
+        "fork_velocity": 0.0,
+        "contributor_growth": 0.0,
+        "issue_resolution_rate": 0.20689655172413793,
+        "commit_frequency": 0.0,
+        "novelty_signal": 0.0,
+        "founder_signal": 0.0,
+        "documentation_quality": 0.0
+      },
+      "justification": [],
+      "metrics": {
+        "stars": 0,
+        "stars_gained_14d": 0,
+        "forks": 0,
+        "forks_gained_14d": 0,
+        "commits_14d": 0,
+        "contributors_30d": 0,
+        "avg_issue_resolution_days": 30
+      },
+      "date_analyzed": "2025-06-10T23:02:22Z"
     },
     {
       "name": "netbird",
@@ -163,15 +138,8 @@
         "contributors_30d": 0,
         "avg_issue_resolution_days": 30
       },
-      "date_analyzed": "2025-06-11T20:08:20Z",
-      "why_matters": "0.0 0.0 0.0 0.20689655172413793 0.0 0.0 0.0 0.0",
-      "repo_url": "https://github.com/netbirdio/netbird",
-      "ecosystem": "Other",
-      "language": "N/A",
-      "stars": 0,
-      "forks": 0
+      "date_analyzed": "2025-06-10T23:02:22Z"
     }
   ],
-  "date": "2025-06-11",
-  "date_generated": "2025-06-11T16:08:20Z"
+  "date": "2025-06-10"
 }
