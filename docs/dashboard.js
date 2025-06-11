@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchData() {
         try {
-            const res = await fetch('api/venture-report.json');
+            const res = await fetch('api/latest.json');
             const data = await res.json();
             allRepos = data.repositories || [];
             renderRepos(allRepos);
@@ -38,12 +38,32 @@ document.addEventListener('DOMContentLoaded', () => {
     function buildCard(r) {
         const card = document.createElement('div');
         card.className = 'project-card';
+        
+        // Create score change indicator if available
+        let scoreChangeHtml = '';
+        if (r.score_change !== undefined && r.score_change !== null) {
+            const changeClass = r.score_change > 0 ? 'positive-change' : (r.score_change < 0 ? 'negative-change' : 'neutral-change');
+            const changeSymbol = r.score_change > 0 ? '↑' : (r.score_change < 0 ? '↓' : '');
+            scoreChangeHtml = `<span class="score-change ${changeClass}">${changeSymbol} ${Math.abs(r.score_change).toFixed(1)}</span>`;
+        }
+        
+        // Create trend visualization if available
+        let trendHtml = '';
+        if (r.trend && r.trend.length > 0) {
+            trendHtml = `<div class="trend-indicator">Trend: ${r.trend.join(' → ')}</div>`;
+        }
+        
         card.innerHTML = `
       <div class="card-header">
         <h3><a href="${r.repo_url || '#'}" target="_blank">${r.name || 'N/A'}</a></h3>
-        <span class="venture-score">${r.score !== undefined ? r.score.toFixed(1) : '-'}</span>
+        <div class="score-container">
+          <span class="venture-score">${r.score !== undefined ? r.score.toFixed(1) : '-'}</span>
+          ${scoreChangeHtml}
+        </div>
       </div>
       <p class="description">${r.description || ''}</p>
+      ${trendHtml}
+      <p class="why-matters">${r.why_matters || ''}</p>
     `;
         return card;
     }
