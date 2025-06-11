@@ -1288,3 +1288,20 @@ TypeError: can't subtract offset-naive and offset-aware datetimes
 2025-06-11 16:18:06,805 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpnycdrdhj/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpnycdrdhj/docs/api/2025-06-11.json
 2025-06-11 16:18:06,816 - JSONGenerator - INFO - Generating JSON files for 2025-06-11
 2025-06-11 16:18:06,818 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpmvhyd525/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpmvhyd525/docs/api/2025-06-11.json
+2025-06-11 16:19:36,272 - GitHubCollector - INFO - Collecting GitHub repositories...
+2025-06-11 16:19:36,273 - GitHubCollector - INFO - Collecting repositories for language: Python
+2025-06-11 16:19:36,274 - GitHubCollector - INFO - Collected 1 repositories matching query: is:public language:Python stars:>=5
+2025-06-11 16:19:36,274 - GitHubCollector - INFO - Reached maximum repositories limit (1)
+2025-06-11 16:19:36,274 - GitHubCollector - ERROR - Error analyzing README: argument should be a bytes-like object or ASCII string, not 'MagicMock'
+2025-06-11 16:19:36,278 - GitHubCollector - ERROR - Error processing organization <MagicMock name='Github().get_repo().organization.login' id='4852605552'>: '<=' not supported between instances of 'MagicMock' and 'int'
+2025-06-11 16:19:36,278 - GitHubCollector - INFO - Collected 1 repositories with 6 API calls
+2025-06-11 16:19:36,287 - StartupScorer - INFO - Scoring 1 repositories
+2025-06-11 16:19:36,288 - StartupScorer - INFO - Scored 1 repositories
+2025-06-11 16:19:36,295 - JSONGenerator - INFO - Generating JSON files for 2025-06-06
+2025-06-11 16:19:36,296 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmps5qpogo8/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmps5qpogo8/docs/api/2025-06-06.json
+2025-06-11 16:19:36,316 - JSONGenerator - INFO - Generating JSON files for 2025-06-11
+2025-06-11 16:19:36,317 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpr0jgr253/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpr0jgr253/docs/api/2025-06-11.json
+2025-06-11 16:19:36,334 - JSONGenerator - INFO - Generating JSON files for 2025-06-11
+2025-06-11 16:19:36,335 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpoqp0nuxo/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpoqp0nuxo/docs/api/2025-06-11.json
+2025-06-11 16:19:36,348 - JSONGenerator - INFO - Generating JSON files for 2025-06-11
+2025-06-11 16:19:36,349 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpa4pd8w0j/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpa4pd8w0j/docs/api/2025-06-11.json
