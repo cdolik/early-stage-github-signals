@@ -27,8 +27,8 @@
         "contributors_30d": 0,
         "avg_issue_resolution_days": 30
       },
-      "date_analyzed": "2025-06-11T20:08:20Z",
-      "why_matters": "0.0 0.0 0.0 0.20689655172413793 0.0 0.0 0.0 0.0",
+      "date_analyzed": "2025-06-11T23:54:54Z",
+      "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
       "repo_url": "https://github.com/tensorzero/tensorzero",
       "ecosystem": "Other",
       "language": "N/A",
@@ -61,8 +61,8 @@
         "contributors_30d": 0,
         "avg_issue_resolution_days": 30
       },
-      "date_analyzed": "2025-06-11T20:08:20Z",
-      "why_matters": "0.0 0.0 0.0 0.20689655172413793 0.0 0.0 0.0 0.0",
+      "date_analyzed": "2025-06-11T23:54:54Z",
+      "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
       "repo_url": "https://github.com/frdel/agent-zero",
       "ecosystem": "Other",
       "language": "N/A",
@@ -95,8 +95,8 @@
         "contributors_30d": 0,
         "avg_issue_resolution_days": 30
       },
-      "date_analyzed": "2025-06-11T20:08:20Z",
-      "why_matters": "0.0 0.0 0.0 0.20689655172413793 0.0 0.0 0.0 0.0",
+      "date_analyzed": "2025-06-11T23:54:54Z",
+      "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
       "repo_url": "https://github.com/onlook-dev/onlook",
       "ecosystem": "Other",
       "language": "N/A",
@@ -129,8 +129,8 @@
         "contributors_30d": 0,
         "avg_issue_resolution_days": 30
       },
-      "date_analyzed": "2025-06-11T20:08:20Z",
-      "why_matters": "0.0 0.0 0.0 0.20689655172413793 0.0 0.0 0.0 0.0",
+      "date_analyzed": "2025-06-11T23:54:54Z",
+      "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
       "repo_url": "https://github.com/nautechsystems/nautilus_trader",
       "ecosystem": "Other",
       "language": "N/A",
@@ -163,8 +163,8 @@
         "contributors_30d": 0,
         "avg_issue_resolution_days": 30
       },
-      "date_analyzed": "2025-06-11T20:08:20Z",
-      "why_matters": "0.0 0.0 0.0 0.20689655172413793 0.0 0.0 0.0 0.0",
+      "date_analyzed": "2025-06-11T23:54:54Z",
+      "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
       "repo_url": "https://github.com/netbirdio/netbird",
       "ecosystem": "Other",
       "language": "N/A",
@@ -173,5 +173,5 @@
     }
   ],
   "date": "2025-06-11",
-  "date_generated": "2025-06-11T16:08:20Z"
+  "date_generated": "2025-06-11T19:54:54Z"
 }

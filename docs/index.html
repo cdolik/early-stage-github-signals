@@ -19,39 +19,56 @@
                 <img src="assets/logo.svg" alt="OSS Signals Logo" class="logo">
                 <h1>Venture-Grade OSS Signals</h1>
             </div>
-            <p class="subtitle">Curated, high-potential open-source projects for investors.</p>
+            <p class="subtitle">High-potential open-source projects momentum tracker.</p>
             <div class="last-updated" id="last-updated">
                 Report Generated: <span id="report-date">Loading...</span>
+            </div>
+            <div class="search-bar">
+                <input id="searchInput" type="text" placeholder="Search repositories..."
+                    aria-label="Search repositories">
             </div>
         </header>
 
         <main>
-            <section id="metrics">
-                <div class="metric-card" id="qualifiedReposCard">
-                    <div class="metric-label">Qualified Repos</div>
-                    <div class="metric-value" id="qualifiedRepos">-</div>
-                </div>
-                <div class="metric-card" id="medianScoreCard">
-                    <div class="metric-label">Median Score</div>
-                    <div class="metric-value" id="medianScore">-</div>
-                </div>
+            <section>
+                <h2 class="section-title">Top OSS Momentum Signals This Week</h2>
+                <p class="score-explanation">Momentum score (0-10): Based on commit activity, star growth, and team
+                    signals</p>
+                <div id="movers" class="projects-grid"></div>
             </section>
 
-            <section id="searchBar" class="search-bar">
-                <input id="searchInput" type="text" placeholder="Search repositories…" />
-            </section>
-
-            <div id="movers" class="projects-grid"></div>
-
-            <div id="emptyState" class="empty" style="display:none;">
+            <div id="emptyState" class="empty" style="display:none;" aria-live="polite">
                 <h3>📭 No breakout OSS projects this week</h3>
-                <p>Our radar updates every Monday. Check back soon.</p>
+                <p>Our radar updates every Monday. Check back soon for new momentum signals.</p>
+            </div>
+
+            <div id="modal" class="modal" role="dialog" aria-labelledby="modal-title" aria-modal="true">
+                <div class="modal-content">
+                    <span class="close-button" aria-label="Close details">&times;</span>
+                    <div id="modal-body"></div>
+                </div>
             </div>
         </main>
 
-        <footer>
-            <p>&copy; <span id="current-year"></span> Venture-Grade OSS Signals. For demonstration purposes only.</p>
-            <p><a href="about.html">About This Platform</a></p>
+        <div class="score-model-info">
+            <h3>About Momentum Scoring</h3>
+            <p>Repositories are scored on commit surge, team traction, star velocity, and contribution patterns.</p>
+            <p class="disclaimer">This is not an official GitHub project. Data is sourced from public GitHub APIs.</p>
+        </div>
+
+        <footer class="sticky-footer">
+            <p class="cta">
+                <span class="cta-icon">⭐️</span>
+                <a href="https://github.com/yourusername/early-stage-github-signals-1" target="_blank"
+                    aria-label="Star this repository on GitHub">Star</a>
+                or
+                <span class="cta-icon">👀</span>
+                <a href="https://github.com/yourusername/early-stage-github-signals-1/subscription" target="_blank"
+                    aria-label="Watch this repository on GitHub">Watch</a>
+                this repo to get weekly momentum signals
+            </p>
+            <p class="copyright">&copy; <span id="current-year"></span> Venture-Grade OSS Signals | <a
+                    href="about.html">About</a></p>
         </footer>
     </div>
 

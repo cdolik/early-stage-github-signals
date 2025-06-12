@@ -1,74 +1,47 @@
-# Early Stage GitHub Signals Platform
+# 📊 Early-Stage GitHub Signals
 
-> **Find promising developer tools through code momentum signals before they go mainstream**
+An investor-grade radar for surfacing high-potential open-source developer tools before they reach mainstream awareness. Built on GitHub momentum signals and real-time scoring.
 
 [![Dashboard](https://img.shields.io/badge/Dashboard-Live-brightgreen)](https://cdolik.github.io/early-stage-github-signals/)
 [![GitHub Actions](https://github.com/cdolik/early-stage-github-signals/workflows/Weekly%20GitHub%20Signals%20Report/badge.svg)](https://github.com/cdolik/early-stage-github-signals/actions)
 [![Tests](https://github.com/cdolik/early-stage-github-signals/workflows/Tests/badge.svg)](https://github.com/cdolik/early-stage-github-signals/actions)
 [![Schema Validation](https://github.com/cdolik/early-stage-github-signals/workflows/Validate%20Schema/badge.svg)](https://github.com/cdolik/early-stage-github-signals/actions)
-[![Last Updated](https://img.shields.io/badge/Last%20Updated-2025--06--07-blue)](https://cdolik.github.io/early-stage-github-signals/)
+[![Last Updated](https://img.shields.io/badge/Last%20Updated-2025--06--12-blue)](https://cdolik.github.io/early-stage-github-signals/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 🎯 What It Does
+## 🚀 Live Demo
+https://cdolik.github.io/early-stage-github-signals/
 
-Early Stage GitHub Signals is a powerful signal engine that identifies promising developer tools in their early phases. The platform analyzes GitHub activity using a comprehensive 10-point scoring system that evaluates commit surge, star velocity, team traction, and ecosystem fit to surface high-potential projects weeks before they gain mainstream attention.
+## 🧠 What It Does
+- Scores early-stage GitHub repos using a 10-point momentum system
+- Highlights top movers weekly via an investor-optimized dashboard
+- Uses data from GitHub, Hacker News, and Product Hunt
 
 ### 🚀 [**View Live Dashboard**](https://cdolik.github.io/early-stage-github-signals/) | [**Dashboard Implementation Guide**](docs/DASHBOARD_IMPLEMENTATION.md)
 
 > **Want updates?** ⭐️ Star or 👀 Watch this repo to follow weekly signals.
 
-## ✨ Key Features
-
-- **🔍 Multi-Source Discovery**: GitHub Trending + Product Hunt + Hacker News
-- **📊 10-Point Scoring**: Focused on meaningful momentum signals
-- **🎯 Quality Threshold**: Only surfaces repos scoring 7+/10 points
-- **📈 Investor-Grade Dashboard**: VC Mode, trend visualization, and momentum signals
-- **🔄 Weekly Updates**: Fresh data every week with momentum change tracking
-- **🤖 Weekly Automation**: GitHub Actions generates reports automatically
-- **💻 Professional Dashboard**: Clean, VC-friendly interface
-- **📱 Mobile Responsive**: Works on all devices
-- **📄 [Project at a glance](PROJECT_STATUS.md)**: Current status and investor brief
-- **📄 [Codebase Status Report (June 2025)](docs/CODEBASE_STATUS.md)**: Technical health assessment
-
----
-
-## 🏆 Focused 10-Point Scoring System
+## � Scoring System
+Momentum score = Commit Surge + Star Velocity + Team Traction + Ecosystem Fit
 
 Our algorithm focuses exclusively on momentum signals that matter:
 
-1. **Commit Surge (3 pts)**: 10+ commits in 14 days, 3+ with "feat:" or "add"
-2. **Star Velocity (3 pts)**: 10+ stars gained in 14 days  
-3. **Team Traction (2 pts)**: 2-5 contributors with 5+ commits each in 30 days
-4. **Dev Ecosystem Fit (2 pts)**: Python/TypeScript/Rust OR topics like "devops", "cli", "sdk"
+- **Commit Surge (3 pts)**: 10+ commits in 14 days, 3+ with "feat:" or "add"
+- **Star Velocity (3 pts)**: 10+ stars gained in 14 days  
+- **Team Traction (2 pts)**: 2-5 contributors with 5+ commits each in 30 days
+- **Dev Ecosystem Fit (2 pts)**: Python/TypeScript/Rust OR topics like "devops", "cli", "sdk"
 
-## 🚀 Quick Start
+## 🧰 Stack
+- Frontend: HTML/CSS/JS (no framework), hosted on GitHub Pages
+- Backend: Python data pipeline
+- CI: GitHub Actions (test, schema validation, generator)
 
-### Prerequisites
-- Python 3.9+
-- GitHub Personal Access Token
-
-### Installation
-
+## ⚙️ Local Development
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/early-stage-github-signals.git
-cd early-stage-github-signals
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Set your GitHub token
-export GITHUB_TOKEN="your_github_token"
-```
-
-### Running the Platform
-
-```bash
-# Generate this week's report
-./run_weekly_gems.sh
-
-# Quick test run (minimal API usage)
-python weekly_gems_cli.py --debug --max-repos 5 --skip-hackernews
+make install
+make serve  # Runs local dashboard
+make generate  # Generates latest API files
+make test  # Runs test suite
 ```
 
 ### Command Line Options
@@ -82,21 +55,34 @@ python weekly_gems_cli.py --debug --max-repos 5 --skip-hackernews
 | `--skip-producthunt` | Skip Product Hunt data collection |
 | `--skip-api` | Skip API file generation |
 
-### API Usage Optimization
+## 🤝 Disclaimer
 
-The platform is designed to respect GitHub's API rate limits (5000 requests/hour). The `--lite` mode is recommended for development and testing to minimize API usage.
+Not affiliated with GitHub Inc. This is a community-driven open-source effort.
 
-## 📊 Sample Output
+## 📁 Folder Structure
+- `src/`: Scoring logic, analyzers, generators
+- `docs/`: GitHub Pages dashboard + API output
+- `schemas/`: JSON schema definitions
+- `scripts/`: CLI and utility scripts
 
-The platform identifies startups like:
+## ✅ Go-Live Checklist
 
-| Repository | Score | Why Interesting |
-|------------|-------|-----------------|
-| ai-startup/platform | 9/10 | 14 commits in last week, 25+ stars gained, 3 active contributors |
-| fintech-co/api | 38/50 | Professional setup, active development |
-| saas-tool/app | 35/50 | Strong community, has product website |
+### 1. **Commit Final Updates**
+```bash
+git add .
+git commit -m "feat: finalize signal-first v1 with animations, accessibility, and documentation"
+git push origin main
+```
 
-## 🔄 Automation
+### 2. **Verify on GitHub Pages**
+
+Open: https://cdolik.github.io/early-stage-github-signals/
+Confirm:
+- All cards fade in
+- Sparkline animation on hover 
+- Modal opens on click
+- Footer and search function work
+- Score model info appears and is readable on mobile/desktop
 
 The platform runs automatically every Monday via GitHub Actions:
 
