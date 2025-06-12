@@ -1364,3 +1364,102 @@ TypeError: can't subtract offset-naive and offset-aware datetimes
 2025-06-11 16:44:36,369 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp6io1rtui/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp6io1rtui/docs/api/2025-06-11.json
 2025-06-11 16:44:36,377 - JSONGenerator - INFO - Generating JSON files for 2025-06-11
 2025-06-11 16:44:36,378 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp8qj55x9n/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp8qj55x9n/docs/api/2025-06-11.json
+2025-06-11 18:12:31,636 - BackfillDataFiles - INFO - Processing: docs/api/2025-06-11.json
+2025-06-11 18:12:31,636 - BackfillDataFiles - INFO - Copying docs/api/2025-06-11.json to docs/data/2025-06-11.json
+2025-06-11 18:12:31,638 - BackfillDataFiles - INFO - Successfully created docs/data/2025-06-11.json
+2025-06-11 18:12:31,638 - BackfillDataFiles - INFO - Processing: docs/api/2025-06-06.json
+2025-06-11 18:12:31,638 - BackfillDataFiles - INFO - File docs/data/2025-06-06.json already exists, skipping
+2025-06-11 18:12:31,638 - BackfillDataFiles - INFO - Processing: docs/api/2025-06-10.json
+2025-06-11 18:12:31,638 - BackfillDataFiles - INFO - File docs/data/2025-06-10.json already exists, skipping
+2025-06-11 18:12:31,638 - BackfillDataFiles - INFO - Backfill complete.
+2025-06-11 18:19:10,014 - GitHubCollector - INFO - Collecting GitHub repositories...
+2025-06-11 18:19:10,014 - GitHubCollector - INFO - Collecting repositories for language: Python
+2025-06-11 18:19:10,015 - GitHubCollector - INFO - Collected 1 repositories matching query: is:public language:Python stars:>=5
+2025-06-11 18:19:10,015 - GitHubCollector - INFO - Reached maximum repositories limit (1)
+2025-06-11 18:19:10,016 - GitHubCollector - ERROR - Error analyzing README: argument should be a bytes-like object or ASCII string, not 'MagicMock'
+2025-06-11 18:19:10,020 - GitHubCollector - ERROR - Error processing organization <MagicMock name='Github().get_repo().organization.login' id='4412208000'>: '<=' not supported between instances of 'MagicMock' and 'int'
+2025-06-11 18:19:10,021 - GitHubCollector - INFO - Collected 1 repositories with 6 API calls
+2025-06-11 18:19:10,027 - StartupScorer - INFO - Scoring 1 repositories
+2025-06-11 18:19:10,027 - StartupScorer - INFO - Scored 1 repositories
+2025-06-11 18:19:10,035 - JSONGenerator - INFO - Generating JSON files for 2025-06-06
+2025-06-11 18:19:10,038 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmplothl3ui/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmplothl3ui/docs/api/2025-06-06.json
+2025-06-11 18:19:10,053 - JSONGenerator - INFO - Generating JSON files for 2025-06-11
+2025-06-11 18:19:10,055 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp35xwsx5q/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp35xwsx5q/docs/api/2025-06-11.json
+2025-06-11 18:19:10,075 - JSONGenerator - INFO - Generating JSON files for 2025-06-11
+2025-06-11 18:19:10,078 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpfej6xhbk/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpfej6xhbk/docs/api/2025-06-11.json
+2025-06-11 18:19:10,088 - JSONGenerator - INFO - Generating JSON files for 2025-06-11
+2025-06-11 18:19:10,090 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmppn2o_bkj/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmppn2o_bkj/docs/api/2025-06-11.json
+2025-06-11 19:53:14,838 - BackfillDataFiles - INFO - Processing: docs/api/2025-06-11.json
+2025-06-11 19:53:14,838 - BackfillDataFiles - INFO - File docs/data/2025-06-11.json already exists, skipping
+2025-06-11 19:53:14,838 - BackfillDataFiles - INFO - Processing: docs/api/2025-06-06.json
+2025-06-11 19:53:14,839 - BackfillDataFiles - INFO - File docs/data/2025-06-06.json already exists, skipping
+2025-06-11 19:53:14,839 - BackfillDataFiles - INFO - Processing: docs/api/2025-06-10.json
+2025-06-11 19:53:14,839 - BackfillDataFiles - INFO - File docs/data/2025-06-10.json already exists, skipping
+2025-06-11 19:53:14,839 - BackfillDataFiles - INFO - Backfill complete.
+2025-06-11 19:53:40,222 - github_signals - INFO - Starting Weekly Dev Tools Gems CLI
+2025-06-11 19:53:40,222 - github_signals - INFO - GitHub API client initialized
+2025-06-11 19:53:40,222 - github_signals - INFO - Collecting from GitHub Trending
+2025-06-11 19:53:40,230 - TrendingCollector - INFO - Collecting GitHub trending repositories...
+2025-06-11 19:53:41,262 - TrendingCollector - INFO - Age filtering requires API calls - skipping for MVP. Will require manual verification.
+2025-06-11 19:53:41,262 - TrendingCollector - INFO - Collected 11 trending repositories
+2025-06-11 19:53:41,262 - github_signals - INFO - Collected 11 trending repositories
+2025-06-11 19:53:41,262 - github_signals - INFO - Collecting from Product Hunt
+2025-06-11 19:53:41,277 - ProductHuntCollector - INFO - Collecting Product Hunt weekly trending products...
+2025-06-11 19:53:44,102 - ProductHuntCollector - ERROR - Could not find Product Hunt data in page
+2025-06-11 19:53:44,102 - ProductHuntCollector - INFO - Collected 0 Product Hunt products
+2025-06-11 19:53:44,102 - github_signals - INFO - Matched 0 Product Hunt products with GitHub repos
+2025-06-11 19:53:44,102 - github_signals - INFO - Collecting from Hacker News
+2025-06-11 19:53:44,123 - ShowHNCollector - INFO - Collecting Show HN posts...
+2025-06-11 19:54:03,131 - ShowHNCollector - INFO - Collected 5 Show HN posts
+2025-06-11 19:54:03,133 - github_signals - INFO - Matched 4 Hacker News stories with GitHub repos
+2025-06-11 19:54:03,133 - github_signals - INFO - Total unique repositories: 15
+2025-06-11 19:54:03,133 - github_signals - INFO - Scoring repositories
+2025-06-11 19:54:54,500 - github_signals - INFO - Generating weekly report
+2025-06-11 19:54:54,516 - weekly_gems - INFO - Generating Weekly Dev Tools Gems report for 2025-06-11
+2025-06-11 19:54:54,523 - weekly_gems - INFO - Report saved to /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-11.md
+2025-06-11 19:54:54,531 - github_signals - INFO - Generating API JSON for dashboard
+2025-06-11 19:54:54,547 - JSONGenerator - INFO - Generating JSON files for 2025-06-11
+2025-06-11 19:54:54,557 - JSONGenerator - INFO - Generated API files: docs/api/latest.json, docs/api/2025-06-11.json
+2025-06-11 19:54:54,557 - github_signals - INFO - API JSON files generated: docs/api/latest.json, docs/data/2025-06-11.json
+2025-06-11 19:54:54,557 - github_signals - INFO - Weekly Dev Tools Gems report generated: /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-11.md
+2025-06-11 19:55:56,867 - BackfillDataFiles - INFO - Processing: docs/api/2025-06-11.json
+2025-06-11 19:55:56,867 - BackfillDataFiles - INFO - File docs/data/2025-06-11.json already exists, skipping
+2025-06-11 19:55:56,867 - BackfillDataFiles - INFO - Processing: docs/api/2025-06-06.json
+2025-06-11 19:55:56,867 - BackfillDataFiles - INFO - File docs/data/2025-06-06.json already exists, skipping
+2025-06-11 19:55:56,867 - BackfillDataFiles - INFO - Processing: docs/api/2025-06-10.json
+2025-06-11 19:55:56,867 - BackfillDataFiles - INFO - File docs/data/2025-06-10.json already exists, skipping
+2025-06-11 19:55:56,867 - BackfillDataFiles - INFO - Backfill complete.
+2025-06-11 19:57:47,045 - GitHubCollector - INFO - Collecting GitHub repositories...
+2025-06-11 19:57:47,045 - GitHubCollector - INFO - Collecting repositories for language: Python
+2025-06-11 19:57:47,046 - GitHubCollector - INFO - Collected 1 repositories matching query: is:public language:Python stars:>=5
+2025-06-11 19:57:47,046 - GitHubCollector - INFO - Reached maximum repositories limit (1)
+2025-06-11 19:57:47,046 - GitHubCollector - ERROR - Error analyzing README: argument should be a bytes-like object or ASCII string, not 'MagicMock'
+2025-06-11 19:57:47,050 - GitHubCollector - ERROR - Error processing organization <MagicMock name='Github().get_repo().organization.login' id='4476150048'>: '<=' not supported between instances of 'MagicMock' and 'int'
+2025-06-11 19:57:47,050 - GitHubCollector - INFO - Collected 1 repositories with 6 API calls
+2025-06-11 19:57:47,063 - StartupScorer - INFO - Scoring 1 repositories
+2025-06-11 19:57:47,063 - StartupScorer - INFO - Scored 1 repositories
+2025-06-11 19:57:47,075 - JSONGenerator - INFO - Generating JSON files for 2025-06-06
+2025-06-11 19:57:47,077 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpt0qsoh2r/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpt0qsoh2r/docs/api/2025-06-06.json
+2025-06-11 19:57:47,087 - JSONGenerator - INFO - Generating JSON files for 2025-06-11
+2025-06-11 19:57:47,089 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp3bk_f4rb/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp3bk_f4rb/docs/api/2025-06-11.json
+2025-06-11 19:57:47,107 - JSONGenerator - INFO - Generating JSON files for 2025-06-11
+2025-06-11 19:57:47,109 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp0jaltbjc/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp0jaltbjc/docs/api/2025-06-11.json
+2025-06-11 19:57:47,118 - JSONGenerator - INFO - Generating JSON files for 2025-06-11
+2025-06-11 19:57:47,120 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpsvyq2ezj/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpsvyq2ezj/docs/api/2025-06-11.json
+2025-06-11 19:58:18,704 - GitHubCollector - INFO - Collecting GitHub repositories...
+2025-06-11 19:58:18,705 - GitHubCollector - INFO - Collecting repositories for language: Python
+2025-06-11 19:58:18,705 - GitHubCollector - INFO - Collected 1 repositories matching query: is:public language:Python stars:>=5
+2025-06-11 19:58:18,705 - GitHubCollector - INFO - Reached maximum repositories limit (1)
+2025-06-11 19:58:18,706 - GitHubCollector - ERROR - Error analyzing README: argument should be a bytes-like object or ASCII string, not 'MagicMock'
+2025-06-11 19:58:18,708 - GitHubCollector - ERROR - Error processing organization <MagicMock name='Github().get_repo().organization.login' id='4383269488'>: '<=' not supported between instances of 'MagicMock' and 'int'
+2025-06-11 19:58:18,709 - GitHubCollector - INFO - Collected 1 repositories with 6 API calls
+2025-06-11 19:58:18,724 - StartupScorer - INFO - Scoring 1 repositories
+2025-06-11 19:58:18,724 - StartupScorer - INFO - Scored 1 repositories
+2025-06-11 19:58:18,738 - JSONGenerator - INFO - Generating JSON files for 2025-06-06
+2025-06-11 19:58:18,740 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp9vlrrmhu/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp9vlrrmhu/docs/api/2025-06-06.json
+2025-06-11 19:58:18,759 - JSONGenerator - INFO - Generating JSON files for 2025-06-11
+2025-06-11 19:58:18,762 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp5dvrtef9/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp5dvrtef9/docs/api/2025-06-11.json
+2025-06-11 19:58:18,774 - JSONGenerator - INFO - Generating JSON files for 2025-06-11
+2025-06-11 19:58:18,776 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpf3zwp0r9/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpf3zwp0r9/docs/api/2025-06-11.json
+2025-06-11 19:58:18,790 - JSONGenerator - INFO - Generating JSON files for 2025-06-11
+2025-06-11 19:58:18,792 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpco1fv1oc/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpco1fv1oc/docs/api/2025-06-11.json
