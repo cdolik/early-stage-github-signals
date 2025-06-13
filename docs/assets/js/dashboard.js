@@ -28,7 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Try to load simplified format first
             try {
-                const simplifiedResponse = await fetch('./api/simplified.json');
+                // Determine base URL path for GitHub Pages compatibility
+                const basePath = location.hostname === 'cdolik.github.io' ? '/early-stage-github-signals/' : '/';
+                const simplifiedPath = `${basePath}api/simplified.json`.replace('//', '/');
+                
+                console.log(`Fetching simplified data from: ${simplifiedPath}`);
+                const simplifiedResponse = await fetch(simplifiedPath);
                 if (simplifiedResponse.ok) {
                     const simplifiedData = await simplifiedResponse.json();
                     if (simplifiedData.repositories && simplifiedData.repositories.length > 0) {

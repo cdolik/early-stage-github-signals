@@ -1502,3 +1502,20 @@ TypeError: can't subtract offset-naive and offset-aware datetimes
 2025-06-13 13:51:09,581 - JSONGenerator - INFO - Generated API files: docs/api/latest.json, docs/api/2025-06-13.json
 2025-06-13 13:51:09,581 - github_signals - INFO - API JSON files generated: docs/api/latest.json, docs/data/2025-06-13.json
 2025-06-13 13:51:09,581 - github_signals - INFO - Weekly Dev Tools Gems report generated: /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-13.md
+2025-06-13 14:03:02,601 - GitHubCollector - INFO - Collecting GitHub repositories...
+2025-06-13 14:03:02,601 - GitHubCollector - INFO - Collecting repositories for language: Python
+2025-06-13 14:03:02,602 - GitHubCollector - INFO - Collected 1 repositories matching query: is:public language:Python stars:>=5
+2025-06-13 14:03:02,602 - GitHubCollector - INFO - Reached maximum repositories limit (1)
+2025-06-13 14:03:02,602 - GitHubCollector - ERROR - Error analyzing README: argument should be a bytes-like object or ASCII string, not 'MagicMock'
+2025-06-13 14:03:02,606 - GitHubCollector - ERROR - Error processing organization <MagicMock name='Github().get_repo().organization.login' id='4429542272'>: '<=' not supported between instances of 'MagicMock' and 'int'
+2025-06-13 14:03:02,607 - GitHubCollector - INFO - Collected 1 repositories with 6 API calls
+2025-06-13 14:03:02,615 - StartupScorer - INFO - Scoring 1 repositories
+2025-06-13 14:03:02,615 - StartupScorer - INFO - Scored 1 repositories
+2025-06-13 14:03:02,623 - JSONGenerator - INFO - Generating JSON files for 2025-06-06
+2025-06-13 14:03:02,625 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpb9nmwm27/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpb9nmwm27/docs/api/2025-06-06.json
+2025-06-13 14:03:02,637 - JSONGenerator - INFO - Generating JSON files for 2025-06-13
+2025-06-13 14:03:02,639 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpgf0if4bq/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpgf0if4bq/docs/api/2025-06-13.json
+2025-06-13 14:03:02,656 - JSONGenerator - INFO - Generating JSON files for 2025-06-13
+2025-06-13 14:03:02,658 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpm4v8gvyi/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpm4v8gvyi/docs/api/2025-06-13.json
+2025-06-13 14:03:02,667 - JSONGenerator - INFO - Generating JSON files for 2025-06-13
+2025-06-13 14:03:02,669 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp3v2i8f2c/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp3v2i8f2c/docs/api/2025-06-13.json

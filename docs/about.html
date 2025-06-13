@@ -45,9 +45,21 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                // Fetch the about.md content
-                const response = await fetch('about.md');
-                if (!response.ok) throw new Error('Failed to fetch about content');
+                // Determine base URL path for GitHub Pages compatibility
+                const basePath = location.hostname === 'cdolik.github.io' ? '/early-stage-github-signals/' : '/';
+                const mdPath = `${basePath}about.md`.replace('//', '/');
+                
+                console.log(`Fetching about content from: ${mdPath}`);
+                const response = await fetch(mdPath);
+                if (!response.ok) {
+                    // Try fallback path
+                    const altPath = 'about.md';
+                    const altResponse = await fetch(altPath);
+                    if (!altResponse.ok) {
+                        throw new Error('Failed to fetch about content');
+                    }
+                    return await altResponse.text();
+                }
                 
                 const content = await response.text();
                 
