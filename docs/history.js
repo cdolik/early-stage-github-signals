@@ -36,7 +36,12 @@ class SignalsHistory {
             const snapshots = await Promise.all(
                 dates.map(async (date) => {
                     try {
-                        const response = await fetch(`${this.dataDir}${date}.json`);
+                        // Determine base URL path for GitHub Pages compatibility
+                        const basePath = location.hostname === 'cdolik.github.io' ? '/early-stage-github-signals/' : '/';
+                        const dataPath = `${basePath}${this.dataDir}${date}.json`.replace('//', '/');
+                        
+                        console.log(`Fetching historical data from: ${dataPath}`);
+                        const response = await fetch(dataPath);
                         if (response.ok) {
                             return { date, data: await response.json() };
                         }

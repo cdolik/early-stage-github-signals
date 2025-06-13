@@ -17,9 +17,21 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             moversContainer.innerHTML = `<div class="loading">Loading repositories...</div>`;
 
-            const res = await fetch('api/latest.json');
+            // Determine base URL path for GitHub Pages compatibility
+            const basePath = location.hostname === 'cdolik.github.io' ? '/early-stage-github-signals/' : '/';
+            const apiPath = `${basePath}api/latest.json`.replace('//', '/');
+            
+            console.log(`Fetching data from: ${apiPath}`);
+            const res = await fetch(apiPath);
             if (!res.ok) {
-                throw new Error(`API responded with status: ${res.status}`);
+                // Fallback to direct path if that fails
+                console.log(`Failed with status ${res.status}, trying alternate path...`);
+                const altPath = 'api/latest.json';
+                const altRes = await fetch(altPath);
+                if (!altRes.ok) {
+                    throw new Error(`API responded with status: ${res.status} and ${altRes.status}`);
+                }
+                return await altRes.json();
             }
 
             const data = await res.json();
