@@ -24,7 +24,7 @@ class WeeklyGemsReportGenerator:
         """
         self.config = config
         self.logger = setup_logger("weekly_gems")
-        self.quality_threshold = 7  # Minimum score to be included
+        self.quality_threshold = 0  # Minimum score to be included
         
     def generate_report(self, scored_repos: List[Dict[str, Any]], report_date: datetime = None) -> str:
         """
