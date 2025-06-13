@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('modal');
     const modalBody = document.getElementById('modal-body');
     const closeButton = document.querySelector('.close-button');
-    const searchInput = document.getElementById('searchInput');
     let allRepos = [];
     let filteredRepos = [];
 
@@ -26,9 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
             allRepos = data.repositories || [];
 
-            // Filter by momentum score >= 7 and take top 5 repos
+            // Take top 5 repos regardless of score
             filteredRepos = allRepos
-                .filter(repo => repo.score >= 7)
                 .sort((a, b) => b.score - a.score)
                 .slice(0, 5);
 
@@ -133,40 +131,15 @@ document.addEventListener('DOMContentLoaded', () => {
             emptyState.style.display = 'none';
         } else {
             emptyState.style.display = 'block';
-            if (searchInput.value) {
-                // Show custom message for search with no results
-                emptyState.innerHTML = `
-                    <h3>No matching repositories found</h3>
-                    <p>Try adjusting your search term or check back later for new projects.</p>
-                `;
-            } else {
-                // Show default empty state message
-                emptyState.innerHTML = `
-                    <h3>📭 No breakout OSS projects this week</h3>
-                    <p>Our radar updates every Monday. Check back soon for new momentum signals.</p>
-                `;
-            }
+            // Show default empty state message
+            emptyState.innerHTML = `
+                <h3>📭 No breakout OSS projects this week</h3>
+                <p>Our radar updates every Monday. Check back soon for new momentum signals.</p>
+            `;
         }
     }
 
-    // Search functionality
-    function handleSearch() {
-        const query = searchInput.value.toLowerCase().trim();
-
-        if (!query) {
-            // If search is empty, show top repos
-            renderRepos(filteredRepos);
-            return;
-        }
-
-        // Filter repos by name or why_matters text
-        const searchResults = allRepos.filter(repo =>
-            (repo.name && repo.name.toLowerCase().includes(query)) ||
-            (repo.why_matters && repo.why_matters.toLowerCase().includes(query))
-        );
-
-        renderRepos(searchResults);
-    }
+    // No search functionality
 
     function showModal(repo) {
         // Build detailed view for the modal
@@ -282,15 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Set up search functionality
-    searchInput.addEventListener('input', handleSearch);
-    searchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            searchInput.value = '';
-            handleSearch();
-            searchInput.blur();
-        }
-    });
+    // Search functionality removed
 
     // Support keyboard accessibility for cards
     moversContainer.addEventListener('keydown', (e) => {
