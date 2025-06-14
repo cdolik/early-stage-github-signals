@@ -1578,3 +1578,54 @@ TypeError: can't subtract offset-naive and offset-aware datetimes
 2025-06-13 17:44:01,448 - JSONGenerator - INFO - Generated API files: docs/api/latest.json, docs/api/2025-06-13.json
 2025-06-13 17:44:01,448 - github_signals - INFO - API JSON files generated: docs/api/latest.json, docs/data/2025-06-13.json
 2025-06-13 17:44:01,448 - github_signals - INFO - Weekly Dev Tools Gems report generated: /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-13.md
+2025-06-14 08:41:10,602 - GitHubCollector - INFO - Collecting GitHub repositories...
+2025-06-14 08:41:10,603 - GitHubCollector - INFO - Collecting repositories for language: Python
+2025-06-14 08:41:10,604 - GitHubCollector - INFO - Collected 1 repositories matching query: is:public language:Python stars:>=5
+2025-06-14 08:41:10,604 - GitHubCollector - INFO - Reached maximum repositories limit (1)
+2025-06-14 08:41:10,605 - GitHubCollector - ERROR - Error analyzing README: argument should be a bytes-like object or ASCII string, not 'MagicMock'
+2025-06-14 08:41:10,609 - GitHubCollector - ERROR - Error processing organization <MagicMock name='Github().get_repo().organization.login' id='4576342912'>: '<=' not supported between instances of 'MagicMock' and 'int'
+2025-06-14 08:41:10,609 - GitHubCollector - INFO - Collected 1 repositories with 6 API calls
+2025-06-14 08:41:10,620 - StartupScorer - INFO - Scoring 1 repositories
+2025-06-14 08:41:10,620 - StartupScorer - INFO - Scored 1 repositories
+2025-06-14 08:41:10,628 - JSONGenerator - INFO - Generating JSON files for 2025-06-06
+2025-06-14 08:41:10,631 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpcl1a34p4/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpcl1a34p4/docs/api/2025-06-06.json
+2025-06-14 08:41:10,646 - JSONGenerator - INFO - Generating JSON files for 2025-06-14
+2025-06-14 08:41:10,648 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp0m5fko7u/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp0m5fko7u/docs/api/2025-06-14.json
+2025-06-14 08:41:10,665 - JSONGenerator - INFO - Generating JSON files for 2025-06-14
+2025-06-14 08:41:10,669 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmphdyma2qg/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmphdyma2qg/docs/api/2025-06-14.json
+2025-06-14 08:41:10,678 - JSONGenerator - INFO - Generating JSON files for 2025-06-14
+2025-06-14 08:41:10,681 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpq772j6z5/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpq772j6z5/docs/api/2025-06-14.json
+2025-06-14 08:42:18,148 - GitHubCollector - INFO - Collecting GitHub repositories...
+2025-06-14 08:42:18,148 - GitHubCollector - INFO - Collecting repositories for language: Python
+2025-06-14 08:42:18,149 - GitHubCollector - INFO - Collected 1 repositories matching query: is:public language:Python stars:>=5
+2025-06-14 08:42:18,149 - GitHubCollector - INFO - Reached maximum repositories limit (1)
+2025-06-14 08:42:18,149 - GitHubCollector - ERROR - Error analyzing README: argument should be a bytes-like object or ASCII string, not 'MagicMock'
+2025-06-14 08:42:18,153 - GitHubCollector - ERROR - Error processing organization <MagicMock name='Github().get_repo().organization.login' id='4415939184'>: '<=' not supported between instances of 'MagicMock' and 'int'
+2025-06-14 08:42:18,153 - GitHubCollector - INFO - Collected 1 repositories with 6 API calls
+2025-06-14 08:42:18,169 - StartupScorer - INFO - Scoring 1 repositories
+2025-06-14 08:42:18,169 - StartupScorer - INFO - Scored 1 repositories
+2025-06-14 08:42:18,180 - JSONGenerator - INFO - Generating JSON files for 2025-06-06
+2025-06-14 08:42:18,183 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp767985ye/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp767985ye/docs/api/2025-06-06.json
+2025-06-14 08:42:18,195 - JSONGenerator - INFO - Generating JSON files for 2025-06-14
+2025-06-14 08:42:18,197 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp1e8u0obd/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp1e8u0obd/docs/api/2025-06-14.json
+2025-06-14 08:42:18,210 - JSONGenerator - INFO - Generating JSON files for 2025-06-14
+2025-06-14 08:42:18,212 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpccmu2xke/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpccmu2xke/docs/api/2025-06-14.json
+2025-06-14 08:42:18,222 - JSONGenerator - INFO - Generating JSON files for 2025-06-14
+2025-06-14 08:42:18,224 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpu60ygmun/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpu60ygmun/docs/api/2025-06-14.json
+2025-06-14 08:43:38,985 - GitHubCollector - INFO - Collecting GitHub repositories...
+2025-06-14 08:43:38,985 - GitHubCollector - INFO - Collecting repositories for language: Python
+2025-06-14 08:43:38,985 - GitHubCollector - INFO - Collected 1 repositories matching query: is:public language:Python stars:>=5
+2025-06-14 08:43:38,985 - GitHubCollector - INFO - Reached maximum repositories limit (1)
+2025-06-14 08:43:38,986 - GitHubCollector - ERROR - Error analyzing README: argument should be a bytes-like object or ASCII string, not 'MagicMock'
+2025-06-14 08:43:38,989 - GitHubCollector - ERROR - Error processing organization <MagicMock name='Github().get_repo().organization.login' id='4386579056'>: '<=' not supported between instances of 'MagicMock' and 'int'
+2025-06-14 08:43:38,989 - GitHubCollector - INFO - Collected 1 repositories with 6 API calls
+2025-06-14 08:43:39,003 - StartupScorer - INFO - Scoring 1 repositories
+2025-06-14 08:43:39,003 - StartupScorer - INFO - Scored 1 repositories
+2025-06-14 08:43:39,016 - JSONGenerator - INFO - Generating JSON files for 2025-06-06
+2025-06-14 08:43:39,018 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp002y0q8e/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp002y0q8e/docs/api/2025-06-06.json
+2025-06-14 08:43:39,037 - JSONGenerator - INFO - Generating JSON files for 2025-06-14
+2025-06-14 08:43:39,039 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp_ul09a0g/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp_ul09a0g/docs/api/2025-06-14.json
+2025-06-14 08:43:39,051 - JSONGenerator - INFO - Generating JSON files for 2025-06-14
+2025-06-14 08:43:39,053 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpmo4xlvlo/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpmo4xlvlo/docs/api/2025-06-14.json
+2025-06-14 08:43:39,063 - JSONGenerator - INFO - Generating JSON files for 2025-06-14
+2025-06-14 08:43:39,065 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmps4y5m8y3/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmps4y5m8y3/docs/api/2025-06-14.json

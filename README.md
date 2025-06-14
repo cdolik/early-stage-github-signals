@@ -44,6 +44,18 @@ make serve
 
 ---
 
+<!-- ## 📸 Dashboard Preview
+
+<div align="center">
+
+![Dashboard Screenshot](https://raw.githubusercontent.com/cdolik/early-stage-github-signals/main/docs/assets/dashboard-preview.png)
+
+*Real-time momentum analysis with interactive filtering and detailed project insights*
+
+</div> -->
+
+---
+
 ## 🧮 How It Works
 
 ### **The 10-Point Momentum Score**
