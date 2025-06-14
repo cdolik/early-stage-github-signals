@@ -8,8 +8,8 @@
       "owner": "tensorzero",
       "html_url": "https://github.com/tensorzero/tensorzero",
       "description": "TensorZero creates a feedback loop for optimizing LLM applications \u2014 turning production data into smarter, faster, and cheaper models.",
-      "stars": 6825,
-      "forks": 410,
+      "stars": 6833,
+      "forks": 411,
       "language": "Rust",
       "trending_stars": 0,
       "trending_timespan": "weekly",
@@ -22,7 +22,7 @@
         "team_traction": 0,
         "dev_ecosystem_fit": 1,
         "signals": [
-          "71 commits in last 14 days (24 feature commits)",
+          "72 commits in last 14 days (26 feature commits)",
           "rust language"
         ]
       }
@@ -33,8 +33,8 @@
       "owner": "frdel",
       "html_url": "https://github.com/frdel/agent-zero",
       "description": "Agent Zero AI framework",
-      "stars": 9776,
-      "forks": 1895,
+      "stars": 9783,
+      "forks": 1899,
       "language": "Python",
       "trending_stars": 0,
       "trending_timespan": "weekly",
@@ -47,58 +47,8 @@
         "team_traction": 0,
         "dev_ecosystem_fit": 1,
         "signals": [
-          "56 commits in last 14 days (5 feature commits)",
+          "51 commits in last 14 days (3 feature commits)",
           "python language"
-        ]
-      }
-    },
-    {
-      "full_name": "nautechsystems/nautilus_trader",
-      "name": "nautilus_trader",
-      "owner": "nautechsystems",
-      "html_url": "https://github.com/nautechsystems/nautilus_trader",
-      "description": "A high-performance algorithmic trading platform and event-driven backtester",
-      "stars": 8711,
-      "forks": 1063,
-      "language": "Python",
-      "trending_stars": 0,
-      "trending_timespan": "weekly",
-      "trending_score": 0.0,
-      "source": "github_trending",
-      "score": 4,
-      "score_details": {
-        "commit_surge": 3,
-        "star_velocity": 0,
-        "team_traction": 0,
-        "dev_ecosystem_fit": 1,
-        "signals": [
-          "182 commits in last 14 days (26 feature commits)",
-          "python language"
-        ]
-      }
-    },
-    {
-      "full_name": "eyaltoledano/claude-task-master",
-      "name": "claude-task-master",
-      "owner": "eyaltoledano",
-      "html_url": "https://github.com/eyaltoledano/claude-task-master",
-      "description": "An AI-powered task-management system you can drop into Cursor, Lovable, Windsurf, Roo, and others.",
-      "stars": 14516,
-      "forks": 1489,
-      "language": "JavaScript",
-      "trending_stars": 0,
-      "trending_timespan": "weekly",
-      "trending_score": 0.0,
-      "source": "github_trending",
-      "score": 4,
-      "score_details": {
-        "commit_surge": 3,
-        "star_velocity": 0,
-        "team_traction": 1,
-        "dev_ecosystem_fit": 0,
-        "signals": [
-          "56 commits in last 14 days (6 feature commits)",
-          "4 active contributors out of 17 total"
         ]
       }
     },
@@ -108,7 +58,7 @@
       "owner": "netbirdio",
       "html_url": "https://github.com/netbirdio/netbird",
       "description": "Connect your devices into a secure WireGuard\u00ae-based overlay network with SSO, MFA and granular access controls.",
-      "stars": 15592,
+      "stars": 15602,
       "forks": 729,
       "language": "Go",
       "trending_stars": 0,

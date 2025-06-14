@@ -27,7 +27,7 @@
         "contributors_30d": 0,
         "avg_issue_resolution_days": 30
       },
-      "date_analyzed": "2025-06-13T17:51:09Z",
+      "date_analyzed": "2025-06-13T21:44:01Z",
       "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
       "repo_url": "https://github.com/tensorzero/tensorzero",
       "ecosystem": "Other",
@@ -61,7 +61,7 @@
         "contributors_30d": 0,
         "avg_issue_resolution_days": 30
       },
-      "date_analyzed": "2025-06-13T17:51:09Z",
+      "date_analyzed": "2025-06-13T21:44:01Z",
       "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
       "repo_url": "https://github.com/frdel/agent-zero",
       "ecosystem": "Other",
@@ -95,77 +95,9 @@
         "contributors_30d": 0,
         "avg_issue_resolution_days": 30
       },
-      "date_analyzed": "2025-06-13T17:51:09Z",
+      "date_analyzed": "2025-06-13T21:44:01Z",
       "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
       "repo_url": "https://github.com/netbirdio/netbird",
-      "ecosystem": "Other",
-      "language": "N/A",
-      "stars": 0,
-      "forks": 0
-    },
-    {
-      "name": "nautilus_trader",
-      "full_name": "nautechsystems/nautilus_trader",
-      "url": null,
-      "description": "A high-performance algorithmic trading platform and event-driven backtester",
-      "score": 0.0,
-      "signals": {
-        "star_velocity": 0.0,
-        "fork_velocity": 0.0,
-        "contributor_growth": 0.0,
-        "issue_resolution_rate": 0.20689655172413793,
-        "commit_frequency": 0.0,
-        "novelty_signal": 0.0,
-        "founder_signal": 0.0,
-        "documentation_quality": 0.0
-      },
-      "justification": [],
-      "metrics": {
-        "stars": 0,
-        "stars_gained_14d": 0,
-        "forks": 0,
-        "forks_gained_14d": 0,
-        "commits_14d": 0,
-        "contributors_30d": 0,
-        "avg_issue_resolution_days": 30
-      },
-      "date_analyzed": "2025-06-13T17:51:09Z",
-      "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
-      "repo_url": "https://github.com/nautechsystems/nautilus_trader",
-      "ecosystem": "Other",
-      "language": "N/A",
-      "stars": 0,
-      "forks": 0
-    },
-    {
-      "name": "claude-task-master",
-      "full_name": "eyaltoledano/claude-task-master",
-      "url": null,
-      "description": "An AI-powered task-management system you can drop into Cursor, Lovable, Windsurf, Roo, and others.",
-      "score": 0.0,
-      "signals": {
-        "star_velocity": 0.0,
-        "fork_velocity": 0.0,
-        "contributor_growth": 0.0,
-        "issue_resolution_rate": 0.20689655172413793,
-        "commit_frequency": 0.0,
-        "novelty_signal": 0.0,
-        "founder_signal": 0.0,
-        "documentation_quality": 0.0
-      },
-      "justification": [],
-      "metrics": {
-        "stars": 0,
-        "stars_gained_14d": 0,
-        "forks": 0,
-        "forks_gained_14d": 0,
-        "commits_14d": 0,
-        "contributors_30d": 0,
-        "avg_issue_resolution_days": 30
-      },
-      "date_analyzed": "2025-06-13T17:51:09Z",
-      "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
-      "repo_url": "https://github.com/eyaltoledano/claude-task-master",
       "ecosystem": "Other",
       "language": "N/A",
       "stars": 0,
@@ -173,5 +105,5 @@
     }
   ],
   "date": "2025-06-13",
-  "date_generated": "2025-06-13T13:51:09Z"
+  "date_generated": "2025-06-13T17:44:01Z"
 }
