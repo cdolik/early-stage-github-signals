@@ -39,7 +39,7 @@ class SignalsHistory {
                         // Determine base URL path for GitHub Pages compatibility
                         const basePath = location.hostname === 'cdolik.github.io' ? '/early-stage-github-signals/' : '/';
                         const dataPath = `${basePath}${this.dataDir}${date}.json`.replace('//', '/');
-                        
+
                         console.log(`Fetching historical data from: ${dataPath}`);
                         const response = await fetch(dataPath);
                         if (response.ok) {
@@ -56,9 +56,9 @@ class SignalsHistory {
 
             // Build trend map
             this.buildTrendMap(snapshots.filter(s => s.data !== null));
-            
+
             console.log(`Loaded ${Object.keys(this.trendMap).length} historical trends`);
-            
+
             return this.trendMap;
         } catch (error) {
             console.error('Failed to initialize history:', error);
@@ -72,23 +72,23 @@ class SignalsHistory {
     buildTrendMap(snapshots) {
         // Initialize map
         this.trendMap = {};
-        
+
         // Process each snapshot
         snapshots.forEach((snapshot, index) => {
             const { date, data } = snapshot;
-            
+
             if (!data) return;
-            
+
             data.forEach(repo => {
                 const fullName = repo.full_name;
-                
+
                 if (!this.trendMap[fullName]) {
                     this.trendMap[fullName] = {
                         scores: Array(3).fill(null), // Placeholder for up to 3 scores
                         dates: Array(3).fill(null)   // Corresponding dates
                     };
                 }
-                
+
                 // Add score at the correct position (based on index)
                 this.trendMap[fullName].scores[index] = repo.score;
                 this.trendMap[fullName].dates[index] = date;
@@ -105,7 +105,7 @@ class SignalsHistory {
         if (!this.trendMap[repoFullName]) {
             return null;
         }
-        
+
         return this.trendMap[repoFullName].scores.filter(score => score !== null);
     }
 
@@ -116,14 +116,14 @@ class SignalsHistory {
      */
     getTrendsForRepositories(repos) {
         const trends = {};
-        
+
         repos.forEach(repo => {
             const trend = this.getTrend(repo.full_name);
             if (trend && trend.length > 0) {
                 trends[repo.full_name] = trend;
             }
         });
-        
+
         return trends;
     }
 }

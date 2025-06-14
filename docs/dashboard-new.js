@@ -33,21 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             setupEventListeners();
             setupIntersectionObserver();
-            setupAccessibility();
-            setupScrollToTop();
-            showSkeletonLoading();
-
-            const fetchWithRetry = createRetryMechanism(fetchData);
-            await fetchWithRetry();
-
-            setupAdvancedObserver();
-            prefetchResources();
+            await fetchData();
             hideLoadingScreen();
-
-            // Announce successful load
-            setTimeout(() => {
-                window.announceToScreenReader?.(`Loaded ${allRepos.length} repositories`);
-            }, 500);
         } catch (error) {
             console.error('Failed to initialize dashboard:', error);
             showError('Failed to initialize dashboard');
@@ -112,9 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function fetchData() {
-        if (isLoading) return; try {
+        if (isLoading) return;
+
+        try {
             isLoading = true;
-            addLoadingStates();
+            showLoadingState();
 
             // Enhanced path resolution for GitHub Pages
             const basePaths = [
@@ -131,12 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const apiPath = `${basePath}api/latest.json`.replace(/\/+/g, '/').replace(/^\//, basePath ? '/' : '');
                     console.log(`Attempting to fetch from: ${apiPath}`);
 
-                    const res = await fetch(apiPath, {
-                        cache: 'no-cache',
-                        headers: {
-                            'Cache-Control': 'no-cache'
-                        }
-                    });
+                    const res = await fetch(apiPath);
                     if (res.ok) {
                         data = await res.json();
                         console.log(`Successfully fetched data from: ${apiPath}`);
@@ -163,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
             showError(error.message);
         } finally {
             isLoading = false;
-            removeLoadingStates();
         }
     }
 
@@ -197,11 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('report-date').textContent = formattedDate;
         }
 
-        // Set current year in footer
-        const currentYearElement = document.getElementById('current-year');
-        if (currentYearElement) {
-            currentYearElement.textContent = new Date().getFullYear();
-        }
+        document.getElementById('current-year').textContent = new Date().getFullYear();
     }
 
     function updateStats(data) {
@@ -326,21 +305,18 @@ document.addEventListener('DOMContentLoaded', () => {
         card.innerHTML = `
             <div class="card-header">
                 <h3>
-                    <a href="${repo.repo_url || `https://github.com/${repo.full_name}`}" target="_blank" 
+                    <a href="${repo.repo_url}" target="_blank" 
                        aria-label="Visit ${repo.name} on GitHub">${repo.name}</a>
                 </h3>
                 <div class="score-container">
-                    <div class="momentum-score ${getScoreClass(repo.score)}" title="Momentum score: ${repo.score.toFixed(1)}">
+                    <div class="momentum-score" title="Momentum score: ${repo.score.toFixed(1)}">
                         ${repo.score.toFixed(1)}
                     </div>
                     ${scoreChangeHtml}
                 </div>
             </div>
             ${sparklineHtml}
-            <p class="project-description">${getProjectDescription(repo)}</p>
-            <div class="project-stats">
-                ${getProjectStats(repo)}
-            </div>
+            <p class="why-matters">${repo.why_matters || repo.description}</p>
         `;
 
         // Event listeners
@@ -371,62 +347,27 @@ document.addEventListener('DOMContentLoaded', () => {
         return '→';
     }
 
-    function getScoreClass(score) {
-        if (score >= 7) return 'score-excellent';
-        if (score >= 5) return 'score-good';
-        if (score >= 3) return 'score-moderate';
-        if (score >= 1) return 'score-low';
-        return 'score-minimal';
-    }
-
     function createTrendVisualization(trend) {
-        if (!trend || trend.length < 2) return '';
+        return trend.map((value, index, arr) => {
+            if (index === 0) return `<span>${value}</span>`;
 
-        // Create SVG sparkline for better visual appeal
-        const values = trend.map(v => parseFloat(v) || 0);
-        const max = Math.max(...values);
-        const min = Math.min(...values);
-        const range = max - min || 1;
+            const prev = parseFloat(arr[index - 1]);
+            const current = parseFloat(value);
+            let className = 'neutral';
+            let icon = '→';
 
-        const points = values.map((value, index) => {
-            const x = (index / (values.length - 1)) * 100;
-            const y = 100 - ((value - min) / range) * 100;
-            return `${x},${y}`;
+            if (current > prev) {
+                className = 'positive';
+                icon = '↗';
+            } else if (current < prev) {
+                className = 'negative';
+                icon = '↘';
+            }
+
+            return `<span class="trend-${className}" title="Previous: ${prev}, Current: ${current}">
+                        ${icon} ${value}
+                    </span>`;
         }).join(' ');
-
-        // Determine overall trend
-        const firstValue = values[0];
-        const lastValue = values[values.length - 1];
-        const trendClass = lastValue > firstValue ? 'positive' :
-            lastValue < firstValue ? 'negative' : 'neutral';
-        const trendIcon = lastValue > firstValue ? '↗' :
-            lastValue < firstValue ? '↘' : '→';
-
-        const uniqueId = Math.random().toString(36).substr(2, 9);
-
-        return `
-            <div class="sparkline-wrapper">
-                <svg class="sparkline" viewBox="0 0 100 100" preserveAspectRatio="none" 
-                     role="img" aria-label="Trend: ${firstValue} to ${lastValue}">
-                    <defs>
-                        <linearGradient id="sparkline-gradient-${uniqueId}" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" style="stop-color:var(--accent);stop-opacity:0.6" />
-                            <stop offset="100%" style="stop-color:var(--success);stop-opacity:0.8" />
-                        </linearGradient>
-                    </defs>
-                    <polyline points="${points}" fill="none" 
-                              stroke="url(#sparkline-gradient-${uniqueId})" 
-                              stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                    <circle cx="${points.split(' ').pop().split(',')[0]}" 
-                            cy="${points.split(' ').pop().split(',')[1]}" 
-                            r="2" fill="var(--accent)" opacity="0.9" />
-                </svg>
-                <span class="trend-summary trend-${trendClass}" 
-                      title="Trend: ${firstValue} → ${lastValue}">
-                    ${trendIcon} ${lastValue}
-                </span>
-            </div>
-        `;
     }
 
     function showModal(repo) {
@@ -474,8 +415,8 @@ document.addEventListener('DOMContentLoaded', () => {
             ` : ''}
             
             <div class="modal-section">
-                <h4>What Makes This Interesting</h4>
-                <p>${generateMomentumSummary(repo)}</p>
+                <h4>Why It Matters</h4>
+                <p>${repo.why_matters || 'This repository shows promising momentum signals.'}</p>
             </div>
             
             ${Object.keys(metrics).length > 0 ? `
@@ -494,18 +435,12 @@ document.addEventListener('DOMContentLoaded', () => {
             
             ${Object.keys(signals).length > 0 ? `
             <div class="modal-section">
-                <h4>Momentum Signals</h4>
+                <h4>Signal Breakdown</h4>
                 <div class="signals-grid">
-                    ${Object.entries(signals)
-                    .filter(([key, value]) => value > 0)
-                    .sort(([, a], [, b]) => b - a)
-                    .map(([key, value]) => `
+                    ${Object.entries(signals).map(([key, value]) => `
                         <div class="signal-item">
-                            <span class="signal-label">${getSignalDisplayName(key)}</span>
-                            <div class="signal-bar">
-                                <div class="signal-fill" style="width: ${Math.round(value * 100)}%"></div>
-                                <span class="signal-value">${Math.round(value * 100)}%</span>
-                            </div>
+                            <span class="signal-label">${formatMetricName(key)}</span>
+                            <span class="signal-value">${typeof value === 'number' ? value.toFixed(2) : value}</span>
                         </div>
                     `).join('')}
                 </div>
@@ -562,193 +497,35 @@ document.addEventListener('DOMContentLoaded', () => {
     function showLoadingState() {
         if (moversContainer) {
             moversContainer.innerHTML = `
-                <div class="loading-state">
+                <div class="loading">
                     <div class="loading-spinner"></div>
-                    <h3>Loading momentum signals...</h3>
-                    <p>Analyzing repository data and computing scores</p>
+                    Loading repositories...
                 </div>
             `;
         }
     }
 
-    function showSkeletonLoading() {
+    function showError(message) {
         if (moversContainer) {
-            const skeletonCards = Array.from({ length: 6 }, (_, i) => `
-                <div class="skeleton-card loading-skeleton">
-                    <div class="skeleton-title loading-skeleton"></div>
-                    <div class="skeleton-text loading-skeleton"></div>
-                    <div class="skeleton-text loading-skeleton"></div>
-                    <div class="skeleton-text loading-skeleton"></div>
+            moversContainer.innerHTML = `
+                <div class="error-state" role="alert">
+                    <h3>Unable to load data</h3>
+                    <p>${message}</p>
+                    <button class="retry-btn" onclick="location.reload()">
+                        Try Again
+                    </button>
                 </div>
-            `).join('');
-
-            moversContainer.innerHTML = skeletonCards;
+            `;
         }
     }
 
-    function addLoadingStates() {
-        // Add loading class to refresh button
-        refreshBtn?.classList.add('loading');
-
-        // Add subtle pulse to nav
-        stickyNav?.classList.add('loading-pulse');
-    }
-
-    function removeLoadingStates() {
-        refreshBtn?.classList.remove('loading');
-        stickyNav?.classList.remove('loading-pulse');
-    }
-
-    // Enhanced intersection observer for better performance
-    function setupAdvancedObserver() {
-        // Lazy load images and animations
-        const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    if (img.dataset.src) {
-                        img.src = img.dataset.src;
-                        img.removeAttribute('data-src');
-                        imageObserver.unobserve(img);
-                    }
-                }
-            });
-        }, { threshold: 0.1 });
-
-        // Observe all images with data-src
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            imageObserver.observe(img);
-        });
-
-        // Add staggered animations to cards
-        const cardObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry, index) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('animate-in');
-                    }, index * 100);
-                    cardObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.2 });
-
-        // Observe project cards for staggered animation
-        document.querySelectorAll('.project-card').forEach(card => {
-            cardObserver.observe(card);
-        });
-    }
-
-    // Enhanced error handling with retry mechanism
-    function createRetryMechanism(operation, maxRetries = 3, delay = 1000) {
-        return async function retryWrapper(...args) {
-            for (let attempt = 1; attempt <= maxRetries; attempt++) {
-                try {
-                    return await operation(...args);
-                } catch (error) {
-                    if (attempt === maxRetries) {
-                        throw error;
-                    }
-
-                    console.log(`Attempt ${attempt} failed, retrying in ${delay}ms...`);
-                    await new Promise(resolve => setTimeout(resolve, delay * attempt));
-                }
-            }
-        };
-    }
-
-    // Prefetch next likely actions
-    function prefetchResources() {
-        // Prefetch about page
-        const aboutLink = document.createElement('link');
-        aboutLink.rel = 'prefetch';
-        aboutLink.href = 'about.html';
-        document.head.appendChild(aboutLink);
-
-        // Prefetch GitHub links for top repositories
-        const topRepos = filteredRepos.slice(0, 3);
-        topRepos.forEach(repo => {
-            if (repo.repo_url) {
-                const link = document.createElement('link');
-                link.rel = 'dns-prefetch';
-                link.href = new URL(repo.repo_url).origin;
-                document.head.appendChild(link);
-            }
-        });
-    }
-
-    // Enhanced accessibility
-    function setupAccessibility() {
-        // Announce dynamic content changes
-        const announcer = document.createElement('div');
-        announcer.setAttribute('aria-live', 'polite');
-        announcer.setAttribute('aria-atomic', 'true');
-        announcer.className = 'sr-only';
-        document.body.appendChild(announcer);
-
-        window.announceToScreenReader = (message) => {
-            announcer.textContent = message;
-            setTimeout(() => announcer.textContent = '', 1000);
-        };
-
-        // Enhanced keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            // Quick search with /
-            if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey) {
-                e.preventDefault();
-                // Focus first filter button
-                filterButtons[0]?.focus();
-            }
-
-            // Navigate cards with arrow keys
-            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-                const cards = Array.from(document.querySelectorAll('.project-card'));
-                const focusedCard = document.activeElement.closest('.project-card');
-
-                if (focusedCard) {
-                    e.preventDefault();
-                    const currentIndex = cards.indexOf(focusedCard);
-                    const nextIndex = e.key === 'ArrowDown'
-                        ? Math.min(currentIndex + 1, cards.length - 1)
-                        : Math.max(currentIndex - 1, 0);
-
-                    cards[nextIndex]?.focus();
-                }
-            }
-        });
-    }
-
-    // Add scroll to top functionality
-    function setupScrollToTop() {
-        const scrollBtn = document.createElement('button');
-        scrollBtn.className = 'scroll-to-top';
-        scrollBtn.innerHTML = `
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 15l-6-6-6 6"/>
-            </svg>
-        `;
-        scrollBtn.setAttribute('aria-label', 'Scroll to top');
-        scrollBtn.style.display = 'none';
-        document.body.appendChild(scrollBtn);
-
-        let isVisible = false;
-        const toggleVisibility = () => {
-            const shouldShow = window.pageYOffset > 300;
-            if (shouldShow !== isVisible) {
-                isVisible = shouldShow;
-                scrollBtn.style.display = isVisible ? 'flex' : 'none';
-                scrollBtn.classList.toggle('visible', isVisible);
-            }
-        };
-
-        const scrollToTop = () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        };
-
-        window.addEventListener('scroll', debounce(toggleVisibility, 100));
-        scrollBtn.addEventListener('click', scrollToTop);
+    function hideLoadingScreen() {
+        if (loadingScreen) {
+            loadingScreen.classList.add('hidden');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 300);
+        }
     }
 
     // Utility functions
@@ -771,77 +548,4 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(`Page load time: ${perfData.loadEventEnd - perfData.loadEventStart}ms`);
         });
     }
-
-    function generateMomentumSummary(repo) {
-        const signals = repo.signals || {};
-        const metrics = repo.metrics || {};
-        const score = repo.score || 0;
-
-        let summary = [];
-
-        // Score interpretation
-        if (score >= 8) {
-            summary.push("🚀 **Exceptional momentum** - This project is experiencing breakthrough growth");
-        } else if (score >= 6) {
-            summary.push("📈 **Strong momentum** - Growing rapidly with solid fundamentals");
-        } else if (score >= 4) {
-            summary.push("⚡ **Building momentum** - Showing promising early signals");
-        } else {
-            summary.push("🌱 **Early stage** - Recently discovered with potential");
-        }
-
-        // Highlight top signals
-        const topSignals = Object.entries(signals)
-            .filter(([key, value]) => value > 0.6)
-            .sort(([, a], [, b]) => b - a)
-            .slice(0, 3);
-
-        if (topSignals.length > 0) {
-            const signalDescriptions = topSignals.map(([key, value]) => {
-                const percentage = Math.round(value * 100);
-                switch (key) {
-                    case 'star_velocity': return `gaining stars rapidly (${percentage}% velocity)`;
-                    case 'fork_velocity': return `high fork activity (${percentage}% velocity)`;
-                    case 'contributor_growth': return `attracting new contributors (${percentage}% growth)`;
-                    case 'commit_frequency': return `very active development (${percentage}% frequency)`;
-                    case 'issue_resolution_rate': return `responsive maintainers (${percentage}% resolution rate)`;
-                    case 'novelty_signal': return `innovative technology (${percentage}% novelty)`;
-                    case 'founder_signal': return `strong founding team (${percentage}% founder signal)`;
-                    case 'documentation_quality': return `excellent documentation (${percentage}% quality)`;
-                    default: return `${key.replace(/_/g, ' ')} (${percentage}%)`;
-                }
-            });
-
-            summary.push(`Key strengths: ${signalDescriptions.join(', ')}.`);
-        }
-
-        // Add specific metrics insights
-        if (metrics.stars_gained_14d > 50) {
-            summary.push(`Recently gained ${metrics.stars_gained_14d} stars in 2 weeks.`);
-        }
-        if (metrics.contributors_30d > 5) {
-            summary.push(`Active community with ${metrics.contributors_30d} contributors in the last month.`);
-        }
-        if (metrics.commits_14d > 20) {
-            summary.push(`High development activity with ${metrics.commits_14d} commits in 2 weeks.`);
-        }
-
-        return summary.join(' ');
-    }
-
-    function getSignalDisplayName(key) {
-        const signalNames = {
-            'star_velocity': '⭐ Star Growth',
-            'fork_velocity': '🍴 Fork Activity',
-            'contributor_growth': '👥 Contributor Growth',
-            'commit_frequency': '📝 Development Activity',
-            'issue_resolution_rate': '🔧 Issue Response',
-            'novelty_signal': '💡 Innovation Level',
-            'founder_signal': '👑 Team Quality',
-            'documentation_quality': '📚 Documentation'
-        };
-        return signalNames[key] || formatMetricName(key);
-    }
-
-    setupScrollToTop();
 });

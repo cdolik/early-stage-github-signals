@@ -1519,3 +1519,62 @@ TypeError: can't subtract offset-naive and offset-aware datetimes
 2025-06-13 14:03:02,658 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpm4v8gvyi/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpm4v8gvyi/docs/api/2025-06-13.json
 2025-06-13 14:03:02,667 - JSONGenerator - INFO - Generating JSON files for 2025-06-13
 2025-06-13 14:03:02,669 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp3v2i8f2c/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp3v2i8f2c/docs/api/2025-06-13.json
+2025-06-13 16:54:48,214 - GitHubCollector - INFO - Collecting GitHub repositories...
+2025-06-13 16:54:48,214 - GitHubCollector - INFO - Collecting repositories for language: Python
+2025-06-13 16:54:48,216 - GitHubCollector - INFO - Collected 1 repositories matching query: is:public language:Python stars:>=5
+2025-06-13 16:54:48,216 - GitHubCollector - INFO - Reached maximum repositories limit (1)
+2025-06-13 16:54:48,217 - GitHubCollector - ERROR - Error analyzing README: argument should be a bytes-like object or ASCII string, not 'MagicMock'
+2025-06-13 16:54:48,221 - GitHubCollector - ERROR - Error processing organization <MagicMock name='Github().get_repo().organization.login' id='4574737280'>: '<=' not supported between instances of 'MagicMock' and 'int'
+2025-06-13 16:54:48,222 - GitHubCollector - INFO - Collected 1 repositories with 6 API calls
+2025-06-13 16:54:48,228 - StartupScorer - INFO - Scoring 1 repositories
+2025-06-13 16:54:48,228 - StartupScorer - INFO - Scored 1 repositories
+2025-06-13 16:54:48,239 - JSONGenerator - INFO - Generating JSON files for 2025-06-06
+2025-06-13 16:54:48,242 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpc31w77dv/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmpc31w77dv/docs/api/2025-06-06.json
+2025-06-13 16:54:48,256 - JSONGenerator - INFO - Generating JSON files for 2025-06-13
+2025-06-13 16:54:48,258 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp664o_pwu/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp664o_pwu/docs/api/2025-06-13.json
+2025-06-13 16:54:48,274 - JSONGenerator - INFO - Generating JSON files for 2025-06-13
+2025-06-13 16:54:48,277 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp7cujn08l/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp7cujn08l/docs/api/2025-06-13.json
+2025-06-13 16:54:48,298 - JSONGenerator - INFO - Generating JSON files for 2025-06-13
+2025-06-13 16:54:48,300 - JSONGenerator - INFO - Generated API files: /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp5yynj4k2/docs/api/latest.json, /var/folders/dn/755v0bcs6433fswx64vrwg2w0000gn/T/tmp5yynj4k2/docs/api/2025-06-13.json
+2025-06-13 17:35:11,177 - github_signals - INFO - Starting Weekly Dev Tools Gems CLI
+2025-06-13 17:35:11,177 - github_signals - INFO - GitHub API client initialized
+2025-06-13 17:35:11,177 - github_signals - INFO - Collecting from GitHub Trending
+2025-06-13 17:35:11,181 - TrendingCollector - INFO - Collecting GitHub trending repositories...
+2025-06-13 17:35:12,699 - TrendingCollector - INFO - Age filtering requires API calls - skipping for MVP. Will require manual verification.
+2025-06-13 17:35:12,699 - TrendingCollector - INFO - Collected 5 trending repositories
+2025-06-13 17:35:12,699 - github_signals - INFO - Collected 5 trending repositories
+2025-06-13 17:35:12,699 - github_signals - INFO - Total unique repositories: 5
+2025-06-13 17:35:12,699 - github_signals - INFO - Scoring repositories
+2025-06-13 17:35:16,342 - github_signals - DEBUG - Scored tensorzero/tensorzero with 4/10
+2025-06-13 17:35:18,877 - github_signals - DEBUG - Scored frdel/agent-zero with 4/10
+2025-06-13 17:35:23,062 - github_signals - DEBUG - Scored netbirdio/netbird with 3/10
+2025-06-13 17:35:29,827 - github_signals - DEBUG - Scored nautechsystems/nautilus_trader with 4/10
+2025-06-13 17:35:32,437 - github_signals - DEBUG - Scored eyaltoledano/claude-task-master with 4/10
+2025-06-13 17:35:32,437 - github_signals - INFO - Generating weekly report
+2025-06-13 17:35:32,446 - weekly_gems - INFO - Generating Weekly Dev Tools Gems report for 2025-06-13
+2025-06-13 17:35:32,457 - weekly_gems - INFO - Report saved to /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-13.md
+2025-06-13 17:35:32,474 - github_signals - INFO - Generating API JSON for dashboard
+2025-06-13 17:35:32,483 - JSONGenerator - INFO - Generating JSON files for 2025-06-13
+2025-06-13 17:35:32,490 - JSONGenerator - INFO - Generated API files: docs/api/latest.json, docs/api/2025-06-13.json
+2025-06-13 17:35:32,490 - github_signals - INFO - API JSON files generated: docs/api/latest.json, docs/data/2025-06-13.json
+2025-06-13 17:35:32,490 - github_signals - INFO - Weekly Dev Tools Gems report generated: /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-13.md
+2025-06-13 17:43:49,848 - github_signals - INFO - Starting Weekly Dev Tools Gems CLI
+2025-06-13 17:43:49,849 - github_signals - INFO - GitHub API client initialized
+2025-06-13 17:43:49,849 - github_signals - INFO - Collecting from GitHub Trending
+2025-06-13 17:43:49,861 - TrendingCollector - INFO - Collecting GitHub trending repositories...
+2025-06-13 17:43:51,222 - TrendingCollector - INFO - Age filtering requires API calls - skipping for MVP. Will require manual verification.
+2025-06-13 17:43:51,222 - TrendingCollector - INFO - Collected 3 trending repositories
+2025-06-13 17:43:51,222 - github_signals - INFO - Collected 3 trending repositories
+2025-06-13 17:43:51,222 - github_signals - INFO - Total unique repositories: 3
+2025-06-13 17:43:51,222 - github_signals - INFO - Scoring repositories
+2025-06-13 17:43:54,838 - github_signals - DEBUG - Scored tensorzero/tensorzero with 4/10
+2025-06-13 17:43:57,310 - github_signals - DEBUG - Scored frdel/agent-zero with 4/10
+2025-06-13 17:44:01,404 - github_signals - DEBUG - Scored netbirdio/netbird with 3/10
+2025-06-13 17:44:01,404 - github_signals - INFO - Generating weekly report
+2025-06-13 17:44:01,414 - weekly_gems - INFO - Generating Weekly Dev Tools Gems report for 2025-06-13
+2025-06-13 17:44:01,426 - weekly_gems - INFO - Report saved to /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-13.md
+2025-06-13 17:44:01,441 - github_signals - INFO - Generating API JSON for dashboard
+2025-06-13 17:44:01,445 - JSONGenerator - INFO - Generating JSON files for 2025-06-13
+2025-06-13 17:44:01,448 - JSONGenerator - INFO - Generated API files: docs/api/latest.json, docs/api/2025-06-13.json
+2025-06-13 17:44:01,448 - github_signals - INFO - API JSON files generated: docs/api/latest.json, docs/data/2025-06-13.json
+2025-06-13 17:44:01,448 - github_signals - INFO - Weekly Dev Tools Gems report generated: /Users/coreydolik/early-stage-github-signals-1/reports/weekly_gems_2025-06-13.md

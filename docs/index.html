@@ -5,69 +5,213 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Venture-Grade OSS Signals</title>
+    <meta name="description"
+        content="Discover high-potential open-source projects with real-time momentum tracking and scoring">
     <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 
 <body>
-    <div class="container">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>Loading momentum signals...</p>
+        </div>
+    </div>
 
-        <header>
-            <div class="logo-title">
-                <img src="assets/logo.svg" alt="OSS Signals Logo" class="logo">
-                <h1>Venture-Grade OSS Signals</h1>
+    <!-- Sticky Navigation -->
+    <nav class="sticky-nav" id="sticky-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="assets/logo.svg" alt="OSS Signals" class="nav-logo">
+                <span class="nav-title">OSS Signals</span>
             </div>
-            <p class="subtitle">High-potential open-source projects momentum tracker.</p>
-            <div class="last-updated" id="last-updated">
-                Report Generated: <span id="report-date">Loading...</span>
+            <div class="nav-actions">
+                <button class="nav-btn" id="refresh-btn" aria-label="Refresh data">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 4v6h-6M1 20v-6h6" />
+                        <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15" />
+                    </svg>
+                </button>
+                <a href="about.html" class="nav-btn" aria-label="About">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M9,9h0a3,3,0,0,1,6,0c0,2-3,3-3,3" />
+                        <path d="M12,17h0" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="main-header" id="main-header">
+            <div class="header-content">
+                <div class="logo-title">
+                    <img src="assets/logo.svg" alt="OSS Signals Logo" class="logo">
+                    <div class="title-group">
+                        <h1>Venture-Grade OSS Signals</h1>
+                        <p class="subtitle">High-potential open-source projects momentum tracker</p>
+                    </div>
+                </div>
+                <div class="header-stats" id="header-stats">
+                    <div class="stat-item">
+                        <span class="stat-value" id="repo-count">-</span>
+                        <span class="stat-label">Projects Tracked</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="avg-score">-</span>
+                        <span class="stat-label">Avg Score</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="report-date">Loading...</span>
+                        <span class="stat-label">Last Updated</span>
+                    </div>
+                </div>
             </div>
         </header>
 
-        <main>
-            <section>
-                <h2 class="section-title">Top OSS Momentum Signals This Week</h2>
-                <p class="score-explanation">Momentum score (0-10): Based on commit activity, star growth, and team
-                    signals</p>
+        <main class="main-content">
+            <section class="hero-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="title-icon">🚀</span>
+                        Top Momentum Signals This Week
+                    </h2>
+                    <p class="section-description">
+                        Repositories ranked by momentum score (0-10) based on commit activity, star growth, and team
+                        signals
+                    </p>
+                </div>
+
+                <!-- Filter Bar -->
+                <div class="filter-bar" id="filter-bar">
+                    <div class="filter-group">
+                        <label class="filter-label">View:</label>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">All Projects</button>
+                            <button class="filter-btn" data-filter="trending">Trending</button>
+                            <button class="filter-btn" data-filter="new">New This Week</button>
+                        </div>
+                    </div>
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid" aria-label="Grid view">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7" />
+                                <rect x="14" y="3" width="7" height="7" />
+                                <rect x="14" y="14" width="7" height="7" />
+                                <rect x="3" y="14" width="7" height="7" />
+                            </svg>
+                        </button>
+                        <button class="view-btn" data-view="list" aria-label="List view">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="8" y1="6" x2="21" y2="6" />
+                                <line x1="8" y1="12" x2="21" y2="12" />
+                                <line x1="8" y1="18" x2="21" y2="18" />
+                                <line x1="3" y1="6" x2="3.01" y2="6" />
+                                <line x1="3" y1="12" x2="3.01" y2="12" />
+                                <line x1="3" y1="18" x2="3.01" y2="18" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
                 <div id="movers" class="projects-grid"></div>
             </section>
 
-            <div id="emptyState" class="empty" style="display:none;" aria-live="polite">
-                <h3>📭 No breakout OSS projects this week</h3>
-                <p>Our radar updates every Monday. Check back soon for new momentum signals.</p>
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state" style="display:none;" aria-live="polite">
+                <div class="empty-content">
+                    <div class="empty-icon">📭</div>
+                    <h3>No breakout OSS projects this week</h3>
+                    <p>Our radar updates every Monday. Check back soon for new momentum signals.</p>
+                    <button class="retry-btn" onclick="location.reload()">Refresh Data</button>
+                </div>
             </div>
 
+            <!-- Modal -->
             <div id="modal" class="modal" role="dialog" aria-labelledby="modal-title" aria-modal="true">
-                <div class="modal-content">
-                    <span class="close-button" aria-label="Close details">&times;</span>
-                    <div id="modal-body"></div>
+                <div class="modal-overlay" aria-hidden="true"></div>
+                <div class="modal-container">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 id="modal-title">Repository Details</h2>
+                            <button class="modal-close" aria-label="Close details">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18" />
+                                    <line x1="6" y1="6" x2="18" y2="18" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="modal-body"></div>
+                    </div>
                 </div>
             </div>
         </main>
 
-        <div class="score-model-info">
-            <h3>About Momentum Scoring</h3>
-            <p>Repositories are scored on commit surge, team traction, star velocity, and contribution patterns.</p>
-            <p class="disclaimer">This is not an official GitHub project. Data is sourced from public GitHub APIs.</p>
-        </div>
+        <!-- Enhanced Footer -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About OSS Signals</h4>
+                    <p>Repositories are scored on commit surge, team traction, star velocity, and contribution patterns.
+                    </p>
+                    <p class="disclaimer">This is not an official GitHub project. Data is sourced from public GitHub
+                        APIs.</p>
+                </div>
 
-        <footer class="sticky-footer">
-            <p class="cta">
-                <span class="cta-icon">⭐️</span>
-                <a href="https://github.com/yourusername/early-stage-github-signals-1" target="_blank"
-                    aria-label="Star this repository on GitHub">Star</a>
-                or
-                <span class="cta-icon">👀</span>
-                <a href="https://github.com/yourusername/early-stage-github-signals-1/subscription" target="_blank"
-                    aria-label="Watch this repository on GitHub">Watch</a>
-                this repo to get weekly momentum signals
-            </p>
-            <p class="copyright">&copy; <span id="current-year"></span> Venture-Grade OSS Signals | <a
-                    href="about.html">About</a></p>
+                <div class="footer-section">
+                    <h4>Stay Updated</h4>
+                    <div class="cta-buttons">
+                        <a href="https://github.com/cdolik/early-stage-github-signals" target="_blank"
+                            class="cta-btn star-btn" aria-label="Star this repository on GitHub">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polygon
+                                    points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+                            </svg>
+                            Star Repository
+                        </a>
+                        <a href="https://github.com/cdolik/early-stage-github-signals/subscription" target="_blank"
+                            class="cta-btn watch-btn" aria-label="Watch this repository on GitHub">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                            Watch for Updates
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <nav class="footer-nav">
+                        <a href="about.html">Methodology</a>
+                        <a href="https://github.com/cdolik/early-stage-github-signals" target="_blank">Source Code</a>
+                        <a href="api/latest.json" target="_blank">API</a>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> Venture-Grade OSS Signals</p>
+                <div class="footer-meta">
+                    <span>Built with ❤️ for the open source community</span>
+                </div>
+            </div>
         </footer>
     </div>
 
+    <!-- Scripts -->
     <script src="dashboard.js"></script>
 </body>
 
