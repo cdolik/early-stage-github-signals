@@ -60,3 +60,4 @@ __pycache__/
 *.log
 github_signals.log
 .env
+*.log
