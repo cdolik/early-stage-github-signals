@@ -1665,3 +1665,21 @@ TypeError: can't subtract offset-naive and offset-aware datetimes
 2025-06-18 18:53:37,279 - JSONGenerator - INFO - Generated API files: /tmp/tmppztz1333/docs/api/latest.json, /tmp/tmppztz1333/docs/api/2025-06-18.json
 2025-06-18 18:53:37,281 - JSONGenerator - INFO - Generating JSON files for 2025-06-18
 2025-06-18 18:53:37,282 - JSONGenerator - INFO - Generated API files: /tmp/tmpyn1n03gr/docs/api/latest.json, /tmp/tmpyn1n03gr/docs/api/2025-06-18.json
+2025-06-18 19:31:04,638 - GitHubCollector - WARNING - GITHUB_TOKEN not found in environment variables
+2025-06-18 19:31:04,638 - GitHubCollector - INFO - Collecting GitHub repositories...
+2025-06-18 19:31:04,638 - GitHubCollector - INFO - Collecting repositories for language: Python
+2025-06-18 19:31:04,639 - GitHubCollector - INFO - Collected 1 repositories matching query: is:public language:Python stars:>=5
+2025-06-18 19:31:04,639 - GitHubCollector - INFO - Reached maximum repositories limit (1)
+2025-06-18 19:31:04,640 - GitHubCollector - ERROR - Error analyzing README: argument should be a bytes-like object or ASCII string, not 'MagicMock'
+2025-06-18 19:31:04,644 - GitHubCollector - ERROR - Error processing organization <MagicMock name='Github().get_repo().organization.login' id='140665069176112'>: '<=' not supported between instances of 'MagicMock' and 'int'
+2025-06-18 19:31:04,645 - GitHubCollector - INFO - Collected 1 repositories with 6 API calls
+2025-06-18 19:31:04,646 - StartupScorer - INFO - Scoring 1 repositories
+2025-06-18 19:31:04,646 - StartupScorer - INFO - Scored 1 repositories
+2025-06-18 19:31:04,649 - JSONGenerator - INFO - Generating JSON files for 2025-06-06
+2025-06-18 19:31:04,650 - JSONGenerator - INFO - Generated API files: /tmp/tmp56zw4p72/docs/api/latest.json, /tmp/tmp56zw4p72/docs/api/2025-06-06.json
+2025-06-18 19:31:04,651 - JSONGenerator - INFO - Generating JSON files for 2025-06-18
+2025-06-18 19:31:04,652 - JSONGenerator - INFO - Generated API files: /tmp/tmpz4mwcrpj/docs/api/latest.json, /tmp/tmpz4mwcrpj/docs/api/2025-06-18.json
+2025-06-18 19:31:04,654 - JSONGenerator - INFO - Generating JSON files for 2025-06-18
+2025-06-18 19:31:04,655 - JSONGenerator - INFO - Generated API files: /tmp/tmpaigdc8wr/docs/api/latest.json, /tmp/tmpaigdc8wr/docs/api/2025-06-18.json
+2025-06-18 19:31:04,656 - JSONGenerator - INFO - Generating JSON files for 2025-06-18
+2025-06-18 19:31:04,657 - JSONGenerator - INFO - Generated API files: /tmp/tmpvwa0orpm/docs/api/latest.json, /tmp/tmpvwa0orpm/docs/api/2025-06-18.json
