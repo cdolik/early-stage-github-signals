@@ -17,7 +17,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.10'
+        python-version: '3.11'
         cache: 'pip'
         
     - name: Install dependencies
@@ -58,11 +58,7 @@ jobs:
         fi
 
     - name: Upload report artifact
-<<<<<<< HEAD
-      uses: actions/upload-artifact@v3
-=======
       uses: actions/upload-artifact@v4
->>>>>>> bc5085dfb722464e15113d5439c2a4a0c50b0714
       with:
         name: weekly-report
         path: |

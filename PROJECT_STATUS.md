@@ -58,7 +58,7 @@ Most recent run (June 6, 2025): zero repos crossed the 7/10 bar—consistent wit
 | Highest weekly score | 9.1 | 9.1 |
 
 ### Technical Infrastructure
-- **Language**: Python 3.9+
+- **Language**: Python 3.11+
 - **Dependencies**: All required packages listed in `requirements.txt`
 - **Testing**: Test suite available in `tests` directory
 

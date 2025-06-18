@@ -1,0 +1,18 @@
+# Global owner for all files
+* @cdolik
+
+# Python code and configurations
+*.py @cdolik
+*.toml @cdolik
+requirements*.txt @cdolik
+
+# GitHub workflows and configurations
+.github/ @cdolik
+
+# Documentation
+*.md @cdolik
+docs/ @cdolik
+
+# Data schemas and configurations
+schemas/ @cdolik
+config.yaml @cdolik
