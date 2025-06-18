@@ -59,8 +59,6 @@ __pycache__/
 # Log files
 *.log
 github_signals.log
+
+# Environment variables
 .env
-<<<<<<< HEAD
-*.log
-=======
->>>>>>> bc5085dfb722464e15113d5439c2a4a0c50b0714
