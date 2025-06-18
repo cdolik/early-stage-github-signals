@@ -4,7 +4,7 @@ This guide will help you set up and run the Early-Stage GitHub Signals platform 
 
 ## Prerequisites
 
-- Python 3.9+
+- Python 3.11+
 - Git
 - GitHub Personal Access Token (for API access)
 
