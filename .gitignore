@@ -16,12 +16,36 @@ parts/
 sdist/
 var/
 wheels/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
 MANIFEST
 
-# Environments
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Virtual environments
 .env
 .venv
 env/
@@ -30,37 +54,30 @@ ENV/
 env.bak/
 venv.bak/
 
-# VS Code
+# IDEs
 .vscode/
-*.code-workspace
-
-# PyCharm
 .idea/
-*.iml
-*.iws
+*.swp
+*.swo
+*~
 
-# Testing
-.coverage
-htmlcov/
-.pytest_cache/
-
-# Jupyter Notebooks
-.ipynb_checkpoints
-
-# macOS
+# OS
 .DS_Store
-.AppleDouble
-.LSOverride
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# Cache and data
-data/cache/
-__pycache__/
-
-# Log files
+# Project specific
 *.log
 github_signals.log
-.env
-<<<<<<< HEAD
-*.log
-=======
->>>>>>> bc5085dfb722464e15113d5439c2a4a0c50b0714
+data/cache/
+*.tmp
+*.temp
+
+# Secrets
+.env.local
+.env.production
+config.local.yaml
