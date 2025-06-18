@@ -1,6 +1,6 @@
 # src/analyzers/venture_scorer.py
 from typing import Dict, List, Any, Optional
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 class VentureScorer:
     """
@@ -73,7 +73,7 @@ class VentureScorer:
             }
         """
         # Extract relevant fields
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         signals = {}
         justifications = []
         score = 0.0
