@@ -1,7 +1,7 @@
 # Core packages
 PyGithub==2.6.1
 requests==2.31.0
-jinja2==3.1.2
+jinja2==3.1.6
 pyyaml==6.0.1
 click==8.1.6
 python-dateutil==2.8.2
