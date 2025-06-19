@@ -2,7 +2,7 @@
 JSON Generator for the GitHub Signals platform.
 Generates standardized JSON output from repository data.
 """
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 import json
@@ -24,7 +24,7 @@ class JSONGenerator:
 
     def generate(self, raw_repos: List[Dict[str, Any]], report_date: Optional[datetime] = None) -> Dict[str, str]:
         if report_date is None:
-            report_date = datetime.utcnow()
+            report_date = datetime.now(timezone.utc)
         date_str = report_date.strftime('%Y-%m-%d')
         self.logger.info(f"Generating JSON files for {date_str}")
         # Score and select top 5

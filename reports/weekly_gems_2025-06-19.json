@@ -1,0 +1,133 @@
+{
+  "date": "2025-06-19",
+  "name": "Weekly Gems Report \u2014 2025-06-19",
+  "repos": [
+    {
+      "full_name": "menloresearch/jan",
+      "name": "jan",
+      "owner": "menloresearch",
+      "html_url": "https://github.com/menloresearch/jan",
+      "description": "Jan is an open source alternative to ChatGPT that runs 100% offline on your computer",
+      "stars": 31996,
+      "forks": 1874,
+      "language": "TypeScript",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 4,
+      "score_details": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "77 commits in last 14 days (10 feature commits)",
+          "typescript language"
+        ]
+      }
+    },
+    {
+      "full_name": "linshenkx/prompt-optimizer",
+      "name": "prompt-optimizer",
+      "owner": "linshenkx",
+      "html_url": "https://github.com/linshenkx/prompt-optimizer",
+      "description": "\u4e00\u6b3e\u63d0\u793a\u8bcd\u4f18\u5316\u5668\uff0c\u52a9\u529b\u4e8e\u7f16\u5199\u9ad8\u8d28\u91cf\u7684\u63d0\u793a\u8bcd",
+      "stars": 7094,
+      "forks": 903,
+      "language": "TypeScript",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 4,
+      "score_details": {
+        "commit_surge": 2,
+        "star_velocity": 0,
+        "team_traction": 1,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "17 commits in last 14 days",
+          "2 active contributors out of 10 total",
+          "typescript language"
+        ]
+      }
+    },
+    {
+      "full_name": "Shubhamsaboo/awesome-llm-apps",
+      "name": "awesome-llm-apps",
+      "owner": "Shubhamsaboo",
+      "html_url": "https://github.com/Shubhamsaboo/awesome-llm-apps",
+      "description": "Collection of awesome LLM apps with AI Agents and RAG using OpenAI, Anthropic, Gemini and opensource models.",
+      "stars": 44410,
+      "forks": 4997,
+      "language": "Python",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 3,
+      "score_details": {
+        "commit_surge": 2,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "27 commits in last 14 days (2 feature commits)",
+          "python language"
+        ]
+      }
+    },
+    {
+      "full_name": "jdepoix/youtube-transcript-api",
+      "name": "youtube-transcript-api",
+      "owner": "jdepoix",
+      "html_url": "https://github.com/jdepoix/youtube-transcript-api",
+      "description": "This is a python API which allows you to get the transcript/subtitles for a given YouTube video. It also works for automatically generated subtitles and it does not require an API key nor a headless browser, like other selenium based solutions do!",
+      "stars": 5291,
+      "forks": 555,
+      "language": "Python",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 3,
+      "score_details": {
+        "commit_surge": 0,
+        "star_velocity": 0,
+        "team_traction": 1,
+        "dev_ecosystem_fit": 2,
+        "signals": [
+          "5 active contributors out of 18 total",
+          "python language, cli topics"
+        ]
+      }
+    },
+    {
+      "full_name": "facebookresearch/vggt",
+      "name": "vggt",
+      "owner": "facebookresearch",
+      "html_url": "https://github.com/facebookresearch/vggt",
+      "description": "[CVPR 2025 Best Paper Award] VGGT: Visual Geometry Grounded Transformer",
+      "stars": 8493,
+      "forks": 836,
+      "language": "Python",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 2,
+      "score_details": {
+        "commit_surge": 0,
+        "star_velocity": 0,
+        "team_traction": 1,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "3 active contributors out of 10 total",
+          "python language"
+        ]
+      }
+    }
+  ],
+  "threshold": 0
+}

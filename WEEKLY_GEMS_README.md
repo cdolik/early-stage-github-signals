@@ -26,7 +26,7 @@ Our algorithm focuses exclusively on momentum signals that matter:
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Python 3.9+
+- Python 3.11+
 - GitHub Personal Access Token (optional, enhances scoring accuracy)
 
 ### Installation

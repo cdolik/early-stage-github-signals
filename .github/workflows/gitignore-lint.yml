@@ -1,0 +1,36 @@
+name: .gitignore Lint
+
+on:
+  pull_request:
+    paths:
+      - '.gitignore'
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Validate .gitignore
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check for merge conflict markers
+        run: |
+          if grep -E "^(<{7}|>{7}|={7})" .gitignore; then
+            echo "::error::.gitignore contains git conflict markers"
+            exit 1
+          fi
+      
+      - name: Check for duplicate entries
+        run: |
+          DUPLICATES=$(sort .gitignore | uniq -d)
+          if [ ! -z "$DUPLICATES" ]; then
+            echo "::error::Duplicate entries found in .gitignore:"
+            echo "$DUPLICATES"
+            exit 1
+          fi
+      
+      - name: Check for empty lines at end of file
+        run: |
+          if [ -z "$(tail -1 .gitignore)" ]; then
+            echo "::warning::File ends with empty line"
+          fi
