@@ -38,7 +38,7 @@ class MomentumScorer:
     
     def score_repository(self, repo_data: Dict[str, Any]) -> Tuple[int, Dict[str, Any]]:
         """
-        Score a repository based on the 10-point momentum scoring system.
+        Score a repository based on the 10-point momentum system.
         
         Args:
             repo_data: Repository data
@@ -57,9 +57,81 @@ class MomentumScorer:
         
         # Get the GitHub repository object if we have a client
         repo_obj = None
+        repo_metrics = {
+            'stars': 0,
+            'stars_gained_14d': 0,
+            'forks': 0,
+            'forks_gained_14d': 0,
+            'commits_14d': 0,
+            'contributors_30d': 0,
+            'avg_issue_resolution_days': 30  # Default assumption
+        }
+        
         if self.github and 'full_name' in repo_data:
             try:
                 repo_obj = self.github.get_repo(repo_data['full_name'])
+                
+                # Extract basic metrics
+                repo_metrics['stars'] = repo_obj.stargazers_count
+                repo_metrics['forks'] = repo_obj.forks_count
+                
+                # Get recent activity
+                since_date_14d = datetime.datetime.now(timezone.utc) - timedelta(days=14)
+                since_date_30d = datetime.datetime.now(timezone.utc) - timedelta(days=30)
+                
+                # Try to get commit count (last 14 days)
+                try:
+                    commits = list(repo_obj.get_commits(since=since_date_14d))
+                    repo_metrics['commits_14d'] = len(commits)
+                except Exception as e:
+                    if self.logger:
+                        self.logger.debug(f"Couldn't fetch commits for {repo_data['full_name']}: {str(e)}")
+                
+                # Try to get contributor count (last 30 days)
+                try:
+                    # This is an approximation since GitHub API doesn't directly support time-based contributor filtering
+                    contributors = list(repo_obj.get_contributors())
+                    repo_metrics['contributors_30d'] = len(contributors[:10])  # Limit to first 10 for performance
+                except Exception as e:
+                    if self.logger:
+                        self.logger.debug(f"Couldn't fetch contributors for {repo_data['full_name']}: {str(e)}")
+                
+                # Star velocity estimate - using events isn't reliable through API
+                # Using stargazers with pagination is too expensive for many calls
+                # So we'll use a heuristic based on repo age and stars
+                creation_date = repo_obj.created_at
+                days_since_creation = (datetime.datetime.now(timezone.utc) - creation_date).days
+                if days_since_creation > 0:
+                    # Very rough estimate - better than 0
+                    avg_daily_stars = repo_metrics['stars'] / max(1, days_since_creation)
+                    repo_metrics['stars_gained_14d'] = int(avg_daily_stars * 14)
+                    # For newer trending repos, bump this up
+                    if days_since_creation <= 30:
+                        repo_metrics['stars_gained_14d'] = int(repo_metrics['stars_gained_14d'] * 2)
+                
+                # Same approach for forks
+                if days_since_creation > 0:
+                    avg_daily_forks = repo_metrics['forks'] / max(1, days_since_creation)
+                    repo_metrics['forks_gained_14d'] = int(avg_daily_forks * 14)
+                
+                # For issue resolution, get a sample
+                try:
+                    closed_issues = list(repo_obj.get_issues(state='closed', sort='updated', direction='desc')[:20])
+                    if closed_issues:
+                        total_days = 0
+                        count = 0
+                        for issue in closed_issues:
+                            if issue.created_at and issue.closed_at:
+                                resolution_days = (issue.closed_at - issue.created_at).days
+                                if 0 <= resolution_days <= 90:  # Skip outliers
+                                    total_days += resolution_days
+                                    count += 1
+                        if count > 0:
+                            repo_metrics['avg_issue_resolution_days'] = total_days / count
+                except Exception as e:
+                    if self.logger:
+                        self.logger.debug(f"Couldn't fetch issues for {repo_data['full_name']}: {str(e)}")
+                        
             except Exception as e:
                 if self.logger:
                     self.logger.error(f"Error getting repo object: {str(e)}")
@@ -91,6 +163,9 @@ class MomentumScorer:
         if ecosystem_details:
             details['signals'].append(ecosystem_details)
         score += ecosystem_score
+        
+        # Add metrics to the return value so they can be included in the output
+        details['metrics'] = repo_metrics
         
         return score, details
     

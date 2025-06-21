@@ -5,6 +5,21 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Helper functions for UI and error handling
+    function getProjectDescription(project) {
+        return project.tagline || project.description || "No description provided.";
+    }
+
+    function showError(message) {
+        const errorContainer = document.getElementById("error-message") || document.body;
+        const div = document.createElement("div");
+        div.textContent = `Error: ${message}`;
+        div.style.color = "red";
+        div.style.padding = "1em";
+        errorContainer.appendChild(div);
+        console.error("Dashboard error:", message);
+    }
+
     // Initialize UI elements
     const loadingScreen = document.getElementById('loading-screen');
     const stickyNav = document.getElementById('sticky-nav');
@@ -359,6 +374,54 @@ document.addEventListener('DOMContentLoaded', () => {
         return card;
     }
 
+    function getProjectStats(repo) {
+        // Extract metrics from the repo object
+        const metrics = repo.metrics || {};
+        const stars = repo.stars || metrics.stars || 0;
+        const forks = repo.forks || metrics.forks || 0;
+        const starsGained = metrics.stars_gained_14d || 0;
+        const commitsRecent = metrics.commits_14d || 0;
+        const contributors = metrics.contributors_30d || 0;
+
+        // Format numbers for display
+        const formatNumber = (num) => {
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'k';
+            }
+            return num.toString();
+        };
+
+        // Create stat items
+        return `
+            <div class="stat-item" title="Total stars">
+                <i class="stat-icon">★</i>
+                <span class="stat-value">${formatNumber(stars)}</span>
+            </div>
+            ${starsGained > 0 ? `
+            <div class="stat-item trend-positive" title="Stars gained in last 14 days">
+                <i class="stat-icon">↗</i>
+                <span class="stat-value">+${formatNumber(starsGained)}</span>
+            </div>
+            ` : ''}
+            <div class="stat-item" title="Total forks">
+                <i class="stat-icon">⑂</i>
+                <span class="stat-value">${formatNumber(forks)}</span>
+            </div>
+            ${commitsRecent > 0 ? `
+            <div class="stat-item" title="Commits in last 14 days">
+                <i class="stat-icon">⚡</i>
+                <span class="stat-value">${formatNumber(commitsRecent)}</span>
+            </div>
+            ` : ''}
+            ${contributors > 0 ? `
+            <div class="stat-item" title="Active contributors">
+                <i class="stat-icon">👥</i>
+                <span class="stat-value">${formatNumber(contributors)}</span>
+            </div>
+            ` : ''}
+        `;
+    }
+
     function getScoreChangeClass(change) {
         if (change > 0) return 'positive-change';
         if (change < 0) return 'negative-change';
@@ -456,10 +519,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function createModalContent(repo) {
         const metrics = repo.metrics || {};
         const signals = repo.signals || {};
+        const scoreDetails = repo.score_details || {};
 
         return `
             <div class="modal-repo-header">
-                <h3><a href="${repo.repo_url}" target="_blank">${repo.name}</a></h3>
+                <h3><a href="${repo.repo_url || `https://github.com/${repo.full_name}`}" target="_blank">${repo.name}</a></h3>
                 <div class="modal-score">
                     <span class="score-value">${repo.score.toFixed(1)}</span>
                     <span class="score-label">Momentum Score</span>
@@ -478,16 +542,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p>${generateMomentumSummary(repo)}</p>
             </div>
             
-            ${Object.keys(metrics).length > 0 ? `
             <div class="modal-section">
                 <h4>Key Metrics</h4>
                 <div class="metrics-grid">
-                    ${Object.entries(metrics).map(([key, value]) => `
-                        <div class="metric-item">
-                            <span class="metric-label">${formatMetricName(key)}</span>
-                            <span class="metric-value">${value}</span>
-                        </div>
-                    `).join('')}
+                    <div class="metric-card">
+                        <div class="metric-header">Stars</div>
+                        <div class="metric-value">${metrics.stars || repo.stars || 0}</div>
+                        <div class="metric-detail">+${metrics.stars_gained_14d || 0} in 14 days</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">Forks</div>
+                        <div class="metric-value">${metrics.forks || repo.forks || 0}</div>
+                        <div class="metric-detail">+${metrics.forks_gained_14d || 0} in 14 days</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">Commits</div>
+                        <div class="metric-value">${metrics.commits_14d || 0}</div>
+                        <div class="metric-detail">in last 14 days</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">Contributors</div>
+                        <div class="metric-value">${metrics.contributors_30d || 0}</div>
+                        <div class="metric-detail">active in 30 days</div>
+                    </div>
+                </div>
+            </div>
+            
+            ${scoreDetails && Object.keys(scoreDetails).length > 0 ? `
+            <div class="modal-section">
+                <h4>Score Breakdown</h4>
+                <div class="score-breakdown">
+                    ${scoreDetails.commit_surge ? `
+                    <div class="score-factor">
+                        <div class="factor-name">Commit Surge</div>
+                        <div class="factor-value">${scoreDetails.commit_surge}/3</div>
+                    </div>` : ''}
+                    ${scoreDetails.star_velocity ? `
+                    <div class="score-factor">
+                        <div class="factor-name">Star Velocity</div>
+                        <div class="factor-value">${scoreDetails.star_velocity}/3</div>
+                    </div>` : ''}
+                    ${scoreDetails.team_traction ? `
+                    <div class="score-factor">
+                        <div class="factor-name">Team Traction</div>
+                        <div class="factor-value">${scoreDetails.team_traction}/2</div>
+                    </div>` : ''}
+                    ${scoreDetails.dev_ecosystem_fit ? `
+                    <div class="score-factor">
+                        <div class="factor-name">Dev Ecosystem Fit</div>
+                        <div class="factor-value">${scoreDetails.dev_ecosystem_fit}/2</div>
+                    </div>` : ''}
                 </div>
             </div>
             ` : ''}
@@ -520,9 +624,11 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
 
-    function formatMetricName(name) {
-        return name.replace(/_/g, ' ')
-            .replace(/\b\w/g, l => l.toUpperCase());
+    function formatMetricName(key) {
+        // Convert snake_case to Title Case with spaces
+        return key
+            .replace(/_/g, ' ')
+            .replace(/(\w)(\w*)/g, (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase());
     }
 
     function closeModal() {
@@ -775,9 +881,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function generateMomentumSummary(repo) {
         const signals = repo.signals || {};
         const metrics = repo.metrics || {};
+        const scoreDetails = repo.score_details || {};
         const score = repo.score || 0;
 
         let summary = [];
+
+        // Use why_matters if available
+        if (repo.why_matters) {
+            return repo.why_matters;
+        }
 
         // Score interpretation
         if (score >= 8) {

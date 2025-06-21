@@ -33,12 +33,37 @@ class JSONGenerator:
         processed_repos = []
         for r in top_repos:
             repo_data = self._add_why_matters(r)
+            
+            # Extract metrics from score_details if available
+            if 'score_details' in r and 'metrics' in r['score_details']:
+                repo_data['metrics'] = r['score_details']['metrics']
+            else:
+                # Create default metrics structure if missing
+                repo_data['metrics'] = {
+                    'stars': repo_data.get('stars', 0),
+                    'stars_gained_14d': 0,
+                    'forks': repo_data.get('forks', 0),
+                    'forks_gained_14d': 0,
+                    'commits_14d': 0,
+                    'contributors_30d': 0,
+                    'avg_issue_resolution_days': 30
+                }
+                
+            # Extract date analyzed from score_details if available
+            repo_data['date_analyzed'] = report_date.strftime('%Y-%m-%dT%H:%M:%SZ')
+            
             # Ensure repo_url is present, mapping from 'url' if necessary
             if 'repo_url' not in repo_data and 'url' in r:
                 repo_data['repo_url'] = r['url']
             # Ensure repo_url is a string (not null) to pass schema validation
             if 'repo_url' in repo_data and repo_data['repo_url'] is None:
                 repo_data['repo_url'] = f"https://github.com/{repo_data['full_name']}" if repo_data.get('full_name') else ""
+                
+            # Use actual stars and forks from metrics if available
+            if 'metrics' in repo_data:
+                repo_data['stars'] = repo_data['metrics'].get('stars', 0)
+                repo_data['forks'] = repo_data['metrics'].get('forks', 0)
+                
             # Add placeholders for other required fields if missing, to pass validation
             # This is a temporary measure; ideally, the data source or scorer should provide these.
             if 'ecosystem' not in repo_data:
@@ -49,6 +74,7 @@ class JSONGenerator:
                 repo_data['stars'] = 0 # Default placeholder
             if 'forks' not in repo_data:
                 repo_data['forks'] = 0 # Default placeholder
+                
             processed_repos.append(repo_data)
 
         api_data = {

@@ -1,0 +1,43 @@
+{
+    "name": "Early Stage GitHub Signals",
+    "image": "mcr.microsoft.com/devcontainers/python:3.11",
+    "features": {
+        "ghcr.io/devcontainers/features/github-cli:1": {},
+        "ghcr.io/devcontainers-contrib/features/black:2": {},
+        "ghcr.io/devcontainers-contrib/features/flake8:2": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "GitHub.copilot",
+                "GitHub.copilot-chat",
+                "ms-azuretools.vscode-docker",
+                "streetsidesoftware.code-spell-checker",
+                "eamodio.gitlens"
+            ],
+            "settings": {
+                "python.formatting.provider": "black",
+                "editor.formatOnSave": true,
+                "editor.codeActionsOnSave": {
+                    "source.organizeImports": "explicit"
+                },
+                "python.linting.enabled": true,
+                "python.linting.flake8Enabled": true
+            }
+        }
+    },
+    "postCreateCommand": "pip install --user -r requirements.txt -r requirements-dev.txt && cp .env.example .env || echo '.env.example not found'",
+    "remoteUser": "vscode",
+    "forwardPorts": [
+        8000
+    ],
+    "portsAttributes": {
+        "8000": {
+            "label": "Dashboard",
+            "onAutoForward": "openBrowser"
+        }
+    },
+    "postAttachCommand": "echo '🚀 Ready! GitHub Signals is set up. Add your GITHUB_TOKEN to .env file and run \"make run-lite\" to generate a report.'"
+}

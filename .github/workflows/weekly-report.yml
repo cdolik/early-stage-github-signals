@@ -25,12 +25,37 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         
+    - name: Test GitHub Token
+      run: |
+        python -c "
+        from github import Github
+        import os
+        
+        token = os.environ.get('GITHUB_TOKEN')
+        if not token:
+            print('❌ GitHub token not available')
+            exit(1)
+            
+        g = Github(token)
+        rate_limit = g.get_rate_limit()
+        print(f'✅ GitHub token is valid. Rate limit: {rate_limit.core.remaining}/{rate_limit.core.limit} remaining')
+        user = g.get_user()
+        print(f'✅ Authenticated as: {user.login}')
+        "
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
     - name: Generate weekly report
       run: |
         chmod +x ./run_weekly_gems.sh
         ./run_weekly_gems.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Validate data quality
+      run: |
+        chmod +x ./scripts/validate_data_quality.py
+        python ./scripts/validate_data_quality.py
         
     - name: Create snapshot copy
       run: |
@@ -41,13 +66,17 @@ jobs:
         # Copy latest.json to a dated snapshot
         cp docs/api/latest.json docs/data/${DATE}.json
         
+    - name: Update dashboard README
+      run: |
+        cp reports/weekly_gems_latest.md docs/README.md
+        
     - name: Commit and push generated reports
       run: |
         git config --local user.email "actions@github.com"
         git config --local user.name "GitHub Actions"
         
         # Add generated files
-        git add reports/ docs/api/ docs/data/
+        git add reports/ docs/api/ docs/data/ docs/README.md
         
         # Commit changes (if any)
         if git diff --staged --quiet; then

@@ -35,12 +35,51 @@ Discover promising developer tools and infrastructure projects before they hit m
 
 ### **[👀 View Live Dashboard →](https://cdolik.github.io/early-stage-github-signals/)**
 
-**Or run locally:**
+### Setup & Run Locally
+
 ```bash
+# Clone the repository
 git clone https://github.com/cdolik/early-stage-github-signals.git
 cd early-stage-github-signals
-make serve
+
+# Setup development environment (installs dependencies & creates .env file)
+make setup
+
+# Add your GitHub token to .env file (required for full functionality)
+echo "GITHUB_TOKEN=your_github_token_here" >> .env
+
+# Run a lightweight analysis (5 repos only, faster)
+make run-lite
+
+# View the dashboard locally
+make open-dashboard
 ```
+
+### ⚙️ Development Tasks
+
+| Task | Description | Command |
+|------|-------------|---------|
+| Setup | Install dependencies & create .env file | `make setup` |
+| Run lite | Generate report with limited repos | `make run-lite` |
+| Full report | Generate complete analysis | `make run` |
+| Dashboard | Start local web server | `make open-dashboard` |
+| Tests | Run unit tests | `make test` |
+| Validate | Check data quality | `make validate-data` |
+| Format | Format code with black | `make format` |
+| Deploy | Update GitHub Pages | `make deploy` |
+
+### 🛠️ VS Code Tasks
+
+Press `Ctrl+Shift+P` (or `⌘+Shift+P` on Mac) and type `Tasks: Run Task` to access all available tasks including:
+- ⚡ Setup Environment
+- 🛠️ Run Lite Analysis
+- 🌐 Serve Dashboard
+- 📊 Generate Full Report
+- ✅ Run Tests
+
+### 🖥️ GitHub Codespaces
+
+This repository is configured for [GitHub Codespaces](https://github.com/features/codespaces). Click the "Code" button and select "Open with Codespaces" to get started without any local setup!
 
 ---
 

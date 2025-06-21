@@ -1,40 +1,6 @@
 {
-  "name": "Venture-Grade OSS Signals Report \u2014 2025-06-21",
+  "name": "Venture-Grade OSS Signals Report \u2014 2025-06-20",
   "repositories": [
-    {
-      "name": "jan",
-      "full_name": "menloresearch/jan",
-      "url": null,
-      "description": "Jan is an open source alternative to ChatGPT that runs 100% offline on your computer",
-      "score": 0.0,
-      "signals": {
-        "star_velocity": 0.0,
-        "fork_velocity": 0.0,
-        "contributor_growth": 0.0,
-        "issue_resolution_rate": 0.20689655172413793,
-        "commit_frequency": 0.0,
-        "novelty_signal": 0.0,
-        "founder_signal": 0.0,
-        "documentation_quality": 0.0
-      },
-      "justification": [],
-      "metrics": {
-        "stars": 0,
-        "stars_gained_14d": 0,
-        "forks": 0,
-        "forks_gained_14d": 0,
-        "commits_14d": 0,
-        "contributors_30d": 0,
-        "avg_issue_resolution_days": 30
-      },
-      "date_analyzed": "2025-06-21T14:26:27Z",
-      "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
-      "repo_url": "https://github.com/menloresearch/jan",
-      "stars": 0,
-      "forks": 0,
-      "ecosystem": "Other",
-      "language": "N/A"
-    },
     {
       "name": "awesome-llm-apps",
       "full_name": "Shubhamsaboo/awesome-llm-apps",
@@ -61,13 +27,81 @@
         "contributors_30d": 0,
         "avg_issue_resolution_days": 30
       },
-      "date_analyzed": "2025-06-21T14:26:27Z",
+      "date_analyzed": "2025-06-20T19:51:51Z",
       "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
       "repo_url": "https://github.com/Shubhamsaboo/awesome-llm-apps",
-      "stars": 0,
-      "forks": 0,
       "ecosystem": "Other",
-      "language": "N/A"
+      "language": "N/A",
+      "stars": 0,
+      "forks": 0
+    },
+    {
+      "name": "jan",
+      "full_name": "menloresearch/jan",
+      "url": null,
+      "description": "Jan is an open source alternative to ChatGPT that runs 100% offline on your computer",
+      "score": 0.0,
+      "signals": {
+        "star_velocity": 0.0,
+        "fork_velocity": 0.0,
+        "contributor_growth": 0.0,
+        "issue_resolution_rate": 0.20689655172413793,
+        "commit_frequency": 0.0,
+        "novelty_signal": 0.0,
+        "founder_signal": 0.0,
+        "documentation_quality": 0.0
+      },
+      "justification": [],
+      "metrics": {
+        "stars": 0,
+        "stars_gained_14d": 0,
+        "forks": 0,
+        "forks_gained_14d": 0,
+        "commits_14d": 0,
+        "contributors_30d": 0,
+        "avg_issue_resolution_days": 30
+      },
+      "date_analyzed": "2025-06-20T19:51:51Z",
+      "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
+      "repo_url": "https://github.com/menloresearch/jan",
+      "ecosystem": "Other",
+      "language": "N/A",
+      "stars": 0,
+      "forks": 0
+    },
+    {
+      "name": "chili3d",
+      "full_name": "xiangechen/chili3d",
+      "url": null,
+      "description": "A web-based 3D CAD application for online model design and editing",
+      "score": 0.0,
+      "signals": {
+        "star_velocity": 0.0,
+        "fork_velocity": 0.0,
+        "contributor_growth": 0.0,
+        "issue_resolution_rate": 0.20689655172413793,
+        "commit_frequency": 0.0,
+        "novelty_signal": 0.0,
+        "founder_signal": 0.0,
+        "documentation_quality": 0.0
+      },
+      "justification": [],
+      "metrics": {
+        "stars": 0,
+        "stars_gained_14d": 0,
+        "forks": 0,
+        "forks_gained_14d": 0,
+        "commits_14d": 0,
+        "contributors_30d": 0,
+        "avg_issue_resolution_days": 30
+      },
+      "date_analyzed": "2025-06-20T19:51:51Z",
+      "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
+      "repo_url": "https://github.com/xiangechen/chili3d",
+      "ecosystem": "Other",
+      "language": "N/A",
+      "stars": 0,
+      "forks": 0
     },
     {
       "name": "prompt-optimizer",
@@ -95,13 +129,13 @@
         "contributors_30d": 0,
         "avg_issue_resolution_days": 30
       },
-      "date_analyzed": "2025-06-21T14:26:27Z",
+      "date_analyzed": "2025-06-20T19:51:51Z",
       "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
       "repo_url": "https://github.com/linshenkx/prompt-optimizer",
-      "stars": 0,
-      "forks": 0,
       "ecosystem": "Other",
-      "language": "N/A"
+      "language": "N/A",
+      "stars": 0,
+      "forks": 0
     },
     {
       "name": "vggt",
@@ -129,49 +163,15 @@
         "contributors_30d": 0,
         "avg_issue_resolution_days": 30
       },
-      "date_analyzed": "2025-06-21T14:26:27Z",
+      "date_analyzed": "2025-06-20T19:51:51Z",
       "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
       "repo_url": "https://github.com/facebookresearch/vggt",
-      "stars": 0,
-      "forks": 0,
       "ecosystem": "Other",
-      "language": "N/A"
-    },
-    {
-      "name": "lerobot",
-      "full_name": "huggingface/lerobot",
-      "url": null,
-      "description": "\ud83e\udd17 LeRobot: Making AI for Robotics more accessible with end-to-end learning",
-      "score": 0.0,
-      "signals": {
-        "star_velocity": 0.0,
-        "fork_velocity": 0.0,
-        "contributor_growth": 0.0,
-        "issue_resolution_rate": 0.20689655172413793,
-        "commit_frequency": 0.0,
-        "novelty_signal": 0.0,
-        "founder_signal": 0.0,
-        "documentation_quality": 0.0
-      },
-      "justification": [],
-      "metrics": {
-        "stars": 0,
-        "stars_gained_14d": 0,
-        "forks": 0,
-        "forks_gained_14d": 0,
-        "commits_14d": 0,
-        "contributors_30d": 0,
-        "avg_issue_resolution_days": 30
-      },
-      "date_analyzed": "2025-06-21T14:26:27Z",
-      "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
-      "repo_url": "https://github.com/huggingface/lerobot",
+      "language": "N/A",
       "stars": 0,
-      "forks": 0,
-      "ecosystem": "Other",
-      "language": "N/A"
+      "forks": 0
     }
   ],
-  "date": "2025-06-21",
-  "date_generated": "2025-06-21T14:26:27Z"
+  "date": "2025-06-20",
+  "date_generated": "2025-06-20T22:51:51Z"
 }

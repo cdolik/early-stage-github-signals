@@ -1,13 +1,25 @@
 # Early-Stage GitHub Signals Platform Makefile
 
-.PHONY: all install run run-lite test test-coverage lint format metrics serve validate-schema open-dashboard docs clean pre-commit-install
+.PHONY: all setup install dev install-dev run run-lite test test-coverage lint format metrics serve validate-schema validate-data open-dashboard docs clean pre-commit-install deploy
 
 # Default target
 all: install test
 
+# Setup full development environment
+setup: install-dev
+	@echo "Creating .env file from example if it doesn't exist..."
+	@test -f .env || (test -f .env.example && cp .env.example .env && echo ".env created from .env.example" || echo ".env.example not found, skipping .env creation")
+	@echo "✅ Development environment setup complete"
+	@echo "⚠️  Don't forget to add your GITHUB_TOKEN to .env file"
+
 # Install dependencies
 install:
 	pip install -r requirements.txt
+
+# Install development dependencies
+install-dev: install
+	pip install -r requirements-dev.txt
+	pre-commit install || echo "⚠️ pre-commit not available, skipping hook installation"
 
 run:
 	python3 weekly_gems_cli.py
@@ -33,11 +45,15 @@ validate-schema:
 
 validate-json: validate-schema
 
+validate-data:
+	python3 scripts/validate_data_quality.py
+
 serve-dashboard:
 	cd docs && python3 -m http.server 8000
 
 open-dashboard: serve-dashboard
-	open http://localhost:8000
+	@echo "Opening dashboard in browser..."
+	@(open http://localhost:8000 || python3 -c "import webbrowser; webbrowser.open('http://localhost:8000')") || echo "⚠️  Could not automatically open browser"
 
 dashboard: validate-schema serve-dashboard
 
@@ -50,19 +66,19 @@ pre-commit-install:
 
 # Run pre-commit checks manually
 pre-commit:
-	pre-commit run --all-filespre-commit install
-	python src/generators/html_generator.py
+	pre-commit run --all-files
 	
 lint:
 	black . --check
-	flake8
+	flake8 || echo "⚠️  flake8 not installed or not configured"
 	
 format:
-	black .
+	black . || echo "⚠️  black not installed, run 'pip install black' to install"
 
 clean:
 	rm -rf data/cache/*.json
 	rm -f metrics_table.md
-	
-install-dev: install
-	pip install -r requirements-dev.txt
+
+# Deploy to GitHub Pages
+deploy: validate-schema validate-data
+	./deployment.sh

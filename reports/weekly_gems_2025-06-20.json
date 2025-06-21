@@ -1,0 +1,316 @@
+{
+  "date": "2025-06-20",
+  "name": "Weekly Gems Report \u2014 2025-06-20",
+  "repos": [
+    {
+      "full_name": "menloresearch/jan",
+      "name": "jan",
+      "owner": "menloresearch",
+      "html_url": "https://github.com/menloresearch/jan",
+      "description": "Jan is an open source alternative to ChatGPT that runs 100% offline on your computer",
+      "stars": 32502,
+      "forks": 1898,
+      "language": "TypeScript",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 4,
+      "score_details": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "131 commits in last 14 days (19 feature commits)",
+          "typescript language"
+        ]
+      }
+    },
+    {
+      "full_name": "xiangechen/chili3d",
+      "name": "chili3d",
+      "owner": "xiangechen",
+      "html_url": "https://github.com/xiangechen/chili3d",
+      "description": "A web-based 3D CAD application for online model design and editing",
+      "stars": 3151,
+      "forks": 242,
+      "language": "TypeScript",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 4,
+      "score_details": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "31 commits in last 14 days (7 feature commits)",
+          "typescript language"
+        ]
+      }
+    },
+    {
+      "full_name": "linshenkx/prompt-optimizer",
+      "name": "prompt-optimizer",
+      "owner": "linshenkx",
+      "html_url": "https://github.com/linshenkx/prompt-optimizer",
+      "description": "\u4e00\u6b3e\u63d0\u793a\u8bcd\u4f18\u5316\u5668\uff0c\u52a9\u529b\u4e8e\u7f16\u5199\u9ad8\u8d28\u91cf\u7684\u63d0\u793a\u8bcd",
+      "stars": 7275,
+      "forks": 926,
+      "language": "TypeScript",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 4,
+      "score_details": {
+        "commit_surge": 2,
+        "star_velocity": 0,
+        "team_traction": 1,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "17 commits in last 14 days",
+          "2 active contributors out of 10 total",
+          "typescript language"
+        ]
+      }
+    },
+    {
+      "full_name": "huggingface/lerobot",
+      "name": "lerobot",
+      "owner": "huggingface",
+      "html_url": "https://github.com/huggingface/lerobot",
+      "description": "\ud83e\udd17 LeRobot: Making AI for Robotics more accessible with end-to-end learning",
+      "stars": 15066,
+      "forks": 1977,
+      "language": "Python",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 4,
+      "score_details": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "32 commits in last 14 days (3 feature commits)",
+          "python language"
+        ]
+      }
+    },
+    {
+      "full_name": "deepseek-ai/DeepEP",
+      "name": "DeepEP",
+      "owner": "deepseek-ai",
+      "html_url": "https://github.com/deepseek-ai/DeepEP",
+      "description": "DeepEP: an efficient expert-parallel communication library",
+      "stars": 8148,
+      "forks": 816,
+      "language": "Cuda",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 4,
+      "score_details": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 1,
+        "dev_ecosystem_fit": 0,
+        "signals": [
+          "28 commits in last 14 days (4 feature commits)",
+          "3 active contributors out of 18 total"
+        ]
+      }
+    },
+    {
+      "full_name": "tensorzero/tensorzero",
+      "name": "tensorzero",
+      "owner": "tensorzero",
+      "html_url": "https://github.com/tensorzero/tensorzero",
+      "description": "TensorZero is an open-source stack for industrial-grade LLM applications. It unifies an LLM gateway, observability, optimization, evaluation, and experimentation.",
+      "stars": 7733,
+      "forks": 462,
+      "language": "Rust",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 4,
+      "score_details": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "103 commits in last 14 days (28 feature commits)",
+          "rust language"
+        ]
+      }
+    },
+    {
+      "full_name": "Shubhamsaboo/awesome-llm-apps",
+      "name": "awesome-llm-apps",
+      "owner": "Shubhamsaboo",
+      "html_url": "https://github.com/Shubhamsaboo/awesome-llm-apps",
+      "description": "Collection of awesome LLM apps with AI Agents and RAG using OpenAI, Anthropic, Gemini and opensource models.",
+      "stars": 44823,
+      "forks": 5062,
+      "language": "Python",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 3,
+      "score_details": {
+        "commit_surge": 2,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "28 commits in last 14 days (2 feature commits)",
+          "python language"
+        ]
+      }
+    },
+    {
+      "full_name": "jdepoix/youtube-transcript-api",
+      "name": "youtube-transcript-api",
+      "owner": "jdepoix",
+      "html_url": "https://github.com/jdepoix/youtube-transcript-api",
+      "description": "This is a python API which allows you to get the transcript/subtitles for a given YouTube video. It also works for automatically generated subtitles and it does not require an API key nor a headless browser, like other selenium based solutions do!",
+      "stars": 5345,
+      "forks": 559,
+      "language": "Python",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 3,
+      "score_details": {
+        "commit_surge": 0,
+        "star_velocity": 0,
+        "team_traction": 1,
+        "dev_ecosystem_fit": 2,
+        "signals": [
+          "5 active contributors out of 18 total",
+          "python language, cli topics"
+        ]
+      }
+    },
+    {
+      "full_name": "facebookresearch/vggt",
+      "name": "vggt",
+      "owner": "facebookresearch",
+      "html_url": "https://github.com/facebookresearch/vggt",
+      "description": "[CVPR 2025 Best Paper Award] VGGT: Visual Geometry Grounded Transformer",
+      "stars": 8596,
+      "forks": 844,
+      "language": "Python",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 2,
+      "score_details": {
+        "commit_surge": 0,
+        "star_velocity": 0,
+        "team_traction": 1,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "3 active contributors out of 10 total",
+          "python language"
+        ]
+      }
+    },
+    {
+      "full_name": "ever-co/ever-gauzy",
+      "name": "ever-gauzy",
+      "owner": "ever-co",
+      "html_url": "https://github.com/ever-co/ever-gauzy",
+      "description": "Ever\u00ae Gauzy\u2122 - Open Business Management Platform (ERP/CRM/HRM/ATS/PM) -https://gauzy.co",
+      "stars": 2821,
+      "forks": 626,
+      "language": "TypeScript",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 2,
+      "score_details": {
+        "commit_surge": 1,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "9 commits in last 14 days (6 feature commits)",
+          "typescript language"
+        ]
+      }
+    },
+    {
+      "full_name": "Maciek-roboblog/Claude-Code-Usage-Monitor",
+      "name": "Claude-Code-Usage-Monitor",
+      "html_url": "https://github.com/Maciek-roboblog/Claude-Code-Usage-Monitor",
+      "description": "Claude Code Usage Monitor \u2013 real-time tracker to dodge usage cut-offs",
+      "hn_url": "https://news.ycombinator.com/item?id=44317012",
+      "hn_points": 233,
+      "source": "hacker_news",
+      "score": 1,
+      "score_details": {
+        "commit_surge": 1,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 0,
+        "signals": [
+          "14 commits in last 14 days"
+        ]
+      }
+    },
+    {
+      "full_name": "php/frankenphp",
+      "name": "frankenphp",
+      "owner": "php",
+      "html_url": "https://github.com/php/frankenphp",
+      "description": "\ud83e\udddf The modern PHP app server",
+      "stars": 8900,
+      "forks": 332,
+      "language": "Go",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 0,
+      "score_details": {
+        "commit_surge": 0,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 0,
+        "signals": []
+      }
+    },
+    {
+      "full_name": "nirw4nna/dsc",
+      "name": "dsc",
+      "html_url": "https://github.com/nirw4nna/dsc",
+      "description": "I built a tensor library from scratch in C++/CUDA",
+      "hn_url": "https://news.ycombinator.com/item?id=44310678",
+      "hn_points": 117,
+      "source": "hacker_news",
+      "score": 0,
+      "score_details": {
+        "commit_surge": 0,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 0,
+        "signals": []
+      }
+    }
+  ],
+  "threshold": 0
+}
