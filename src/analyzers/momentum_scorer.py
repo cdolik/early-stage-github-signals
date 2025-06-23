@@ -9,6 +9,7 @@ from typing import Dict, List, Any, Tuple
 
 import requests
 from github import Github
+from github.GithubException import RateLimitExceededException
 
 
 class MomentumScorer:
@@ -46,6 +47,15 @@ class MomentumScorer:
         Returns:
             Tuple of (score, details) where details explains the scoring
         """
+        # Check if we have essential data
+        if not repo_data.get('full_name'):
+            if self.logger:
+                self.logger.warning("Missing repository full_name in repo_data")
+            
+        if not self.github:
+            if self.logger:
+                self.logger.warning("GitHub client is not configured properly - scoring will be limited")
+        
         score = 0
         details = {
             'commit_surge': 0,
@@ -67,13 +77,40 @@ class MomentumScorer:
             'avg_issue_resolution_days': 30  # Default assumption
         }
         
-        if self.github and 'full_name' in repo_data:
+        # Pre-populate metrics from repo_data if available (as fallback)
+        if 'stars' in repo_data:
+            repo_metrics['stars'] = repo_data.get('stars', 0)
+        if 'recent_stars' in repo_data:
+            repo_metrics['stars_gained_14d'] = repo_data.get('recent_stars', 0)  
+        if 'recent_commits' in repo_data:
+            repo_metrics['commits_14d'] = repo_data.get('recent_commits', 0)
+        if 'contributor_count' in repo_data:
+            repo_metrics['contributors_30d'] = repo_data.get('contributor_count', 0)
+            
+        # Log initial metrics from repo_data
+        if self.logger:
+            self.logger.debug(f"Initial metrics from repo_data: stars={repo_metrics['stars']}, commits={repo_metrics['commits_14d']}, contributors={repo_metrics['contributors_30d']}")
+        
+        # Check if we have a GitHub client
+        if not self.github:
+            if self.logger:
+                self.logger.warning(f"No GitHub client available for {repo_data.get('full_name')} - using only provided metrics")
+        elif 'full_name' not in repo_data:
+            if self.logger:
+                self.logger.warning(f"Missing full_name in repo_data - cannot fetch GitHub data")
+        else:
+            # We have both a GitHub client and full_name, try to fetch data
+            if self.logger:
+                self.logger.debug(f"Fetching GitHub data for {repo_data.get('full_name')}")
             try:
                 repo_obj = self.github.get_repo(repo_data['full_name'])
                 
                 # Extract basic metrics
                 repo_metrics['stars'] = repo_obj.stargazers_count
                 repo_metrics['forks'] = repo_obj.forks_count
+                
+                if self.logger:
+                    self.logger.debug(f"Successfully fetched GitHub data: stars={repo_obj.stargazers_count}, forks={repo_obj.forks_count}")
                 
                 # Get recent activity
                 since_date_14d = datetime.datetime.now(timezone.utc) - timedelta(days=14)
@@ -135,6 +172,9 @@ class MomentumScorer:
             except Exception as e:
                 if self.logger:
                     self.logger.error(f"Error getting repo object: {str(e)}")
+                    if isinstance(e, RateLimitExceededException):
+                        self.logger.warning(f"GitHub API rate limit exceeded - check your token permissions and limits")
+                    self.logger.info(f"Falling back to repo_data metrics: {repo_data.get('stars', 0)} stars, {repo_data.get('recent_commits', 0)} commits")
         
         # 1. Commit Surge (3 pts): 10+ commits in 14 days, 3+ with "feat:" or "add"
         commit_score, commit_details = self._score_commit_surge(repo_data, repo_obj)
@@ -167,6 +207,18 @@ class MomentumScorer:
         # Add metrics to the return value so they can be included in the output
         details['metrics'] = repo_metrics
         
+        # Diagnostic logging to help identify scoring issues
+        if self.logger:
+            self.logger.info(f"Scoring complete for {repo_data.get('full_name')}: score={score}, metrics={repo_metrics}")
+            
+            # Warning if all signals are zero - likely indicates data problem
+            if score == 0:
+                self.logger.warning(f"Zero score for {repo_data.get('full_name')} - check GitHub API access and data quality")
+            
+            # Schema consistency check - team_traction vs new_contributors
+            if 'team_traction' in details and details['team_traction'] > 0:
+                self.logger.debug(f"Note: Using 'team_traction' field (value: {details['team_traction']}) - ensure schema expects this field name")
+        
         return score, details
     
     def _score_commit_surge(self, repo_data: Dict[str, Any], repo_obj=None) -> Tuple[int, str]:
@@ -189,9 +241,17 @@ class MomentumScorer:
                                    if c.commit.message and 
                                    ('feat:' in c.commit.message.lower() or 
                                     'add ' in c.commit.message.lower()))
+                
+                if self.logger and recent_commits > 0:
+                    self.logger.debug(f"Found {recent_commits} recent commits ({feature_commits} feature commits) for {repo_obj.full_name}")
             except Exception as e:
                 if self.logger:
-                    self.logger.error(f"Error analyzing commits: {str(e)}")
+                    self.logger.error(f"Error analyzing commits: {str(e)} - check GitHub token permissions")
+                # Attempt to fallback to repo_data values if GitHub API call failed
+                if 'recent_commits' in repo_data:
+                    if self.logger:
+                        self.logger.info(f"Falling back to repo_data for commits: {repo_data['recent_commits']}")
+                    recent_commits = repo_data['recent_commits']
         
         # Score based on criteria
         score = 0

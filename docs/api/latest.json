@@ -27,145 +27,9 @@
         "contributors_30d": 0,
         "avg_issue_resolution_days": 30
       },
-      "date_analyzed": "2025-06-21T14:26:27Z",
+      "date_analyzed": "2025-06-21T15:56:33Z",
       "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
       "repo_url": "https://github.com/menloresearch/jan",
-      "stars": 0,
-      "forks": 0,
-      "ecosystem": "Other",
-      "language": "N/A"
-    },
-    {
-      "name": "awesome-llm-apps",
-      "full_name": "Shubhamsaboo/awesome-llm-apps",
-      "url": null,
-      "description": "Collection of awesome LLM apps with AI Agents and RAG using OpenAI, Anthropic, Gemini and opensource models.",
-      "score": 0.0,
-      "signals": {
-        "star_velocity": 0.0,
-        "fork_velocity": 0.0,
-        "contributor_growth": 0.0,
-        "issue_resolution_rate": 0.20689655172413793,
-        "commit_frequency": 0.0,
-        "novelty_signal": 0.0,
-        "founder_signal": 0.0,
-        "documentation_quality": 0.0
-      },
-      "justification": [],
-      "metrics": {
-        "stars": 0,
-        "stars_gained_14d": 0,
-        "forks": 0,
-        "forks_gained_14d": 0,
-        "commits_14d": 0,
-        "contributors_30d": 0,
-        "avg_issue_resolution_days": 30
-      },
-      "date_analyzed": "2025-06-21T14:26:27Z",
-      "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
-      "repo_url": "https://github.com/Shubhamsaboo/awesome-llm-apps",
-      "stars": 0,
-      "forks": 0,
-      "ecosystem": "Other",
-      "language": "N/A"
-    },
-    {
-      "name": "prompt-optimizer",
-      "full_name": "linshenkx/prompt-optimizer",
-      "url": null,
-      "description": "\u4e00\u6b3e\u63d0\u793a\u8bcd\u4f18\u5316\u5668\uff0c\u52a9\u529b\u4e8e\u7f16\u5199\u9ad8\u8d28\u91cf\u7684\u63d0\u793a\u8bcd",
-      "score": 0.0,
-      "signals": {
-        "star_velocity": 0.0,
-        "fork_velocity": 0.0,
-        "contributor_growth": 0.0,
-        "issue_resolution_rate": 0.20689655172413793,
-        "commit_frequency": 0.0,
-        "novelty_signal": 0.0,
-        "founder_signal": 0.0,
-        "documentation_quality": 0.0
-      },
-      "justification": [],
-      "metrics": {
-        "stars": 0,
-        "stars_gained_14d": 0,
-        "forks": 0,
-        "forks_gained_14d": 0,
-        "commits_14d": 0,
-        "contributors_30d": 0,
-        "avg_issue_resolution_days": 30
-      },
-      "date_analyzed": "2025-06-21T14:26:27Z",
-      "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
-      "repo_url": "https://github.com/linshenkx/prompt-optimizer",
-      "stars": 0,
-      "forks": 0,
-      "ecosystem": "Other",
-      "language": "N/A"
-    },
-    {
-      "name": "vggt",
-      "full_name": "facebookresearch/vggt",
-      "url": null,
-      "description": "[CVPR 2025 Best Paper Award] VGGT: Visual Geometry Grounded Transformer",
-      "score": 0.0,
-      "signals": {
-        "star_velocity": 0.0,
-        "fork_velocity": 0.0,
-        "contributor_growth": 0.0,
-        "issue_resolution_rate": 0.20689655172413793,
-        "commit_frequency": 0.0,
-        "novelty_signal": 0.0,
-        "founder_signal": 0.0,
-        "documentation_quality": 0.0
-      },
-      "justification": [],
-      "metrics": {
-        "stars": 0,
-        "stars_gained_14d": 0,
-        "forks": 0,
-        "forks_gained_14d": 0,
-        "commits_14d": 0,
-        "contributors_30d": 0,
-        "avg_issue_resolution_days": 30
-      },
-      "date_analyzed": "2025-06-21T14:26:27Z",
-      "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
-      "repo_url": "https://github.com/facebookresearch/vggt",
-      "stars": 0,
-      "forks": 0,
-      "ecosystem": "Other",
-      "language": "N/A"
-    },
-    {
-      "name": "lerobot",
-      "full_name": "huggingface/lerobot",
-      "url": null,
-      "description": "\ud83e\udd17 LeRobot: Making AI for Robotics more accessible with end-to-end learning",
-      "score": 0.0,
-      "signals": {
-        "star_velocity": 0.0,
-        "fork_velocity": 0.0,
-        "contributor_growth": 0.0,
-        "issue_resolution_rate": 0.20689655172413793,
-        "commit_frequency": 0.0,
-        "novelty_signal": 0.0,
-        "founder_signal": 0.0,
-        "documentation_quality": 0.0
-      },
-      "justification": [],
-      "metrics": {
-        "stars": 0,
-        "stars_gained_14d": 0,
-        "forks": 0,
-        "forks_gained_14d": 0,
-        "commits_14d": 0,
-        "contributors_30d": 0,
-        "avg_issue_resolution_days": 30
-      },
-      "date_analyzed": "2025-06-21T14:26:27Z",
-      "why_matters": "\u2022 star_velocity: 0.0 \u2022 fork_velocity: 0.0 \u2022 contributor_growth: 0.0 \u2022 issue_reso",
-      "repo_url": "https://github.com/huggingface/lerobot",
       "stars": 0,
       "forks": 0,
       "ecosystem": "Other",
@@ -173,5 +37,5 @@
     }
   ],
   "date": "2025-06-21",
-  "date_generated": "2025-06-21T14:26:27Z"
+  "date_generated": "2025-06-21T15:56:33Z"
 }

@@ -8,7 +8,7 @@
       "owner": "menloresearch",
       "html_url": "https://github.com/menloresearch/jan",
       "description": "Jan is an open source alternative to ChatGPT that runs 100% offline on your computer",
-      "stars": 32621,
+      "stars": 32628,
       "forks": 1905,
       "language": "TypeScript",
       "trending_stars": 0,
@@ -26,150 +26,13 @@
           "typescript language"
         ],
         "metrics": {
-          "stars": 32621,
+          "stars": 32628,
           "stars_gained_14d": 677,
           "forks": 1905,
           "forks_gained_14d": 39,
           "commits_14d": 133,
           "contributors_30d": 10,
           "avg_issue_resolution_days": 0.45
-        }
-      }
-    },
-    {
-      "full_name": "Shubhamsaboo/awesome-llm-apps",
-      "name": "awesome-llm-apps",
-      "owner": "Shubhamsaboo",
-      "html_url": "https://github.com/Shubhamsaboo/awesome-llm-apps",
-      "description": "Collection of awesome LLM apps with AI Agents and RAG using OpenAI, Anthropic, Gemini and opensource models.",
-      "stars": 44988,
-      "forks": 5088,
-      "language": "Python",
-      "trending_stars": 0,
-      "trending_timespan": "weekly",
-      "trending_score": 0.0,
-      "source": "github_trending",
-      "score": 4.0,
-      "score_details": {
-        "commit_surge": 3,
-        "star_velocity": 0,
-        "team_traction": 0,
-        "dev_ecosystem_fit": 1,
-        "signals": [
-          "41 commits in last 14 days (3 feature commits)",
-          "python language"
-        ],
-        "metrics": {
-          "stars": 44988,
-          "stars_gained_14d": 1506,
-          "forks": 5088,
-          "forks_gained_14d": 170,
-          "commits_14d": 41,
-          "contributors_30d": 10,
-          "avg_issue_resolution_days": 9.45
-        }
-      }
-    },
-    {
-      "full_name": "huggingface/lerobot",
-      "name": "lerobot",
-      "owner": "huggingface",
-      "html_url": "https://github.com/huggingface/lerobot",
-      "description": "\ud83e\udd17 LeRobot: Making AI for Robotics more accessible with end-to-end learning",
-      "stars": 15089,
-      "forks": 1980,
-      "language": "Python",
-      "trending_stars": 0,
-      "trending_timespan": "weekly",
-      "trending_score": 0.0,
-      "source": "github_trending",
-      "score": 4.0,
-      "score_details": {
-        "commit_surge": 3,
-        "star_velocity": 0,
-        "team_traction": 0,
-        "dev_ecosystem_fit": 1,
-        "signals": [
-          "32 commits in last 14 days (3 feature commits)",
-          "python language"
-        ],
-        "metrics": {
-          "stars": 15089,
-          "stars_gained_14d": 413,
-          "forks": 1980,
-          "forks_gained_14d": 54,
-          "commits_14d": 32,
-          "contributors_30d": 10,
-          "avg_issue_resolution_days": 17.15
-        }
-      }
-    },
-    {
-      "full_name": "linshenkx/prompt-optimizer",
-      "name": "prompt-optimizer",
-      "owner": "linshenkx",
-      "html_url": "https://github.com/linshenkx/prompt-optimizer",
-      "description": "\u4e00\u6b3e\u63d0\u793a\u8bcd\u4f18\u5316\u5668\uff0c\u52a9\u529b\u4e8e\u7f16\u5199\u9ad8\u8d28\u91cf\u7684\u63d0\u793a\u8bcd",
-      "stars": 7338,
-      "forks": 929,
-      "language": "TypeScript",
-      "trending_stars": 0,
-      "trending_timespan": "weekly",
-      "trending_score": 0.0,
-      "source": "github_trending",
-      "score": 3.0,
-      "score_details": {
-        "commit_surge": 1,
-        "star_velocity": 0,
-        "team_traction": 1,
-        "dev_ecosystem_fit": 1,
-        "signals": [
-          "14 commits in last 14 days",
-          "2 active contributors out of 10 total",
-          "typescript language"
-        ],
-        "metrics": {
-          "stars": 7338,
-          "stars_gained_14d": 796,
-          "forks": 929,
-          "forks_gained_14d": 100,
-          "commits_14d": 14,
-          "contributors_30d": 10,
-          "avg_issue_resolution_days": 15.35
-        }
-      }
-    },
-    {
-      "full_name": "facebookresearch/vggt",
-      "name": "vggt",
-      "owner": "facebookresearch",
-      "html_url": "https://github.com/facebookresearch/vggt",
-      "description": "[CVPR 2025 Best Paper Award] VGGT: Visual Geometry Grounded Transformer",
-      "stars": 8644,
-      "forks": 846,
-      "language": "Python",
-      "trending_stars": 0,
-      "trending_timespan": "weekly",
-      "trending_score": 0.0,
-      "source": "github_trending",
-      "score": 2.0,
-      "score_details": {
-        "commit_surge": 0,
-        "star_velocity": 0,
-        "team_traction": 1,
-        "dev_ecosystem_fit": 1,
-        "signals": [
-          "3 active contributors out of 10 total",
-          "python language"
-        ],
-        "metrics": {
-          "stars": 8644,
-          "stars_gained_14d": 991,
-          "forks": 846,
-          "forks_gained_14d": 97,
-          "commits_14d": 2,
-          "contributors_30d": 10,
-          "avg_issue_resolution_days": 6.25
         }
       }
     }
