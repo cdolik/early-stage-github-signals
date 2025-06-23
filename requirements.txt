@@ -9,13 +9,13 @@ jsonschema==4.24.0
 
 # For data processing and analysis
 pandas==2.3.0
-numpy==2.3.0
+numpy==2.3.1
 
 # For API access
 requests-cache==1.2.1
 
 # For HTML and report generation
-markdown==3.8.1
+markdown==3.8.2
 beautifulsoup4==4.13.4
 
 # For web scraping
