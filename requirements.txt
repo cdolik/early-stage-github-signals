@@ -19,7 +19,7 @@ markdown==3.8.2
 beautifulsoup4==4.13.4
 
 # For web scraping
-lxml==5.4.0
+lxml==6.0.0
 soupsieve==2.7
 
 # For testing 
@@ -38,4 +38,4 @@ gunicorn==23.0.0
 
 # Utilities
 tqdm==4.67.1
-python-dotenv==1.1.0
+python-dotenv==1.1.1
