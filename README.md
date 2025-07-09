@@ -8,7 +8,8 @@ Discover promising developer tools and infrastructure projects before they hit m
 
 [![🚀 Live Dashboard](https://img.shields.io/badge/🚀_Live_Dashboard-Launch-2563EB?style=for-the-badge)](https://cdolik.github.io/early-stage-github-signals/)
 
-[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/cdolik/early-stage-github-signals/weekly-report.yml?branch=main&label=Data%20Pipeline&logo=github)](https://github.com/cdolik/early-stage-github-signals/actions)
+[![Weekly Pipeline](https://img.shields.io/github/actions/workflow/status/cdolik/early-stage-github-signals/weekly-pipeline.yml?branch=main&label=Weekly%20Pipeline&logo=github)](https://github.com/cdolik/early-stage-github-signals/actions)
+[![Test and Validate](https://img.shields.io/github/actions/workflow/status/cdolik/early-stage-github-signals/test-and-validate.yml?branch=main&label=Tests&logo=github)](https://github.com/cdolik/early-stage-github-signals/actions)
 [![Dashboard Status](https://img.shields.io/website?url=https%3A//cdolik.github.io/early-stage-github-signals/&label=Dashboard&logo=github)](https://cdolik.github.io/early-stage-github-signals/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-22C55E.svg)](https://opensource.org/licenses/MIT)
 [![Last Analysis](https://img.shields.io/badge/Last%20Analysis-Weekly%20Monday-6B7280)](https://cdolik.github.io/early-stage-github-signals/api/latest.json)

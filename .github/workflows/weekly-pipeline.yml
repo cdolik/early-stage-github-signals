@@ -1,4 +1,4 @@
-name: Weekly GitHub Signals Report
+name: Weekly Pipeline
 
 on:
   schedule:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:  # Allow manual triggering
 
 jobs:
-  generate-report:
+  weekly-report:
     runs-on: ubuntu-latest
     
     steps:
@@ -54,8 +54,13 @@ jobs:
         
     - name: Validate data quality
       run: |
-        chmod +x ./scripts/validate_data_quality.py
         python ./scripts/validate_data_quality.py
+        
+    - name: Generate metrics
+      run: |
+        python src/utils/generate_metrics.py
+        mv metrics_table.md docs/metrics.md
+      continue-on-error: true  # Don't fail pipeline if metrics generation fails
         
     - name: Create snapshot copy
       run: |
@@ -76,7 +81,7 @@ jobs:
         git config --local user.name "GitHub Actions"
         
         # Add generated files
-        git add reports/ docs/api/ docs/data/ docs/README.md
+        git add reports/ docs/api/ docs/data/ docs/README.md docs/metrics.md
         
         # Commit changes (if any)
         if git diff --staged --quiet; then
