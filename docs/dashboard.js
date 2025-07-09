@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const repos = data.repositories;
-        const scores = repos.map(repo => repo.score || 0).filter(score => score > 0);
+        const scores = repos.map(repo => repo.score || 0);
         const qualifyingRepos = repos.filter(repo => (repo.score || 0) >= 7);
 
         // Calculate median
