@@ -3,8 +3,18 @@ name: Test and Validate
 on:
   push:
     branches: [ main, develop ]
+    paths:
+      - '**.py'
+      - '**.json'
+      - 'src/**'
+      - 'scripts/**'
   pull_request:
     branches: [ main ]
+    paths:
+      - '**.py'
+      - '**.json'
+      - 'src/**'
+      - 'scripts/**'
 
 jobs:
   test:
