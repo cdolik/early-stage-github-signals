@@ -1,0 +1,48 @@
+name: Cleanup Stale Branches
+
+on:
+  schedule:
+    # Run weekly on Sunday at 2:00 UTC
+    - cron: '0 2 * * 0'
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch all history for all branches
+        
+    - name: Delete stale branches
+      run: |
+        # Get current date in seconds
+        current_date=$(date +%s)
+        
+        # Set threshold for 30 days ago
+        threshold_date=$((current_date - 30 * 24 * 60 * 60))
+        
+        # List all remote branches except main and develop
+        git branch -r | grep -v -E '(main|develop|HEAD)' | sed 's/origin\///' | while read branch; do
+          # Get the last commit date of the branch
+          last_commit_date=$(git log -1 --format="%ct" "origin/$branch" 2>/dev/null || echo "0")
+          
+          # Skip if we couldn't get the date
+          if [ "$last_commit_date" -eq "0" ]; then
+            echo "⚠️ Could not get last commit date for branch: $branch"
+            continue
+          fi
+          
+          # Check if branch is older than 30 days
+          if [ "$last_commit_date" -lt "$threshold_date" ]; then
+            echo "🗑️ Deleting stale branch: $branch (last commit: $(date -d "@$last_commit_date" '+%Y-%m-%d'))"
+            git push origin --delete "$branch" || echo "❌ Failed to delete branch: $branch"
+          else
+            echo "✅ Branch $branch is recent (last commit: $(date -d "@$last_commit_date" '+%Y-%m-%d'))"
+          fi
+        done
+        
+    - name: Clean up local tracking branches
+      run: |
+        git remote prune origin
