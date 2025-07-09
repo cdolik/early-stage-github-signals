@@ -188,8 +188,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             showError(userMessage);
             
-            // Rethrow the error to allow higher-level handling
-            throw error;
+            // Log the error for debugging purposes instead of rethrowing
+            console.error("Error details:", error);
         } finally {
             isLoading = false;
             removeLoadingStates();
