@@ -20,6 +20,21 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error("Dashboard error:", message);
     }
 
+    // Safe wrapper to prevent crashes if functions aren't defined
+    function safeCall(fn, ...args) {
+        try {
+            if (typeof fn === 'function') {
+                return fn(...args);
+            } else {
+                console.warn('Function not defined:', fn);
+                return null;
+            }
+        } catch (error) {
+            console.error('Error in safe function call:', error);
+            return null;
+        }
+    }
+
     // Initialize UI elements
     const loadingScreen = document.getElementById('loading-screen');
     const stickyNav = document.getElementById('sticky-nav');
@@ -57,16 +72,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             setupAdvancedObserver();
             prefetchResources();
-            hideLoadingScreen();
+            safeCall(hideLoadingScreen);
 
             // Announce successful load
             setTimeout(() => {
-                window.announceToScreenReader?.(`Loaded ${allRepos.length} repositories`);
+                safeCall(window.announceToScreenReader, `Loaded ${allRepos.length} repositories`);
             }, 500);
         } catch (error) {
             console.error('Failed to initialize dashboard:', error);
-            showError('Failed to initialize dashboard');
-            hideLoadingScreen();
+            showError(`Failed to initialize dashboard: ${error.message}`);
+            safeCall(hideLoadingScreen);
         }
     }
 
@@ -153,9 +168,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     });
                     if (res.ok) {
-                        data = await res.json();
-                        console.log(`Successfully fetched data from: ${apiPath}`);
-                        break;
+                        try {
+                            data = await res.json();
+                            // Validate basic data structure
+                            if (!data || typeof data !== 'object') {
+                                throw new Error('Invalid data format: not an object');
+                            }
+                            if (!Array.isArray(data.repositories)) {
+                                console.warn('No repositories array found, using empty array');
+                                data.repositories = [];
+                            }
+                            console.log(`Successfully fetched data from: ${apiPath}`);
+                            break;
+                        } catch (parseError) {
+                            lastError = new Error(`Failed to parse JSON: ${parseError.message}`);
+                            console.log(`Failed to parse JSON from ${apiPath}: ${parseError.message}`);
+                        }
                     } else {
                         lastError = new Error(`HTTP ${res.status}: ${res.statusText}`);
                     }
@@ -175,7 +203,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error("Error fetching repository data:", error);
-            showError(error.message);
+            // Display user-friendly error message
+            const errorMessage = error.message || 'Unknown error occurred';
+            showError(`Failed to load repository data: ${errorMessage}`);
+            
+            // Also show error in the main container for better visibility
+            if (moversContainer) {
+                moversContainer.innerHTML = `
+                    <div class="error-state" role="alert">
+                        <h3>Unable to load data</h3>
+                        <p>Failed to load repository data: ${errorMessage}</p>
+                        <button class="retry-btn" onclick="location.reload()">
+                            Try Again
+                        </button>
+                    </div>
+                `;
+            }
         } finally {
             isLoading = false;
             removeLoadingStates();
@@ -705,6 +748,15 @@ document.addEventListener('DOMContentLoaded', () => {
         stickyNav?.classList.remove('loading-pulse');
     }
 
+    function hideLoadingScreen() {
+        if (loadingScreen) {
+            loadingScreen.classList.add('hidden');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 300);
+        }
+    }
+
     // Enhanced intersection observer for better performance
     function setupAdvancedObserver() {
         // Lazy load images and animations
@@ -874,7 +926,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if ('performance' in window) {
         window.addEventListener('load', () => {
             const perfData = performance.getEntriesByType('navigation')[0];
-            console.log(`Page load time: ${perfData.loadEventEnd - perfData.loadEventStart}ms`);
+            const loadTime = perfData.loadEventEnd - perfData.loadEventStart;
+            console.log(`Page load time: ${loadTime}ms`);
+            
+            // Display load time to user (optional feature)
+            try {
+                const footer = document.querySelector('.footer-bottom');
+                if (footer && loadTime > 0) {
+                    const loadTimeSpan = document.createElement('span');
+                    loadTimeSpan.textContent = ` • Load time: ${Math.round(loadTime)}ms`;
+                    loadTimeSpan.style.fontSize = '0.8em';
+                    loadTimeSpan.style.opacity = '0.7';
+                    footer.appendChild(loadTimeSpan);
+                }
+            } catch (err) {
+                // Silent fail - this is optional
+                console.log('Could not display load time:', err.message);
+            }
         });
     }
 
