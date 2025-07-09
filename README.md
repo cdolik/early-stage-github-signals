@@ -324,6 +324,8 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 Built with ❤️ for the startup ecosystem.
 
+<!-- Test comment to verify path filters work correctly -->
+
 ---
 
 <div align="center">
