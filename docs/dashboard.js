@@ -274,15 +274,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function createDefaultMetrics() {
+        return {
+            totalRepositories: 0,
+            qualifyingRepositories: 0,
+            medianScore: 0,
+            highestScore: 0,
+            averageScore: 0
+        };
+    }
+
     function calculateMetrics(data) {
         if (!data || !data.repositories) {
-            return {
-                totalRepositories: 0,
-                qualifyingRepositories: 0,
-                medianScore: 0,
-                highestScore: 0,
-                averageScore: 0
-            };
+            return createDefaultMetrics();
         }
 
         const repos = data.repositories;
