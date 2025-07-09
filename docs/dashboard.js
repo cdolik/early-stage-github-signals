@@ -188,7 +188,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             showError(userMessage);
             
-            // Don't rethrow to prevent unhandled exceptions
+            // Rethrow the error to allow higher-level handling
+            throw error;
         } finally {
             isLoading = false;
             removeLoadingStates();
