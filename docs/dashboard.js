@@ -316,8 +316,12 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Insert after nav but before main content
             const nav = document.getElementById('sticky-nav');
-            if (nav && nav.nextSibling) {
-                nav.parentNode.insertBefore(metricsContainer, nav.nextSibling);
+            if (nav) {
+                if (nav.nextSibling) {
+                    nav.parentNode.insertBefore(metricsContainer, nav.nextSibling);
+                } else {
+                    nav.parentNode.appendChild(metricsContainer);
+                }
             } else {
                 document.body.appendChild(metricsContainer);
             }
