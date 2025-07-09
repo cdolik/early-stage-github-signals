@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             setupAdvancedObserver();
             prefetchResources();
-            hideLoadingScreen();
+            safeHideLoadingScreen();
 
             // Announce successful load
             setTimeout(() => {
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Failed to initialize dashboard:', error);
             showError('Failed to initialize dashboard');
-            hideLoadingScreen();
+            safeHideLoadingScreen();
         }
     }
 
@@ -175,7 +175,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error("Error fetching repository data:", error);
-            showError(error.message);
+            
+            // Enhanced error handling with user-friendly messages
+            let userMessage = 'Unable to load repository data';
+            if (error.message.includes('fetch')) {
+                userMessage = 'Network error: Unable to connect to the data source';
+            } else if (error.message.includes('JSON')) {
+                userMessage = 'Data format error: The server returned invalid data';
+            } else if (error.message.includes('HTTP')) {
+                userMessage = `Server error: ${error.message}`;
+            }
+            
+            showError(userMessage);
+            
+            // Don't rethrow to prevent unhandled exceptions
         } finally {
             isLoading = false;
             removeLoadingStates();
@@ -183,40 +196,156 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function processData(data) {
-        allRepos = (data.repositories || []).map((repo, index) => ({
-            ...repo,
-            id: repo.id || repo.name || `repo-${index}`,
-            score: repo.score || 0,
-            name: repo.name || 'Unknown Repository',
-            description: repo.description || '',
-            why_matters: repo.why_matters || '',
-            repo_url: repo.repo_url || repo.url || '#',
-            trend: repo.trend || [],
-            score_change: repo.score_change
-        }));
+        // Enhanced data validation to prevent crashes from malformed data
+        try {
+            if (!data || typeof data !== 'object') {
+                throw new Error('Invalid data format: expected object');
+            }
 
-        // Sort by score
-        allRepos.sort((a, b) => b.score - a.score);
+            if (!Array.isArray(data.repositories)) {
+                console.warn('No repositories array found in data, using empty array');
+                data.repositories = [];
+            }
 
-        // Set initial filter
-        applyFilter(currentFilter);
+            allRepos = data.repositories.map((repo, index) => {
+                // Validate individual repository data
+                if (!repo || typeof repo !== 'object') {
+                    console.warn(`Invalid repository data at index ${index}, skipping`);
+                    return null;
+                }
 
-        // Update date
-        if (data.date_generated) {
-            const date = new Date(data.date_generated);
-            const formattedDate = date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-            document.getElementById('report-date').textContent = formattedDate;
+                return {
+                    ...repo,
+                    id: repo.id || repo.name || `repo-${index}`,
+                    score: typeof repo.score === 'number' ? repo.score : 0,
+                    name: typeof repo.name === 'string' ? repo.name : 'Unknown Repository',
+                    description: typeof repo.description === 'string' ? repo.description : '',
+                    why_matters: typeof repo.why_matters === 'string' ? repo.why_matters : '',
+                    repo_url: typeof repo.repo_url === 'string' ? repo.repo_url : (typeof repo.url === 'string' ? repo.url : '#'),
+                    trend: Array.isArray(repo.trend) ? repo.trend : [],
+                    score_change: typeof repo.score_change === 'number' ? repo.score_change : undefined
+                };
+            }).filter(repo => repo !== null); // Remove invalid entries
+
+            // Sort by score
+            allRepos.sort((a, b) => b.score - a.score);
+
+            // Calculate and render metrics
+            const metrics = calculateMetrics(data);
+            renderMetrics(metrics);
+
+            // Set initial filter
+            applyFilter(currentFilter);
+
+            // Update date
+            if (data.date_generated) {
+                try {
+                    const date = new Date(data.date_generated);
+                    if (!isNaN(date.getTime())) {
+                        const formattedDate = date.toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+                        const dateElement = document.getElementById('report-date');
+                        if (dateElement) {
+                            dateElement.textContent = formattedDate;
+                        }
+                    }
+                } catch (dateError) {
+                    console.warn('Invalid date format in data:', data.date_generated);
+                }
+            }
+
+            // Set current year in footer
+            const currentYearElement = document.getElementById('current-year');
+            if (currentYearElement) {
+                currentYearElement.textContent = new Date().getFullYear();
+            }
+        } catch (error) {
+            console.error('Error processing data:', error);
+            showError('Data processing error: ' + error.message);
+            
+            // Initialize with empty data to prevent further crashes
+            allRepos = [];
+            const emptyMetrics = calculateMetrics({ repositories: [] });
+            renderMetrics(emptyMetrics);
+        }
+    }
+
+    function calculateMetrics(data) {
+        if (!data || !data.repositories) {
+            return {
+                totalRepositories: 0,
+                qualifyingRepositories: 0,
+                medianScore: 0,
+                highestScore: 0,
+                averageScore: 0
+            };
         }
 
-        // Set current year in footer
-        const currentYearElement = document.getElementById('current-year');
-        if (currentYearElement) {
-            currentYearElement.textContent = new Date().getFullYear();
+        const repos = data.repositories;
+        const scores = repos.map(repo => repo.score || 0).filter(score => score > 0);
+        const qualifyingRepos = repos.filter(repo => (repo.score || 0) >= 7);
+
+        // Calculate median
+        const sortedScores = [...scores].sort((a, b) => a - b);
+        const medianScore = sortedScores.length > 0 
+            ? sortedScores.length % 2 === 0
+                ? (sortedScores[sortedScores.length / 2 - 1] + sortedScores[sortedScores.length / 2]) / 2
+                : sortedScores[Math.floor(sortedScores.length / 2)]
+            : 0;
+
+        return {
+            totalRepositories: repos.length,
+            qualifyingRepositories: qualifyingRepos.length,
+            medianScore: Math.round(medianScore * 10) / 10,
+            highestScore: scores.length > 0 ? Math.max(...scores) : 0,
+            averageScore: scores.length > 0 ? Math.round((scores.reduce((sum, score) => sum + score, 0) / scores.length) * 10) / 10 : 0
+        };
+    }
+
+    function renderMetrics(metrics) {
+        // Create or update metrics container
+        let metricsContainer = document.getElementById('metrics-dashboard');
+        if (!metricsContainer) {
+            metricsContainer = document.createElement('div');
+            metricsContainer.id = 'metrics-dashboard';
+            metricsContainer.className = 'metrics-container';
+            
+            // Insert after nav but before main content
+            const nav = document.getElementById('sticky-nav');
+            if (nav && nav.nextSibling) {
+                nav.parentNode.insertBefore(metricsContainer, nav.nextSibling);
+            } else {
+                document.body.appendChild(metricsContainer);
+            }
         }
+
+        metricsContainer.innerHTML = `
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h3>Total Repositories</h3>
+                    <span class="metric-value">${metrics.totalRepositories}</span>
+                </div>
+                <div class="metric-card">
+                    <h3>Qualifying (≥7.0)</h3>
+                    <span class="metric-value">${metrics.qualifyingRepositories}</span>
+                </div>
+                <div class="metric-card">
+                    <h3>Median Score</h3>
+                    <span class="metric-value">${metrics.medianScore}</span>
+                </div>
+                <div class="metric-card">
+                    <h3>Highest Score</h3>
+                    <span class="metric-value">${metrics.highestScore}</span>
+                </div>
+                <div class="metric-card">
+                    <h3>Average Score</h3>
+                    <span class="metric-value">${metrics.averageScore}</span>
+                </div>
+            </div>
+        `;
     }
 
     function updateStats(data) {
@@ -705,6 +834,33 @@ document.addEventListener('DOMContentLoaded', () => {
         stickyNav?.classList.remove('loading-pulse');
     }
 
+    function hideLoadingScreen() {
+        // Remove element with id 'loading-indicator' if it exists
+        const loadingIndicator = document.getElementById('loading-indicator');
+        if (loadingIndicator) {
+            loadingIndicator.remove();
+        }
+        
+        // Also handle the existing loading-screen element for backward compatibility
+        if (loadingScreen) {
+            loadingScreen.classList.add('hidden');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 300);
+        }
+    }
+
+    // Safe call wrapper for hideLoadingScreen
+    function safeHideLoadingScreen() {
+        try {
+            if (typeof hideLoadingScreen === 'function') {
+                hideLoadingScreen();
+            }
+        } catch (error) {
+            console.warn('hideLoadingScreen failed:', error);
+        }
+    }
+
     // Enhanced intersection observer for better performance
     function setupAdvancedObserver() {
         // Lazy load images and animations
@@ -954,6 +1110,65 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         return signalNames[key] || formatMetricName(key);
     }
+
+    // Page load time monitoring
+    function setupPageLoadTimeMonitoring() {
+        if ('performance' in window) {
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    const perfData = performance.getEntriesByType('navigation')[0];
+                    if (perfData) {
+                        const loadTime = Math.round(perfData.loadEventEnd - perfData.loadEventStart);
+                        console.log(`Page load time: ${loadTime}ms`);
+                        
+                        // Display load time on page
+                        displayPageLoadTime(loadTime);
+                    }
+                }, 100);
+            });
+        }
+    }
+
+    function displayPageLoadTime(loadTime) {
+        // Create load time indicator
+        let loadTimeElement = document.getElementById('page-load-time');
+        if (!loadTimeElement) {
+            loadTimeElement = document.createElement('div');
+            loadTimeElement.id = 'page-load-time';
+            loadTimeElement.className = 'load-time-indicator';
+            loadTimeElement.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 8px 12px;
+                border-radius: 4px;
+                font-size: 12px;
+                z-index: 1000;
+                opacity: 0.7;
+            `;
+            document.body.appendChild(loadTimeElement);
+        }
+        
+        loadTimeElement.textContent = `Load time: ${loadTime}ms`;
+        
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            if (loadTimeElement && loadTimeElement.parentNode) {
+                loadTimeElement.style.opacity = '0';
+                loadTimeElement.style.transition = 'opacity 0.5s';
+                setTimeout(() => {
+                    if (loadTimeElement && loadTimeElement.parentNode) {
+                        loadTimeElement.remove();
+                    }
+                }, 500);
+            }
+        }, 5000);
+    }
+
+    // Initialize page load monitoring
+    setupPageLoadTimeMonitoring();
 
     setupScrollToTop();
 });
