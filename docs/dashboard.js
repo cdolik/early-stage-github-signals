@@ -1119,7 +1119,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     const perfData = performance.getEntriesByType('navigation')[0];
                     if (perfData) {
-                        const loadTime = Math.round(perfData.loadEventEnd - perfData.loadEventStart);
+                        const loadTime = Math.round(perfData.loadEventEnd - perfData.navigationStart);
                         console.log(`Page load time: ${loadTime}ms`);
                         
                         // Display load time on page
