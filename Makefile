@@ -27,8 +27,12 @@ run:
 run-lite:
 	python3 weekly_gems_cli.py --debug --max-repos 5 --skip-producthunt --skip-hackernews
 
-test: validate-schema
+test: validate-schema test-token
 	python3 -m pytest
+
+test-token:
+	@echo "🔑 Testing GitHub token..."
+	python3 scripts/test_github_token.py
 
 test-coverage:
 	python3 -m pytest --cov=src --cov-report=term --cov-report=html
@@ -67,11 +71,11 @@ pre-commit-install:
 # Run pre-commit checks manually
 pre-commit:
 	pre-commit run --all-files
-	
+
 lint:
 	black . --check
 	flake8 || echo "⚠️  flake8 not installed or not configured"
-	
+
 format:
 	black . || echo "⚠️  black not installed, run 'pip install black' to install"
 

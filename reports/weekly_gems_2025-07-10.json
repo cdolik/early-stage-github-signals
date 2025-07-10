@@ -1,0 +1,175 @@
+{
+  "date": "2025-07-10",
+  "name": "Weekly Gems Report \u2014 2025-07-10",
+  "repos": [
+    {
+      "full_name": "zaidmukaddam/scira",
+      "name": "scira",
+      "owner": "zaidmukaddam",
+      "html_url": "https://github.com/zaidmukaddam/scira",
+      "description": "Scira (Formerly MiniPerplx) is a minimalistic AI-powered search engine that helps you find information on the internet and cites it too. Powered by Vercel AI SDK! Search with models like xAI's Grok 3.",
+      "stars": 9681,
+      "forks": 1184,
+      "language": "TypeScript",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 5.0,
+      "score_details": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 1,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "46 commits in last 14 days (11 feature commits)",
+          "5 active contributors out of 18 total",
+          "typescript language"
+        ],
+        "metrics": {
+          "stars": 9681,
+          "stars_gained_14d": 403,
+          "forks": 1184,
+          "forks_gained_14d": 49,
+          "commits_14d": 46,
+          "contributors_30d": 10,
+          "avg_issue_resolution_days": 12.5625
+        }
+      }
+    },
+    {
+      "full_name": "NanmiCoder/MediaCrawler",
+      "name": "MediaCrawler",
+      "owner": "NanmiCoder",
+      "html_url": "https://github.com/NanmiCoder/MediaCrawler",
+      "description": "\u5c0f\u7ea2\u4e66\u7b14\u8bb0 | \u8bc4\u8bba\u722c\u866b\u3001\u6296\u97f3\u89c6\u9891 | \u8bc4\u8bba\u722c\u866b\u3001\u5feb\u624b\u89c6\u9891 | \u8bc4\u8bba\u722c\u866b\u3001B \u7ad9\u89c6\u9891 \uff5c \u8bc4\u8bba\u722c\u866b\u3001\u5fae\u535a\u5e16\u5b50 \uff5c \u8bc4\u8bba\u722c\u866b\u3001\u767e\u5ea6\u8d34\u5427\u5e16\u5b50 \uff5c \u767e\u5ea6\u8d34\u5427\u8bc4\u8bba\u56de\u590d\u722c\u866b | \u77e5\u4e4e\u95ee\u7b54\u6587\u7ae0\uff5c\u8bc4\u8bba\u722c\u866b",
+      "stars": 29112,
+      "forks": 7320,
+      "language": "Python",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 4.0,
+      "score_details": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "15 commits in last 14 days (4 feature commits)",
+          "python language"
+        ],
+        "metrics": {
+          "stars": 29112,
+          "stars_gained_14d": 535,
+          "forks": 7320,
+          "forks_gained_14d": 134,
+          "commits_14d": 15,
+          "contributors_30d": 10,
+          "avg_issue_resolution_days": 2.35
+        }
+      }
+    },
+    {
+      "full_name": "RSSNext/Folo",
+      "name": "Folo",
+      "owner": "RSSNext",
+      "html_url": "https://github.com/RSSNext/Folo",
+      "description": "\ud83e\udde1 Follow everything in one place",
+      "stars": 28358,
+      "forks": 1260,
+      "language": "TypeScript",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 4.0,
+      "score_details": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "141 commits in last 14 days (30 feature commits)",
+          "typescript language"
+        ],
+        "metrics": {
+          "stars": 28358,
+          "stars_gained_14d": 866,
+          "forks": 1260,
+          "forks_gained_14d": 38,
+          "commits_14d": 141,
+          "contributors_30d": 10,
+          "avg_issue_resolution_days": 63.2
+        }
+      }
+    },
+    {
+      "full_name": "simstudioai/sim",
+      "name": "sim",
+      "owner": "simstudioai",
+      "html_url": "https://github.com/simstudioai/sim",
+      "description": "Sim Studio is an open-source AI agent workflow builder. Sim Studio's interface is a lightweight, intuitive way to quickly build and deploy LLMs that connect with your favorite tools.",
+      "stars": 4720,
+      "forks": 701,
+      "language": "TypeScript",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 4.0,
+      "score_details": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "86 commits in last 14 days (18 feature commits)",
+          "typescript language"
+        ],
+        "metrics": {
+          "stars": 4720,
+          "stars_gained_14d": 357,
+          "forks": 701,
+          "forks_gained_14d": 53,
+          "commits_14d": 86,
+          "contributors_30d": 10,
+          "avg_issue_resolution_days": 1.75
+        }
+      }
+    },
+    {
+      "full_name": "googleapis/genai-toolbox",
+      "name": "genai-toolbox",
+      "owner": "googleapis",
+      "html_url": "https://github.com/googleapis/genai-toolbox",
+      "description": "MCP Toolbox for Databases is an open source MCP server for databases.",
+      "stars": 4365,
+      "forks": 351,
+      "language": "Go",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 3.0,
+      "score_details": {
+        "commit_surge": 3,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 0,
+        "signals": ["32 commits in last 14 days (14 feature commits)"],
+        "metrics": {
+          "stars": 4365,
+          "stars_gained_14d": 153,
+          "forks": 351,
+          "forks_gained_14d": 12,
+          "commits_14d": 32,
+          "contributors_30d": 10,
+          "avg_issue_resolution_days": 3.15
+        }
+      }
+    }
+  ],
+  "threshold": 0
+}
