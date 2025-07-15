@@ -24,8 +24,6 @@ try:
         Path(".env"),
         # Project root directory
         Path(__file__).parent / ".env",
-        # Absolute path (for specific environments)
-        Path("/Users/coreydolik/early-stage-github-signals-1/.env"),
         # Home directory (fallback)
         Path.home() / ".early-stage-github-signals" / ".env",
     ]
@@ -70,10 +68,10 @@ def debug_env_vars():
     # Check if .env file exists
     env_file = Path(".env")
     print(f"DEBUG: .env file in current directory exists: {env_file.exists()}")
-
-    # Check absolute path .env
-    abs_env = Path("/Users/coreydolik/early-stage-github-signals-1/.env")
-    print(f"DEBUG: .env file at {abs_env} exists: {abs_env.exists()}")
+    
+    # Check project root .env
+    project_env = Path(__file__).parent / ".env"
+    print(f"DEBUG: .env file at {project_env} exists: {project_env.exists()}")
 
 
 # Add parent directory to path for imports

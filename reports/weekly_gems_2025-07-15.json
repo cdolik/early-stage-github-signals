@@ -1,0 +1,200 @@
+{
+  "date": "2025-07-15",
+  "name": "Weekly Gems Report \u2014 2025-07-15",
+  "repos": [
+    {
+      "full_name": "Alibaba-NLP/WebAgent",
+      "name": "WebAgent",
+      "owner": "Alibaba-NLP",
+      "html_url": "https://github.com/Alibaba-NLP/WebAgent",
+      "description": "\ud83c\udf10 WebAgent for Information Seeking built by Tongyi Lab: WebWalker & WebDancer & WebSailorhttps://arxiv.org/pdf/2507.02592",
+      "stars": 4183,
+      "forks": 303,
+      "language": "Python",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "recent_stars": 0,
+      "recent_commits": 5,
+      "contributor_count": 4,
+      "active_contributors": 2,
+      "feature_commits": 1,
+      "score": 3.0,
+      "score_details": {
+        "commit_surge": 0,
+        "star_velocity": 0,
+        "team_traction": 2,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "2 active contributors out of 4 total",
+          "python language"
+        ],
+        "metrics": {
+          "stars": 4183,
+          "stars_gained_14d": 0,
+          "forks": 303,
+          "forks_gained_14d": 0,
+          "commits_14d": 5,
+          "contributors_30d": 4,
+          "avg_issue_resolution_days": 30
+        }
+      }
+    },
+    {
+      "full_name": "rustfs/rustfs",
+      "name": "rustfs",
+      "owner": "rustfs",
+      "html_url": "https://github.com/rustfs/rustfs",
+      "description": "\ud83d\ude80 High-performance distributed object storage for MinIO alternative.",
+      "stars": 5004,
+      "forks": 225,
+      "language": "Rust",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "recent_stars": 0,
+      "recent_commits": 5,
+      "contributor_count": 5,
+      "active_contributors": 2,
+      "feature_commits": 1,
+      "score": 3.0,
+      "score_details": {
+        "commit_surge": 0,
+        "star_velocity": 0,
+        "team_traction": 2,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "2 active contributors out of 5 total",
+          "rust language"
+        ],
+        "metrics": {
+          "stars": 5004,
+          "stars_gained_14d": 0,
+          "forks": 225,
+          "forks_gained_14d": 0,
+          "commits_14d": 5,
+          "contributors_30d": 5,
+          "avg_issue_resolution_days": 30
+        }
+      }
+    },
+    {
+      "full_name": "humanlayer/12-factor-agents",
+      "name": "12-factor-agents",
+      "owner": "humanlayer",
+      "html_url": "https://github.com/humanlayer/12-factor-agents",
+      "description": "What are the principles we can use to build LLM-powered software that is actually good enough to put in the hands of production customers?",
+      "stars": 8882,
+      "forks": 569,
+      "language": "TypeScript",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "recent_stars": 0,
+      "recent_commits": 5,
+      "contributor_count": 8,
+      "active_contributors": 4,
+      "feature_commits": 1,
+      "score": 3.0,
+      "score_details": {
+        "commit_surge": 0,
+        "star_velocity": 0,
+        "team_traction": 2,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "4 active contributors out of 8 total",
+          "typescript language"
+        ],
+        "metrics": {
+          "stars": 8882,
+          "stars_gained_14d": 0,
+          "forks": 569,
+          "forks_gained_14d": 0,
+          "commits_14d": 5,
+          "contributors_30d": 8,
+          "avg_issue_resolution_days": 30
+        }
+      }
+    },
+    {
+      "full_name": "googleapis/genai-toolbox",
+      "name": "genai-toolbox",
+      "owner": "googleapis",
+      "html_url": "https://github.com/googleapis/genai-toolbox",
+      "description": "MCP Toolbox for Databases is an open source MCP server for databases.",
+      "stars": 6626,
+      "forks": 490,
+      "language": "Go",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "recent_stars": 0,
+      "recent_commits": 5,
+      "contributor_count": 6,
+      "active_contributors": 3,
+      "feature_commits": 1,
+      "score": 2.0,
+      "score_details": {
+        "commit_surge": 0,
+        "star_velocity": 0,
+        "team_traction": 2,
+        "dev_ecosystem_fit": 0,
+        "signals": [
+          "3 active contributors out of 6 total"
+        ],
+        "metrics": {
+          "stars": 6626,
+          "stars_gained_14d": 0,
+          "forks": 490,
+          "forks_gained_14d": 0,
+          "commits_14d": 5,
+          "contributors_30d": 6,
+          "avg_issue_resolution_days": 30
+        }
+      }
+    },
+    {
+      "full_name": "gorhill/uBlock",
+      "name": "uBlock",
+      "owner": "gorhill",
+      "html_url": "https://github.com/gorhill/uBlock",
+      "description": "uBlock Origin - An efficient blocker for Chromium and Firefox. Fast and lean.",
+      "stars": 56101,
+      "forks": 3581,
+      "language": "JavaScript",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "recent_stars": 0,
+      "recent_commits": 5,
+      "contributor_count": 10,
+      "active_contributors": 5,
+      "feature_commits": 1,
+      "score": 2.0,
+      "score_details": {
+        "commit_surge": 0,
+        "star_velocity": 0,
+        "team_traction": 2,
+        "dev_ecosystem_fit": 0,
+        "signals": [
+          "5 active contributors out of 10 total"
+        ],
+        "metrics": {
+          "stars": 56101,
+          "stars_gained_14d": 0,
+          "forks": 3581,
+          "forks_gained_14d": 0,
+          "commits_14d": 5,
+          "contributors_30d": 10,
+          "avg_issue_resolution_days": 30
+        }
+      }
+    }
+  ],
+  "threshold": 0
+}

@@ -22,16 +22,22 @@ class JSONGenerator:
         self.data_dir.mkdir(parents=True, exist_ok=True)
         self.venture_scorer = VentureScorer(self.config)
 
-    def generate(self, raw_repos: List[Dict[str, Any]], report_date: Optional[datetime] = None) -> Dict[str, str]:
+    def generate(self, scored_repos: List[Dict[str, Any]], report_date: Optional[datetime] = None) -> Dict[str, str]:
         if report_date is None:
             report_date = datetime.now(timezone.utc)
         date_str = report_date.strftime('%Y-%m-%d')
         self.logger.info(f"Generating JSON files for {date_str}")
-        # Score and select top 5
-        top_repos = self.venture_scorer.score_repositories(raw_repos)
+        
+        # Use the already-scored repositories instead of re-scoring
+        # Remove duplicates by full_name
+        unique_repos = {}
+        for repo in scored_repos:
+            full_name = repo.get('full_name')
+            if full_name and full_name not in unique_repos:
+                unique_repos[full_name] = repo
         
         processed_repos = []
-        for r in top_repos:
+        for r in unique_repos.values():
             repo_data = self._add_why_matters(r)
             
             # Extract metrics from score_details if available
@@ -48,13 +54,53 @@ class JSONGenerator:
                     'contributors_30d': 0,
                     'avg_issue_resolution_days': 30
                 }
+            
+            # Extract signals from score_details if available
+            if 'score_details' in repo_data and 'signals' in repo_data['score_details']:
+                # Convert from list format to dict format for schema compatibility
+                signals_list = repo_data['score_details']['signals']
+                signals_dict = {
+                    'star_velocity': repo_data['score_details'].get('star_velocity', 0),
+                    'fork_velocity': repo_data['score_details'].get('fork_velocity', 0),
+                    'contributor_growth': repo_data['score_details'].get('team_traction', 0),
+                    'issue_resolution_rate': 0.2,  # Default value
+                    'commit_frequency': repo_data['score_details'].get('commit_surge', 0),
+                    'novelty_signal': repo_data['score_details'].get('dev_ecosystem_fit', 0),
+                    'founder_signal': 0,  # Default value
+                    'documentation_quality': 0,  # Default value
+                }
+                repo_data['signals'] = signals_dict
+            elif 'signals' not in repo_data:
+                repo_data['signals'] = {
+                    'star_velocity': 0,
+                    'fork_velocity': 0,
+                    'contributor_growth': 0,
+                    'issue_resolution_rate': 0.2,
+                    'commit_frequency': 0,
+                    'novelty_signal': 0,
+                    'founder_signal': 0,
+                    'documentation_quality': 0,
+                }
+            
+            # Update stars and forks from metrics to main fields for consistency
+            repo_data['stars'] = repo_data['metrics']['stars']
+            repo_data['forks'] = repo_data['metrics']['forks']
+            
+            processed_repos.append(repo_data)
                 
+        # Post-process all repositories
+        for repo_data in processed_repos:
             # Extract date analyzed from score_details if available
             repo_data['date_analyzed'] = report_date.strftime('%Y-%m-%dT%H:%M:%SZ')
             
-            # Ensure repo_url is present, mapping from 'url' if necessary
-            if 'repo_url' not in repo_data and 'url' in r:
-                repo_data['repo_url'] = r['url']
+            # Ensure repo_url is present, mapping from 'url' or 'html_url' if necessary
+            if 'repo_url' not in repo_data:
+                if 'url' in repo_data:
+                    repo_data['repo_url'] = repo_data['url']
+                elif 'html_url' in repo_data:
+                    repo_data['repo_url'] = repo_data['html_url']
+                else:
+                    repo_data['repo_url'] = f"https://github.com/{repo_data['full_name']}" if repo_data.get('full_name') else ""
             # Ensure repo_url is a string (not null) to pass schema validation
             if 'repo_url' in repo_data and repo_data['repo_url'] is None:
                 repo_data['repo_url'] = f"https://github.com/{repo_data['full_name']}" if repo_data.get('full_name') else ""
@@ -74,8 +120,6 @@ class JSONGenerator:
                 repo_data['stars'] = 0 # Default placeholder
             if 'forks' not in repo_data:
                 repo_data['forks'] = 0 # Default placeholder
-                
-            processed_repos.append(repo_data)
 
         api_data = {
             "name": f"Venture-Grade OSS Signals Report — {date_str}",
