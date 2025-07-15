@@ -1,0 +1,104 @@
+{
+  "date": "2025-07-15",
+  "name": "Weekly Gems Report \u2014 2025-07-15",
+  "repos": [
+    {
+      "full_name": "Alibaba-NLP/WebAgent",
+      "name": "WebAgent",
+      "owner": "Alibaba-NLP",
+      "html_url": "https://github.com/Alibaba-NLP/WebAgent",
+      "description": "\ud83c\udf10 WebAgent for Information Seeking built by Tongyi Lab: WebWalker & WebDancer & WebSailorhttps://arxiv.org/pdf/2507.02592",
+      "stars": 4182,
+      "forks": 303,
+      "language": "Python",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 1.0,
+      "score_details": {
+        "commit_surge": 0,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "python language"
+        ],
+        "metrics": {
+          "stars": 4182,
+          "stars_gained_14d": 0,
+          "forks": 0,
+          "forks_gained_14d": 0,
+          "commits_14d": 0,
+          "contributors_30d": 0,
+          "avg_issue_resolution_days": 30
+        }
+      }
+    },
+    {
+      "full_name": "rustfs/rustfs",
+      "name": "rustfs",
+      "owner": "rustfs",
+      "html_url": "https://github.com/rustfs/rustfs",
+      "description": "\ud83d\ude80 High-performance distributed object storage for MinIO alternative.",
+      "stars": 5003,
+      "forks": 225,
+      "language": "Rust",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 1.0,
+      "score_details": {
+        "commit_surge": 0,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 1,
+        "signals": [
+          "rust language"
+        ],
+        "metrics": {
+          "stars": 5003,
+          "stars_gained_14d": 0,
+          "forks": 0,
+          "forks_gained_14d": 0,
+          "commits_14d": 0,
+          "contributors_30d": 0,
+          "avg_issue_resolution_days": 30
+        }
+      }
+    },
+    {
+      "full_name": "googleapis/genai-toolbox",
+      "name": "genai-toolbox",
+      "owner": "googleapis",
+      "html_url": "https://github.com/googleapis/genai-toolbox",
+      "description": "MCP Toolbox for Databases is an open source MCP server for databases.",
+      "stars": 6625,
+      "forks": 490,
+      "language": "Go",
+      "trending_stars": 0,
+      "trending_timespan": "weekly",
+      "trending_score": 0.0,
+      "source": "github_trending",
+      "score": 0.0,
+      "score_details": {
+        "commit_surge": 0,
+        "star_velocity": 0,
+        "team_traction": 0,
+        "dev_ecosystem_fit": 0,
+        "signals": [],
+        "metrics": {
+          "stars": 6625,
+          "stars_gained_14d": 0,
+          "forks": 0,
+          "forks_gained_14d": 0,
+          "commits_14d": 0,
+          "contributors_30d": 0,
+          "avg_issue_resolution_days": 30
+        }
+      }
+    }
+  ],
+  "threshold": 0
+}
