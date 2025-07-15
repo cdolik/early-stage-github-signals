@@ -86,6 +86,18 @@ class MomentumScorer:
             repo_metrics['commits_14d'] = repo_data.get('recent_commits', 0)
         if 'contributor_count' in repo_data:
             repo_metrics['contributors_30d'] = repo_data.get('contributor_count', 0)
+        if 'forks' in repo_data:
+            repo_metrics['forks'] = repo_data.get('forks', 0)
+        if 'trending_stars' in repo_data:
+            # Use trending stars as a fallback for star velocity
+            timespan = repo_data.get('trending_timespan', 'weekly')
+            trending_stars = repo_data.get('trending_stars', 0)
+            if timespan == 'daily':
+                repo_metrics['stars_gained_14d'] = trending_stars * 14
+            elif timespan == 'weekly':
+                repo_metrics['stars_gained_14d'] = trending_stars * 2  # Estimate 2 weeks
+            elif timespan == 'monthly':
+                repo_metrics['stars_gained_14d'] = trending_stars // 2  # Estimate 2 weeks from monthly
             
         # Log initial metrics from repo_data
         if self.logger:
@@ -252,12 +264,21 @@ class MomentumScorer:
                     if self.logger:
                         self.logger.info(f"Falling back to repo_data for commits: {repo_data['recent_commits']}")
                     recent_commits = repo_data['recent_commits']
+                    feature_commits = repo_data.get('feature_commits', 0)
+        
+        # For trending repos without GitHub API, boost the estimated commit activity
+        if not repo_obj and 'trending_stars' in repo_data:
+            trending_stars = repo_data.get('trending_stars', 0)
+            # Estimate commits based on star activity - active repos get more commits
+            if trending_stars > 0:
+                recent_commits = max(recent_commits, min(25, trending_stars // 2 + 5))
+                feature_commits = max(feature_commits, min(8, trending_stars // 5 + 1))
         
         # Score based on criteria
         score = 0
         if recent_commits >= 10:
             score += 1
-            if recent_commits >= 15:
+            if recent_commits >= 20:
                 score += 1
         
         if feature_commits >= 3:
@@ -282,21 +303,37 @@ class MomentumScorer:
             trending_stars = repo_data['trending_stars']
             timespan = repo_data.get('trending_timespan', 'weekly')
             
-            # Adjust based on timespan
+            # Adjust based on timespan to estimate 14-day star gain
             if timespan == 'daily':
-                recent_stars = trending_stars * 7  # Estimate weekly from daily
+                recent_stars = trending_stars * 14  # Estimate 14 days from daily
             elif timespan == 'weekly':
-                recent_stars = trending_stars
+                recent_stars = trending_stars * 2  # Estimate 14 days from weekly
             elif timespan == 'monthly':
-                recent_stars = trending_stars / 4  # Estimate weekly from monthly
+                recent_stars = trending_stars // 2  # Estimate 14 days from monthly
+        
+        # Additional logic for GitHub API data
+        if repo_obj and recent_stars == 0:
+            # Try to estimate from star count and repo age
+            try:
+                creation_date = repo_obj.created_at
+                days_since_creation = (datetime.datetime.now(timezone.utc) - creation_date).days
+                if days_since_creation > 0:
+                    total_stars = repo_obj.stargazers_count
+                    avg_daily_stars = total_stars / max(1, days_since_creation)
+                    recent_stars = int(avg_daily_stars * 14)
+                    # Boost for newer repos that are trending
+                    if days_since_creation <= 90:
+                        recent_stars = int(recent_stars * 1.5)
+            except Exception:
+                pass
         
         # Score based on criteria
         score = 0
         if recent_stars >= 10:
             score += 1
-            if recent_stars >= 20:
+            if recent_stars >= 50:
                 score += 1
-                if recent_stars >= 50:
+                if recent_stars >= 200:
                     score += 1
                     
         # Generate details text
@@ -330,6 +367,20 @@ class MomentumScorer:
                 if self.logger:
                     self.logger.error(f"Error analyzing contributors: {str(e)}")
         
+        # For trending repos without GitHub API, estimate contributors
+        if not repo_obj and 'trending_stars' in repo_data:
+            trending_stars = repo_data.get('trending_stars', 0)
+            stars = repo_data.get('stars', 0)
+            
+            # Better estimation based on star activity
+            if trending_stars > 0:
+                # Active trending repos usually have more contributors
+                estimated_total = max(1, min(15, stars // 500 + 1))
+                estimated_active = max(1, min(8, trending_stars // 10 + 1))
+                
+                total_contributors = max(total_contributors, estimated_total)
+                active_contributors = max(active_contributors, estimated_active)
+        
         # Score based on criteria
         score = 0
         
@@ -338,8 +389,8 @@ class MomentumScorer:
             score += 1
             
         # Check for good contribution activity
-        if active_contributors >= 2 and active_contributors == total_contributors:
-            score += 1  # All contributors are active (team cohesion)
+        if active_contributors >= 2 and total_contributors >= 2:
+            score += 1  # Good team activity
         
         # Generate details text
         details = ""
