@@ -93,9 +93,14 @@ class JSONGenerator:
             # Extract date analyzed from score_details if available
             repo_data['date_analyzed'] = report_date.strftime('%Y-%m-%dT%H:%M:%SZ')
             
-            # Ensure repo_url is present, mapping from 'url' if necessary
-            if 'repo_url' not in repo_data and 'url' in repo_data:
-                repo_data['repo_url'] = repo_data['url']
+            # Ensure repo_url is present, mapping from 'url' or 'html_url' if necessary
+            if 'repo_url' not in repo_data:
+                if 'url' in repo_data:
+                    repo_data['repo_url'] = repo_data['url']
+                elif 'html_url' in repo_data:
+                    repo_data['repo_url'] = repo_data['html_url']
+                else:
+                    repo_data['repo_url'] = f"https://github.com/{repo_data['full_name']}" if repo_data.get('full_name') else ""
             # Ensure repo_url is a string (not null) to pass schema validation
             if 'repo_url' in repo_data and repo_data['repo_url'] is None:
                 repo_data['repo_url'] = f"https://github.com/{repo_data['full_name']}" if repo_data.get('full_name') else ""

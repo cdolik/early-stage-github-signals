@@ -59,7 +59,8 @@
         "documentation_quality": 0
       },
       "date_analyzed": "2025-07-15T11:16:30Z",
-      "ecosystem": "Other"
+      "ecosystem": "Other",
+      "repo_url": "https://github.com/googleapis/genai-toolbox"
     },
     {
       "full_name": "Alibaba-NLP/WebAgent",
@@ -120,7 +121,8 @@
         "documentation_quality": 0
       },
       "date_analyzed": "2025-07-15T11:16:30Z",
-      "ecosystem": "Other"
+      "ecosystem": "Other",
+      "repo_url": "https://github.com/Alibaba-NLP/WebAgent"
     },
     {
       "full_name": "rustfs/rustfs",
@@ -181,7 +183,8 @@
         "documentation_quality": 0
       },
       "date_analyzed": "2025-07-15T11:16:30Z",
-      "ecosystem": "Other"
+      "ecosystem": "Other",
+      "repo_url": "https://github.com/rustfs/rustfs"
     },
     {
       "full_name": "humanlayer/12-factor-agents",
@@ -242,7 +245,8 @@
         "documentation_quality": 0
       },
       "date_analyzed": "2025-07-15T11:16:30Z",
-      "ecosystem": "Other"
+      "ecosystem": "Other",
+      "repo_url": "https://github.com/humanlayer/12-factor-agents"
     },
     {
       "full_name": "gorhill/uBlock",
@@ -302,7 +306,8 @@
         "documentation_quality": 0
       },
       "date_analyzed": "2025-07-15T11:16:30Z",
-      "ecosystem": "Other"
+      "ecosystem": "Other",
+      "repo_url": "https://github.com/gorhill/uBlock"
     }
   ],
   "date": "2025-07-15",
