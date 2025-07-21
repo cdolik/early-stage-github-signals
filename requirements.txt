@@ -5,7 +5,7 @@ jinja2==3.1.6
 pyyaml==6.0.2
 click==8.2.1
 python-dateutil==2.9.0.post0
-jsonschema==4.24.0
+jsonschema==4.25.0
 
 # For data processing and analysis
 pandas==2.3.1
@@ -27,7 +27,7 @@ pytest==8.4.1
 responses==0.25.7
 
 # For type hints
-mypy==1.16.1
+mypy==1.17.0
 types-requests==2.32.4.20250611
 types-PyYAML==6.0.12.20250516
 matplotlib==3.10.3
